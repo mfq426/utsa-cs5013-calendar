@@ -22,6 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="edu.utsa.calendar.WeeklyViewActivity"
+            android:label="@string/title_activity_weekly_view" >
+        </activity>
+        <activity
+            android:name="edu.utsa.calendar.DailyViewActivity"
+            android:label="@string/title_activity_daily_view" >
+        </activity>
+        <activity
+            android:name="edu.utsa.calendar.MonthlyViewActivity"
+            android:label="@string/title_activity_monthly_view" >
+        </activity>
+        <activity
+            android:name="edu.utsa.calendar.AgendaViewActivity"
+            android:label="@string/title_activity_agenda_view" >
+        </activity>
     </application>
 
 </manifest>
