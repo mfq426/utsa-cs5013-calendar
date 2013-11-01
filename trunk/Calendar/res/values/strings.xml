@@ -8,5 +8,11 @@
     <string name="title_activity_daily_view">DailyViewActivity</string>
     <string name="title_activity_monthly_view">MonthlyViewActivity</string>
     <string name="title_activity_agenda_view">AgendaViewActivity</string>
+    
+    <string name="month">OCT2013</string>
+	<string name="buttonNextWeekText">Next Week</string>
+    <string name="buttonPreviousWeekText">Previous Week</string>
+    <string name="description">Previous Week</string>
+    <color name="gray">#d3d3d3</color>
 
 </resources>
