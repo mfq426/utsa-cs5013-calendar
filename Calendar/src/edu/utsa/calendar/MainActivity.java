@@ -19,9 +19,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
+		super.onCreate(savedInstanceState);
 		// go to the last view user stayed
 		mPrefs = getSharedPreferences("view", 0);
-		mCurViewMode = mPrefs.getInt("view_mode", DAILY_VIEW_MODE);
+		mCurViewMode = mPrefs.getInt("view_mode", WEEKLY_VIEW_MODE);
 		
 		Intent firstView;
 		switch(mCurViewMode) {
