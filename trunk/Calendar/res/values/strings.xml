@@ -31,5 +31,8 @@
     <string name="category_name">Category Name</string>
     <string name="name_text">A simple one, such as Work</string>
     <string name="category_color">Category Color</string>
+    
+    
+    <string name="create">Create</string>
 
 </resources>
