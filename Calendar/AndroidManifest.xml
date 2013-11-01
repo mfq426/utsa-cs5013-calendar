@@ -38,6 +38,11 @@
             android:name="edu.utsa.calendar.AgendaViewActivity"
             android:label="@string/title_activity_agenda_view" >
         </activity>
+
+        <activity
+            android:name="edu.utsa.calendar.AgendaDetailsActivity"
+            android:label="@string/title_activity_agenda_details" >
+        </activity>
         
         <activity
             android:name="edu.utsa.calendar.NewEventActivity"
