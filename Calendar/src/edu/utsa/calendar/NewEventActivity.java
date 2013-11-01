@@ -58,4 +58,8 @@ public class NewEventActivity extends Activity{
 		Intent intent = new Intent(this, NewCategoryActivity.class);
 		startActivity(intent);
 	}
+	
+	public void createEvent(View v) {
+		
+	}
 }
