@@ -1,7 +1,7 @@
 package edu.utsa.calendar;
 
-import android.os.Bundle;
 import android.app.Activity;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class AgendaViewActivity extends Activity {
