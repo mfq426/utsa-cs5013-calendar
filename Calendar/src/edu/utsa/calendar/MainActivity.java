@@ -1,9 +1,9 @@
 package edu.utsa.calendar;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Bundle;
 import android.view.Menu;
 
 public class MainActivity extends Activity {
@@ -12,6 +12,8 @@ public class MainActivity extends Activity {
 	public static final int WEEKLY_VIEW_MODE = 1;
 	public static final int MONTHLY_VIEW_MODE = 2;
 	public static final int AGENDA_VIEW_MODE = 3;
+	
+	public static final int NEW_EVENT_VIEW = 100;
 	
 	private SharedPreferences mPrefs;
 	private int mCurViewMode;
@@ -22,7 +24,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// go to the last view user stayed
 		mPrefs = getSharedPreferences("view", 0);
-		mCurViewMode = mPrefs.getInt("view_mode", WEEKLY_VIEW_MODE);
+		mCurViewMode = mPrefs.getInt("view_mode", NEW_EVENT_VIEW);
 		
 		Intent firstView;
 		switch(mCurViewMode) {
@@ -37,6 +39,9 @@ public class MainActivity extends Activity {
 				break;
 			case AGENDA_VIEW_MODE:
 				firstView = new Intent(this, AgendaViewActivity.class);
+				break;
+			case NEW_EVENT_VIEW:
+				firstView = new Intent(this, NewEventActivity.class);
 				break;
 			default:
 				System.out.println("Error");

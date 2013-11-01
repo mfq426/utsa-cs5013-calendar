@@ -22,6 +22,7 @@ public final class R {
          */
         public static final int activity_horizontal_margin=0x7f040000;
         public static final int activity_vertical_margin=0x7f040001;
+        public static final int font_size=0x7f040002;
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
@@ -29,40 +30,74 @@ public final class R {
         public static final int right_arrow=0x7f020002;
     }
     public static final class id {
-        public static final int action_settings=0x7f090005;
-        public static final int gridView=0x7f090003;
-        public static final int nextImageButton=0x7f090002;
-        public static final int prevImageButton=0x7f090001;
-        public static final int textViewGridEntry=0x7f090004;
-        public static final int weekViewMonth=0x7f090000;
+        public static final int action_settings=0x7f090016;
+        public static final int category=0x7f09000d;
+        public static final int category_name=0x7f090000;
+        public static final int category_spinner=0x7f09000e;
+        public static final int color=0x7f090002;
+        public static final int color_picker=0x7f090003;
+        public static final int event_description=0x7f09000a;
+        public static final int from=0x7f090004;
+        public static final int from_date=0x7f090005;
+        public static final int from_time=0x7f090006;
+        public static final int gridView=0x7f090014;
+        public static final int name_text=0x7f090001;
+        public static final int new_category=0x7f090010;
+        public static final int nextImageButton=0x7f090013;
+        public static final int or=0x7f09000f;
+        public static final int periodical=0x7f09000c;
+        public static final int prevImageButton=0x7f090012;
+        public static final int textViewGridEntry=0x7f090015;
+        public static final int to=0x7f090007;
+        public static final int to_date=0x7f090008;
+        public static final int to_time=0x7f090009;
+        public static final int weekViewMonth=0x7f090011;
+        public static final int what=0x7f09000b;
     }
     public static final class layout {
         public static final int activity_agenda_view=0x7f030000;
         public static final int activity_daily_view=0x7f030001;
         public static final int activity_main=0x7f030002;
         public static final int activity_monthly_view=0x7f030003;
-        public static final int activity_weekly_view=0x7f030004;
-        public static final int grid_entry=0x7f030005;
+        public static final int activity_new_category=0x7f030004;
+        public static final int activity_new_event=0x7f030005;
+        public static final int activity_weekly_view=0x7f030006;
+        public static final int grid_entry=0x7f030007;
     }
     public static final class menu {
         public static final int agenda_view=0x7f080000;
         public static final int daily_view=0x7f080001;
         public static final int main=0x7f080002;
         public static final int monthly_view=0x7f080003;
-        public static final int weekly_view=0x7f080004;
+        public static final int new_category=0x7f080004;
+        public static final int new_event=0x7f080005;
+        public static final int weekly_view=0x7f080006;
     }
     public static final class string {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int buttonNextWeekText=0x7f050008;
         public static final int buttonPreviousWeekText=0x7f050009;
+        public static final int category=0x7f050010;
+        public static final int category_color=0x7f050017;
+        public static final int category_name=0x7f050015;
         public static final int description=0x7f05000a;
+        public static final int event_description=0x7f05000d;
+        public static final int from=0x7f05000b;
         public static final int hello_world=0x7f050002;
         public static final int month=0x7f050007;
+        public static final int name_text=0x7f050016;
+        public static final int new_category=0x7f050012;
+        public static final int or=0x7f050011;
+        public static final int periodical=0x7f05000f;
         public static final int title_activity_agenda_view=0x7f050006;
         public static final int title_activity_daily_view=0x7f050004;
         public static final int title_activity_monthly_view=0x7f050005;
+        public static final int title_activity_new_category=0x7f050013;
+        public static final int title_activity_new_event=0x7f050014;
         public static final int title_activity_weekly_view=0x7f050003;
+        public static final int to=0x7f05000c;
+        public static final int what=0x7f05000e;
     }
     public static final class style {
         /** 
