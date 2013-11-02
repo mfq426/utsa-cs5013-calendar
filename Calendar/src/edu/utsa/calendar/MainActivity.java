@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		// go to the last view user stayed
 		mPrefs = getSharedPreferences("view", 0);
-		mCurViewMode = mPrefs.getInt("view_mode", NEW_EVENT_VIEW);
+		mCurViewMode = mPrefs.getInt("view_mode", WEEKLY_VIEW_MODE);
 		
 		Intent firstView;
 		switch(mCurViewMode) {
