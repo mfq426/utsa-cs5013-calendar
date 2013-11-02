@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	
-	private static final int DATABASE_VERSION = 1;
+	private final int DATABASE_VERSION = 1;
 	private static final String DATABASE_NAME = "CalenderDb";
     private static final String EVENT_TABLE_NAME = "Events";
     private static final String CATEGORY_TABLE_NAME = "Events";
@@ -66,6 +66,55 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public SQLiteDatabase getDatabaseForWrite() {
 		return this.getWritableDatabase();
 	}
+
+	public int getDATABASE_VERSION() {
+		return DATABASE_VERSION;
+	}
+
+	public static String getDatabaseName() {
+		return DATABASE_NAME;
+	}
+
+	public static String getEventTableName() {
+		return EVENT_TABLE_NAME;
+	}
+
+	public static String getCategoryTableName() {
+		return CATEGORY_TABLE_NAME;
+	}
+
+	public static String getEventsKeyId() {
+		return EVENTS_KEY_ID;
+	}
+
+	public static String getEventsStartTime() {
+		return EVENTS_START_TIME;
+	}
+
+	public static String getEventsEndTime() {
+		return EVENTS_END_TIME;
+	}
+
+	public static String getEventsDescription() {
+		return EVENTS_DESCRIPTION;
+	}
+
+	public static String getCategoryKeyId() {
+		return CATEGORY_KEY_ID;
+	}
+
+	public static String getCategoryColor() {
+		return CATEGORY_COLOR;
+	}
+
+	public static String getCategoryType() {
+		return CATEGORY_TYPE;
+	}
+
+	public static String getCategoryDescription() {
+		return CATEGORY_DESCRIPTION;
+	}
+	
 	
 	
 	
