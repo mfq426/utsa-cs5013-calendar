@@ -11,11 +11,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	private static final String DATABASE_NAME = "CalenderDb";
     private static final String EVENT_TABLE_NAME = "Events";
     private static final String CATEGORY_TABLE_NAME = "Events";
-//    private static final String DICTIONARY_TABLE_CREATE =
-//                "CREATE TABLE " + EVENT_TABLE_NAME + " (" +
-//                KEY_WORD + " TEXT, " +
-//                KEY_DEFINITION + " TEXT);";
-//  "Events" Table Columns names
     private static final String EVENTS_KEY_ID = "event_id";
     private static final String EVENTS_START_TIME = "start_time"; //TODO: what should be the data type for data ?
     private static final String EVENTS_END_TIME = "end_time";//TODO: what should be the data type for data ?
