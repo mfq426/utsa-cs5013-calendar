@@ -4,8 +4,8 @@ import java.util.Date;
 
 public class Event {
 	private int mID;
-	private Date mStartDate;
-	private Date mEndDate;
+	private MyDate mStartDate;
+	private MyDate mEndDate;
 	private int mCategoryID;
 	private String mDescription;
 
@@ -17,7 +17,7 @@ public class Event {
 		mID = pID;
 	}
 
-	public Event(int mID, Date mStartDate, Date mEndDate, int mCategoryID,
+	public Event(int mID, MyDate mStartDate, MyDate mEndDate, int mCategoryID,
 			String mDescription) {
 		super();
 		this.mID = mID;
@@ -27,19 +27,19 @@ public class Event {
 		this.mDescription = mDescription;
 	}
 
-	public Date getStartDate() {
+	public MyDate getStartDate() {
 		return mStartDate;
 	}
 
-	public void setStartDate(Date pStartDate) {
+	public void setStartDate(MyDate pStartDate) {
 		mStartDate = pStartDate;
 	}
 
-	public Date getEndDate() {
+	public MyDate getEndDate() {
 		return mEndDate;
 	}
 
-	public void setEndDate(Date pEndDate) {
+	public void setEndDate(MyDate pEndDate) {
 		mEndDate = pEndDate;
 	}
 

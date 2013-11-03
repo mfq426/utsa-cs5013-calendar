@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 public class WeeklyViewActivity extends Activity {
 
-static final String[] weekWorks = new String[]{
+	private CategoryManager categoryManager;
+	private EventManager eventManager;
+	
+	private static String[] weekWorks = new String[]{
     	
     	"Time","SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT",
     	"9.00","Mee","   ","   ","   ","   ","   ","   ",
@@ -39,13 +42,9 @@ static final String[] weekWorks = new String[]{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_weekly_view);
         
+        
         GridView gridView = (GridView) findViewById(R.id.gridView);
                
-        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,R.layout.grid_layout,weekWorks);
-        
-        //gridView.setPadding(8, 8, 8, 8);
-        //gridView.setAdapter(adapter);
-       
         gridView.setAdapter(new CalendarEntryAdapter(this,weekWorks));
         
         addListenerOnButton(gridView);
