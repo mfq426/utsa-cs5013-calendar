@@ -1,5 +1,8 @@
 package edu.utsa.calendar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -100,28 +103,43 @@ public class NewEventActivity extends Activity {
 		to[3] = toHour;
 		to[4] = toMinute;
 
+		
+		// testcode to save into database
+		MyDate startDate = new MyDate(2013, 11, 8, 11, 20, 0);
+		MyDate endDate = new MyDate(2013, 11, 8, 12, 20, 0);
+		((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "walking with friends");
+		
+		
+		
 		// pass user inputs though intent to the calling activity
 		Intent intent;
 		switch (callingActivity) {
 			case DAILY_VIEW_ACTIVITY:
 				intent = new Intent(this, DailyViewActivity.class);
+				startActivity(intent);
 				break;
 			case WEEKLY_VIEW_ACTIVITY:
 				intent = new Intent(this, WeeklyViewActivity.class);
+				startActivity(intent);
+				break; //Lu I(jamil) added this
 			case MONTHLY_VIEW_ACTIVITY:
 				intent = new Intent(this, MonthlyViewActivity.class);
+				startActivity(intent);
+				break; //Lu I(jamil) added this
 			default:
 				System.out.println("The activity invoke new event is not legitmate.");
-				return;
+				break; //Lu I(jamil) replaced this, before here was a return, which returns it without starting the activity
+						// also I need to add the startActivity(intent) to each 'case clause' because putting it at the end generates an error 
+						// which say intent may not be initialized
 		}
 		
-		intent.putExtra("from", from);
-		intent.putExtra("to", to);
-		intent.putExtra("weekly_repeating", weekly_repeating);
-		intent.putExtra("occurance", occurance);
-		intent.putExtra("category", category);
-		intent.putExtra("description", description);
+		//intent.putExtra("from", from);
+		//intent.putExtra("to", to);
+		//intent.putExtra("weekly_repeating", weekly_repeating);
+		//intent.putExtra("occurance", occurance);
+		//intent.putExtra("category", category);
+		//intent.putExtra("description", description);
 		
-		startActivity(intent);
+		
 	}
 }

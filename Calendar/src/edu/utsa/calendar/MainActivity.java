@@ -17,11 +17,27 @@ public class MainActivity extends Activity {
 	
 	private SharedPreferences mPrefs;
 	private int mCurViewMode;
+	private CategoryManager categoryManager;
+	private EventManager eventManager;
+	private DatabaseHelper databaseHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
 		super.onCreate(savedInstanceState);
+		
+		// First create the database
+		databaseHelper = new DatabaseHelper(this);
+		
+		// Next create CategoryManager and EventManager
+		eventManager = new EventManager(databaseHelper);
+		categoryManager = new CategoryManager(databaseHelper);
+		
+		// Set into the global variables
+		((GlobalVariables) this.getApplication()).setEventManager(eventManager);
+		((GlobalVariables) this.getApplication()).setCategoryManager(categoryManager);
+		
+		
 		// go to the last view user stayed
 		mPrefs = getSharedPreferences("view", 0);
 		mCurViewMode = mPrefs.getInt("view_mode", WEEKLY_VIEW_MODE);
@@ -49,6 +65,7 @@ public class MainActivity extends Activity {
 		
 		}
 		
+			
 		startActivity(firstView);
 	}
 
