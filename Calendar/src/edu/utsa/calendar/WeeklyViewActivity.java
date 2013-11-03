@@ -64,6 +64,8 @@ static final String[] weekWorks = new String[]{
     
     private void startActivity() {
     	Intent intent = new Intent(this, NewEventActivity.class);
+    	// pass the calling activity to my NewEventActivity;
+    	intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
         startActivity(intent);
     }
     
