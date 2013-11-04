@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id = '@+id/relative_layout'
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -68,7 +69,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/to_date"
-        android:text="@string/description" />
+        android:text="@string/event_description" />
 
     <EditText
         android:id="@+id/what"
@@ -84,6 +85,22 @@
         android:layout_below="@id/what"
         android:onClick="onCheckboxClicked"
         android:text="@string/periodical" />
+    
+    <EditText
+        android:id="@+id/times"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/what"
+        android:layout_toRightOf="@id/periodical"
+        android:hint="@string/number"/>
+    
+<!--     <TextView
+        android:id="@+id/repeating_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/what"
+        android:layout_toRightOf="@id/times"
+        android:text="@string/repeating" /> -->
 
     <TextView
         android:id="@+id/category"
