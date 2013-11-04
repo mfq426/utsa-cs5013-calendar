@@ -42,6 +42,7 @@ public class CalendarEntryAdapter extends BaseAdapter {
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		 
 		View gridView;
+		TextView textView;
 	     
         if (convertView == null) {
  
@@ -51,12 +52,6 @@ public class CalendarEntryAdapter extends BaseAdapter {
 
             gridView = inflater.inflate( R.layout.grid_entry , null);
  
-            // set value into textview
-             
-            TextView textView = (TextView) gridView
-                    .findViewById(R.id.textViewGridEntry);
-
-            textView.setText(text[position]);
             //textView.setBackgroundColor(Color.parseColor("#d3d3d3"));
  
              
@@ -64,7 +59,10 @@ public class CalendarEntryAdapter extends BaseAdapter {
 
            gridView = (View) convertView;
         }
- 
+        // set value into textview
+        textView = (TextView) gridView
+                .findViewById(R.id.textViewGridEntry);
+        textView.setText(text[position]);
         return gridView;
 	}
 	

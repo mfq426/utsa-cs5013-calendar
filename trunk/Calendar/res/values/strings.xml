@@ -10,7 +10,7 @@
     <string name="title_activity_monthly_view">MonthlyViewActivity</string>
     <string name="title_activity_agenda_view">Agenda List</string>
     <string name="title_activity_agenda_details">Agenda Details</string>
-    <string name="month">OCT2013</string>
+   
 	<string name="buttonNextWeekText">Next Week</string>
     <string name="buttonPreviousWeekText">Previous Week</string>
     <string name="description">Previous Week</string>
