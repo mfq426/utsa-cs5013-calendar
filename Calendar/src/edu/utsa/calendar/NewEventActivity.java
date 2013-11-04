@@ -1,7 +1,6 @@
 package edu.utsa.calendar;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.Calendar;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -104,13 +103,37 @@ public class NewEventActivity extends Activity {
 		to[4] = toMinute;
 
 		
-		// testcode to save into database
-		MyDate startDate = new MyDate(2013, 11, 8, 11, 20, 0);
-		MyDate endDate = new MyDate(2013, 11, 8, 12, 20, 0);
-		((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "walking with friends");
+		//creating some database entry manually
+		Calendar startDate, endDate;
 		
+		// Entry 1
+		startDate = Calendar.getInstance();
+		startDate.set(2013, 11, 8, 11, 20, 0);
 		
+		endDate = Calendar.getInstance();
+		startDate.set(2013, 11, 8, 12, 20, 0);
 		
+    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "walking with friends");
+		
+    	// Entry 2
+    	startDate = Calendar.getInstance();
+    	startDate.set(2013, 10, 8, 1, 20, 0);
+    	
+    	endDate = Calendar.getInstance();
+    	startDate.set(2013, 10, 8, 1, 40, 0);
+    			
+    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "meeting with prof");
+    	
+    	// Entry 2
+    	startDate = Calendar.getInstance();
+    	startDate.set(2013, 10, 7, 1, 20, 0);
+    			
+    	endDate = Calendar.getInstance();
+    	startDate.set(2013, 10, 7, 1, 30, 0);
+    			
+    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "sleeping");
+    	    	
+    	    	
 		// pass user inputs though intent to the calling activity
 		Intent intent;
 		switch (callingActivity) {
@@ -120,6 +143,7 @@ public class NewEventActivity extends Activity {
 				break;
 			case WEEKLY_VIEW_ACTIVITY:
 				intent = new Intent(this, WeeklyViewActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); //this is needed to start an activity, otherwise oncreate method is called
 				startActivity(intent);
 				break; //Lu I(jamil) added this
 			case MONTHLY_VIEW_ACTIVITY:

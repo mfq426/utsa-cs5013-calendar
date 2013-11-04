@@ -1,11 +1,10 @@
 package edu.utsa.calendar;
 
-import java.util.Date;
 
 public class Event {
 	private int mID;
-	private MyDate mStartDate;
-	private MyDate mEndDate;
+	private java.util.Calendar mStartDate;
+	private java.util.Calendar mEndDate;
 	private int mCategoryID;
 	private String mDescription;
 
@@ -17,7 +16,7 @@ public class Event {
 		mID = pID;
 	}
 
-	public Event(int mID, MyDate mStartDate, MyDate mEndDate, int mCategoryID,
+	public Event(int mID, java.util.Calendar mStartDate, java.util.Calendar mEndDate, int mCategoryID,
 			String mDescription) {
 		super();
 		this.mID = mID;
@@ -27,19 +26,19 @@ public class Event {
 		this.mDescription = mDescription;
 	}
 
-	public MyDate getStartDate() {
+	public java.util.Calendar getStartDate() {
 		return mStartDate;
 	}
 
-	public void setStartDate(MyDate pStartDate) {
+	public void setStartDate(java.util.Calendar pStartDate) {
 		mStartDate = pStartDate;
 	}
 
-	public MyDate getEndDate() {
+	public java.util.Calendar getEndDate() {
 		return mEndDate;
 	}
 
-	public void setEndDate(MyDate pEndDate) {
+	public void setEndDate(java.util.Calendar pEndDate) {
 		mEndDate = pEndDate;
 	}
 
