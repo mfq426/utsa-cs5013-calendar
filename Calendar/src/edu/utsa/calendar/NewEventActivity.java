@@ -77,34 +77,12 @@ public class NewEventActivity extends Activity {
 		time.show(getFragmentManager(), "toTimePicker");
 	}
 
-	public void newCategory(View v) {
+	/*public void newCategory(View v) {
 		Intent intent = new Intent(this, NewCategoryActivity.class);
 		startActivity(intent);
-	}
+	}*/
 	
 	public void onCheckboxClicked(View v) {
-		/*boolean checked = ((CheckBox) v).isChecked();
-		RelativeLayout layout = (RelativeLayout)findViewById(R.id.relative_layout);
-		final EditText editText = new EditText(this);
-		editText.setId(100);
-		final TextView textView = new TextView(this);
-		textView.setId(101);
-		if(checked == true) {
-			LayoutParams lparams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			lparams.addRule(RelativeLayout.RIGHT_OF, R.id.periodical);
-			lparams.addRule(RelativeLayout.BELOW, R.id.what);
-			layout.addView(editText, lparams);
-			
-			textView.setText("Times");
-			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			params.addRule(RelativeLayout.RIGHT_OF, editText.getId());
-			params.addRule(RelativeLayout.BELOW, R.id.what);
-			layout.addView(textView, params);
-		} else {
-			
-			layout.removeView(editText);
-			layout.removeView(textView);
-		}*/
 		checked = ((CheckBox) v).isChecked();
 	}
 
