@@ -7,6 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 public class NewEventActivity extends Activity {
 
@@ -15,13 +20,22 @@ public class NewEventActivity extends Activity {
 	public static final int DAILY_VIEW_ACTIVITY = 1;
 	public static final int WEEKLY_VIEW_ACTIVITY = 2;
 	public static final int MONTHLY_VIEW_ACTIVITY = 3;
+	public static final String FROM = "from";
+	public static final String TO = "to";
+	public static final String WEEKLY_REPEATING = "weekly_repeating";
+	public static final String OCCURANCE = "occurance";
+	public static final String CATEGORY = "category";
+	public static final String DESCRIPTION = "description";
+	
+	private boolean checked;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_new_event);
+		
 		Intent intent = getIntent();
 		callingActivity = intent.getIntExtra(CALLING_ACTIVITY, 1000);
-		setContentView(R.layout.activity_new_event);
 	}
 
 	@Override
@@ -66,6 +80,32 @@ public class NewEventActivity extends Activity {
 	public void newCategory(View v) {
 		Intent intent = new Intent(this, NewCategoryActivity.class);
 		startActivity(intent);
+	}
+	
+	public void onCheckboxClicked(View v) {
+		/*boolean checked = ((CheckBox) v).isChecked();
+		RelativeLayout layout = (RelativeLayout)findViewById(R.id.relative_layout);
+		final EditText editText = new EditText(this);
+		editText.setId(100);
+		final TextView textView = new TextView(this);
+		textView.setId(101);
+		if(checked == true) {
+			LayoutParams lparams = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			lparams.addRule(RelativeLayout.RIGHT_OF, R.id.periodical);
+			lparams.addRule(RelativeLayout.BELOW, R.id.what);
+			layout.addView(editText, lparams);
+			
+			textView.setText("Times");
+			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+			params.addRule(RelativeLayout.RIGHT_OF, editText.getId());
+			params.addRule(RelativeLayout.BELOW, R.id.what);
+			layout.addView(textView, params);
+		} else {
+			
+			layout.removeView(editText);
+			layout.removeView(textView);
+		}*/
+		checked = ((CheckBox) v).isChecked();
 	}
 
 	public void createEvent(View v) {
@@ -155,15 +195,7 @@ public class NewEventActivity extends Activity {
 				break; //Lu I(jamil) replaced this, before here was a return, which returns it without starting the activity
 						// also I need to add the startActivity(intent) to each 'case clause' because putting it at the end generates an error 
 						// which say intent may not be initialized
-		}
-		
-		//intent.putExtra("from", from);
-		//intent.putExtra("to", to);
-		//intent.putExtra("weekly_repeating", weekly_repeating);
-		//intent.putExtra("occurance", occurance);
-		//intent.putExtra("category", category);
-		//intent.putExtra("description", description);
-		
+		}		
 		
 	}
 }
