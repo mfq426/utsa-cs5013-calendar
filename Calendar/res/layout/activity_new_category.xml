@@ -20,14 +20,29 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@id/category_name"
-        android:hint="@string/name_text" />
+        android:hint="@string/name_hint" />
+    
+    <TextView
+        android:id="@+id/category_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name_text"
+        android:text="@string/category_description" />
+    
+    <EditText
+        android:id="@+id/description_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/category_description"
+        android:hint="@string/description_hint" />
 
     <TextView
         android:id="@+id/color"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@id/name_text"
+        android:layout_below="@id/description_text"
         android:text="@string/category_color" />
     
     <com.larswerkman.holocolorpicker.ColorPicker
@@ -36,5 +51,23 @@
     	android:layout_height="wrap_content"
     	android:layout_gravity="center"
     	android:layout_below="@id/color" />
+    
+    <Button
+        android:id="@+id/create"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/create_category"
+        android:onClick="createCategory" />
+    
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/cancel"
+        android:onClick="cancel" />
     
 </RelativeLayout>

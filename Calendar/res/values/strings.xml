@@ -19,20 +19,26 @@
     
     <string name="from">From</string>
     <string name="to">To</string>
-    <string name="event_description">EventDescription</string>
+    <string name="event_description">Event Description</string>
     <string name="what">What</string>
-    <string name="periodical">Weekly Periodical Event?</string>
-    <string name="category">Category</string>
+    <string name="periodical">Weekly Repeating Event?</string>
+    <string name="category">Category(Optional)</string>
     <string name="or">OR</string>
     <string name="new_category">New Category</string>
+    <string name="number">5 weeks?</string>
     
-    <string name="title_activity_new_category">NewCategoryActivity</string>
-    <string name="title_activity_new_event">NewEventActivity</string>
-    <string name="category_name">Category Name</string>
-    <string name="name_text">A simple one, such as Work</string>
-    <string name="category_color">Category Color</string>
+    <string name="title_activity_new_category">New Category</string>
+    <string name="title_activity_new_event">New Event</string>
+    <string name="category_name">Name</string>
+    <string name="name_hint">A simple one, such as Work</string>
+    <string name="category_description">Description</string>
+    <string name="description_hint">More information about the category</string>
+    <string name="category_color">Color</string>
     
     
-    <string name="create">Create</string>
+    <string name="create_event">Create Event</string>
+    <string name="create_category">Create Category</string>
+    <string name="cancel">Cancel</string>
+    
 
 </resources>
