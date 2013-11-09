@@ -3,18 +3,18 @@ package edu.utsa.calendar;
 import java.util.Calendar;
 import java.util.List;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.widget.AdapterView.OnItemSelectedListener;
 
 public class ModifyEventActivity extends Activity implements OnItemSelectedListener{
 	
@@ -235,7 +235,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 					}
 					
 					// pass user inputs though intent to the calling activity
-					jump();
+					//jump();
+					finish();
 				} else {
 					popup("event time conflict");
 				}
@@ -251,7 +252,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		
 	}
 	
-	private void jump() {
+	/*private void jump() {
 		Intent intent;
 		switch (callingActivity) {
 			case NewEventActivity.DAILY_VIEW_ACTIVITY:
@@ -271,11 +272,12 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 				System.out.println("The activity invoke new event is not legitmate.");
 				break;
 		}
-	}
+	}*/
 	
 
 	public void cancel(View v) {
-		jump();
+		//jump();
+		finish();
 	}
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
