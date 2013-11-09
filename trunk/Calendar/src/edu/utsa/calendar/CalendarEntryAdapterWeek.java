@@ -7,13 +7,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-public class CalendarEntryAdapter extends BaseAdapter {
+public class CalendarEntryAdapterWeek extends BaseAdapter {
 
 	private Context context;
 	private String[] text ={};
 	
 	
-	public CalendarEntryAdapter(Context c,String[] text){
+	public CalendarEntryAdapterWeek(Context c,String[] text){
 		
 		
 		context = c;
@@ -50,7 +50,7 @@ public class CalendarEntryAdapter extends BaseAdapter {
  
             // get layout from grid_item.xml ( Defined Below )
 
-            gridView = inflater.inflate( R.layout.grid_entry , null);
+            gridView = inflater.inflate( R.layout.grid_entry_week , null);
  
             //textView.setBackgroundColor(Color.parseColor("#d3d3d3"));
  
@@ -61,8 +61,9 @@ public class CalendarEntryAdapter extends BaseAdapter {
         }
         // set value into textview
         textView = (TextView) gridView
-                .findViewById(R.id.textViewGridEntry);
+                .findViewById(R.id.textViewGridEntryWeek);
         textView.setText(text[position]);
+   
         return gridView;
 	}
 	

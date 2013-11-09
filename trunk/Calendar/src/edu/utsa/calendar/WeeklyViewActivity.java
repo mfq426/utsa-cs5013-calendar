@@ -24,10 +24,8 @@ public class WeeklyViewActivity extends Activity {
 	private TextView weekViewHeader;
 	private Calendar startDate;
 	private Calendar endDate;
-	
-	
-	private int toggle = 1;
-	
+		
+		
 	private static String[] weekWorks = new String[]{
     	
     	"Time","SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT",
@@ -177,7 +175,7 @@ public class WeeklyViewActivity extends Activity {
 		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy",java.util.Locale.getDefault());
 	    weekViewHeader.setText(sdf.format(startDate.getTime())+" to "+sdf.format(endDate.getTime()));
 	    
-	    gridView.setAdapter(new CalendarEntryAdapter(this,weekWorks));
+	    gridView.setAdapter(new CalendarEntryAdapterWeek(this,weekWorks));
 	    	  
 	    List<Event> events = ((GlobalVariables) this.getApplication()).getEventManager().readEvents(startDate,endDate); 
 	    
@@ -229,7 +227,7 @@ public class WeeklyViewActivity extends Activity {
         setContentView(R.layout.activity_weekly_view);
         
         
-        gridView = (GridView) findViewById(R.id.gridView);
+        gridView = (GridView) findViewById(R.id.gridViewWeekly);
         weekViewHeader = (TextView) findViewById(R.id.weekViewHeader);
         this.setDate();
         //this.populateFields();
