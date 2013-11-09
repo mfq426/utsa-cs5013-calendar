@@ -15,15 +15,13 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 public class NewEventActivity extends Activity implements OnItemSelectedListener{
 	
-	public static final int DAILY_VIEW_ACTIVITY = 1;
+/*	public static final int DAILY_VIEW_ACTIVITY = 1;
 	public static final int WEEKLY_VIEW_ACTIVITY = 2;
 	public static final int MONTHLY_VIEW_ACTIVITY = 3;
 	public static final String CALLING_ACTIVITY = "calling_activity";
@@ -32,7 +30,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	public static final String WEEKLY_REPEATING = "weekly_repeating";
 	public static final String OCCURANCE = "occurance";
 	public static final String CATEGORY = "category";
-	public static final String DESCRIPTION = "description";
+	public static final String DESCRIPTION = "description";*/
 	
 	private int callingActivity;
 	private int fromYear;
@@ -56,7 +54,9 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		setContentView(R.layout.activity_new_event);
 		
 		Intent intent = getIntent();
-		callingActivity = intent.getIntExtra(CALLING_ACTIVITY, 1000);
+		//callingActivity = intent.getIntExtra(CALLING_ACTIVITY, 1000);
+		
+		System.out.println(callingActivity);
 		
 		Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
 		
@@ -121,9 +121,9 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 			return false;
 		String[] s = tmp.split("/");
 		String[] time;
-		fromYear = Integer.parseInt(s[0]);
-		fromMonth = Integer.parseInt(s[1]);
-		fromDay = Integer.parseInt(s[2]);
+		fromYear = Integer.parseInt(s[2]);
+		fromMonth = Integer.parseInt(s[0]) - 1;
+		fromDay = Integer.parseInt(s[1]);
 		
 		TextView f_time = (TextView)findViewById(R.id.from_time);
 		tmp = f_time.getText().toString();
@@ -145,9 +145,9 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		if (tmp == null || tmp.isEmpty())
 			return false;
 		s = tmp.split("/");
-		toYear = Integer.parseInt(s[0]);
-		toMonth = Integer.parseInt(s[1]);
-		toDay = Integer.parseInt(s[2]);
+		toYear = Integer.parseInt(s[2]);
+		toMonth = Integer.parseInt(s[0]) - 1;
+		toDay = Integer.parseInt(s[1]);
 		
 		TextView t_time = (TextView)findViewById(R.id.to_time);
 		tmp = t_time.getText().toString();
@@ -227,12 +227,15 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 					from[i] = Calendar.getInstance();
 					from[i].set(fromYear, fromMonth, fromDay, fromHour, fromMinute, 0);
 					from[i].add(Calendar.DAY_OF_MONTH, 7*i);
+					
 					to[i] = Calendar.getInstance();
 					to[i].set(toYear, toMonth, toDay, toHour, toMinute, 0);
 					to[i].add(Calendar.DAY_OF_MONTH, 7*i);
 					
-					list = manager.readEvents(from[i], to[i]);
-					if(list.size() != 0) {
+					System.out.println(from[i].toString());
+					System.out.println(to[i].toString());
+					list = manager.getConflictedEvents(from[i], to[i]);
+					if(list.size() > 0) {
 						flag = false;
 						break;
 					}
@@ -243,19 +246,20 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 						manager.createEvent(from[i], to[i], categoryId, description);
 					}
 					
-					jump();
+					//jump();
+					finish();
 				} else {
 					popup("event time conflict");
 				}
+			} else {
+				popup("invalid user input");
 			}
-			
-			popup("invalid user input");
 		} else {
 			popup("incomplete user input");
 		}
 	}
 
-	private void jump() {
+/*	private void jump() {
 		Intent intent;
 		switch (callingActivity) {
 			case DAILY_VIEW_ACTIVITY:
@@ -275,10 +279,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 				System.out.println("The activity invoke new event is not legitmate.");
 				break;
 		}
-	}
+	}*/
 
 	public void cancel(View v) {
-		jump();
+		//jump();
+		finish();
 	}
 	
 	@Override
