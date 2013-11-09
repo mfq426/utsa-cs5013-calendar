@@ -66,4 +66,60 @@ public class EventManager{
         return eventList;
     }
 
+	public List<Event> getConflictedEvents(java.util.Calendar sDate, java.util.Calendar eDate) {
+        List<Event> eventList = new ArrayList<Event>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " BETWEEN " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
+ 
+        SQLiteDatabase db = storageHandler.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+ 
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                //Event contact = new Event();
+            	
+            	Calendar startDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
+            	Calendar endDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	
+            	System.out.println(cursor.getString(1));
+                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, 0,
+            			cursor.getString(1));
+            	// Adding contact to list
+                eventList.add(event);
+                System.out.println(event.toString());
+            } while (cursor.moveToNext());
+        }
+ 
+        
+     // Select All Query
+        selectQuery = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsEndTime()+ " BETWEEN " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
+ 
+       cursor = db.rawQuery(selectQuery, null);
+ 
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                //Event contact = new Event();
+            	
+            	Calendar startDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
+            	Calendar endDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	
+            	System.out.println(cursor.getString(1));
+                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, 0,
+            			cursor.getString(1));
+            	// Adding contact to list
+                eventList.add(event);
+                System.out.println(event.toString());
+            } while (cursor.moveToNext());
+        }
+ 
+               
+        // return contact list
+        return eventList;
+    }
 }
