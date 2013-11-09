@@ -14,6 +14,10 @@
     <string name="description">Previous Week</string>
 
     <color name="gray">#d3d3d3</color>
+    <color name="test">#F8F2E4</color>
+    <color name="day">#fff7f9</color>
+    <color name="list_focused">#36C170</color>
+    <color name="list_selected">#9EC136</color>
 
     <string name="from">From</string>
     <string name="to">To</string>

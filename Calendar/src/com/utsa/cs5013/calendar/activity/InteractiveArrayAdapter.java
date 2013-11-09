@@ -4,7 +4,9 @@ import android.widget.ArrayAdapter;
 
 import java.util.List;
 
-import com.utsa.calendar.R;
+import edu.utsa.calendar.R;
+
+
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -21,7 +23,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<Model> {
   private final Activity context;
 
   public InteractiveArrayAdapter(Activity context, List<Model> list) {
-    super(context, R.layout.activity_day, list);
+    super(context, R.layout.activity_daily_view, list);
     this.context = context;
     this.list = list;
   }
