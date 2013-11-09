@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -21,18 +20,6 @@ import android.widget.Toast;
 
 public class NewEventActivity extends Activity implements OnItemSelectedListener{
 	
-/*	public static final int DAILY_VIEW_ACTIVITY = 1;
-	public static final int WEEKLY_VIEW_ACTIVITY = 2;
-	public static final int MONTHLY_VIEW_ACTIVITY = 3;
-	public static final String CALLING_ACTIVITY = "calling_activity";
-	public static final String FROM = "from";
-	public static final String TO = "to";
-	public static final String WEEKLY_REPEATING = "weekly_repeating";
-	public static final String OCCURANCE = "occurance";
-	public static final String CATEGORY = "category";
-	public static final String DESCRIPTION = "description";*/
-	
-	private int callingActivity;
 	private int fromYear;
 	private int fromMonth;
 	private int fromDay;
@@ -52,11 +39,6 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_event);
-		
-		Intent intent = getIntent();
-		//callingActivity = intent.getIntExtra(CALLING_ACTIVITY, 1000);
-		
-		System.out.println(callingActivity);
 		
 		Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
 		
@@ -246,7 +228,6 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 						manager.createEvent(from[i], to[i], categoryId, description);
 					}
 					
-					//jump();
 					finish();
 				} else {
 					popup("event time conflict");
@@ -259,30 +240,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		}
 	}
 
-/*	private void jump() {
-		Intent intent;
-		switch (callingActivity) {
-			case DAILY_VIEW_ACTIVITY:
-				intent = new Intent(this, DailyViewActivity.class);
-				startActivity(intent);
-				break;
-			case WEEKLY_VIEW_ACTIVITY:
-				intent = new Intent(this, WeeklyViewActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); //this is needed to start an activity, otherwise oncreate method is called
-				startActivity(intent);
-				break; 
-			case MONTHLY_VIEW_ACTIVITY:
-				intent = new Intent(this, MonthlyViewActivity.class);
-				startActivity(intent);
-				break; 
-			default:
-				System.out.println("The activity invoke new event is not legitmate.");
-				break;
-		}
-	}*/
-
 	public void cancel(View v) {
-		//jump();
 		finish();
 	}
 	
