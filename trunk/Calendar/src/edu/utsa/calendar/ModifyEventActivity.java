@@ -1,38 +1,22 @@
 package edu.utsa.calendar;
 
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
-import android.widget.RelativeLayout.LayoutParams;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.AdapterView.OnItemSelectedListener;
 
-public class NewEventActivity extends Activity implements OnItemSelectedListener{
-	
-	public static final int DAILY_VIEW_ACTIVITY = 1;
-	public static final int WEEKLY_VIEW_ACTIVITY = 2;
-	public static final int MONTHLY_VIEW_ACTIVITY = 3;
-	public static final String CALLING_ACTIVITY = "calling_activity";
-	public static final String FROM = "from";
-	public static final String TO = "to";
-	public static final String WEEKLY_REPEATING = "weekly_repeating";
-	public static final String OCCURANCE = "occurance";
-	public static final String CATEGORY = "category";
-	public static final String DESCRIPTION = "description";
+public class ModifyEventActivity extends Activity implements OnItemSelectedListener{
 	
 	private int callingActivity;
 	private int fromYear;
@@ -47,41 +31,48 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	private int toMinute;
 	private String description;
 	private boolean checked = false;
-	private int occurance = 1;
-	private int categoryId = 0;
+	private int occurance;
+	private int categoryId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_new_event);
+		setContentView(R.layout.activity_modify_event);
 		
-		Intent intent = getIntent();
-		callingActivity = intent.getIntExtra(CALLING_ACTIVITY, 1000);
+		// get Data from the calling activity
 		
-		Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
+		TextView from_date = (TextView)findViewById(R.id.from_date_m);
+		from_date.setText("11/7/2013");
 		
-		// get category data from database
-		ArrayList<String> test = new ArrayList<String>();
-		test.add("work");
-		test.add("study");
-		test.add("fun");
+		TextView from_time = (TextView)findViewById(R.id.from_time_m);
+		from_time.setText("6:04 PM");
 		
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, test);
-		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		spinner.setAdapter(adapter);
-		spinner.setOnItemSelectedListener(this);
+		TextView to_date = (TextView)findViewById(R.id.to_date_m);
+		to_date.setText("11/7/2013");
+		
+		TextView to_time = (TextView)findViewById(R.id.to_time_m);
+		to_time.setText("7:00 PM");
+		
+		EditText what = (EditText)findViewById(R.id.what_m);
+		what.setText("dinner with friend");
+		
+		CheckBox checkbox = (CheckBox)findViewById(R.id.periodical_m);
+		checkbox.setPressed(true);
+		
+		
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.new_event, menu);
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.modify_event, menu);
 		return true;
 	}
-
+	
 	public void showFromDatePickerDialog(View v) {
 		DatePickerFragment date = new DatePickerFragment();
 		Bundle args = new Bundle();
-		args.putInt("date_view", R.id.from_date);
+		args.putInt("date_view", R.id.from_date_m);
 		date.setArguments(args);
 		date.show(getFragmentManager(), "fromDatePicker");
 	}
@@ -89,7 +80,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	public void showFromTimePickerDialog(View v) {
 		TimePickerFragment time = new TimePickerFragment();
 		Bundle args = new Bundle();
-		args.putInt("time_view", R.id.from_time);
+		args.putInt("time_view", R.id.from_time_m);
 		time.setArguments(args);
 		time.show(getFragmentManager(), "fromTimePicker");
 	}
@@ -97,7 +88,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	public void showToDatePickerDialog(View v) {
 		DatePickerFragment date = new DatePickerFragment();
 		Bundle args = new Bundle();
-		args.putInt("date_view", R.id.to_date);
+		args.putInt("date_view", R.id.to_date_m);
 		date.setArguments(args);
 		date.show(getFragmentManager(), "toDatePicker");
 	}
@@ -105,7 +96,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	public void showToTimePickerDialog(View v) {
 		TimePickerFragment time = new TimePickerFragment();
 		Bundle args = new Bundle();
-		args.putInt("time_view", R.id.to_time);
+		args.putInt("time_view", R.id.to_time_m);
 		time.setArguments(args);
 		time.show(getFragmentManager(), "toTimePicker");
 	}
@@ -211,7 +202,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		toast.show();
 	}
 
-	public void createEvent(View v) {
+	public void modifyEvent(View v) {
 		
 		if(getData()) {
 			if (verifyData()) {
@@ -243,6 +234,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 						manager.createEvent(from[i], to[i], categoryId, description);
 					}
 					
+					// pass user inputs though intent to the calling activity
 					jump();
 				} else {
 					popup("event time conflict");
@@ -254,20 +246,24 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 			popup("incomplete user input");
 		}
 	}
-
+	
+	public void removeEvent(View v) {
+		
+	}
+	
 	private void jump() {
 		Intent intent;
 		switch (callingActivity) {
-			case DAILY_VIEW_ACTIVITY:
+			case NewEventActivity.DAILY_VIEW_ACTIVITY:
 				intent = new Intent(this, DailyViewActivity.class);
 				startActivity(intent);
 				break;
-			case WEEKLY_VIEW_ACTIVITY:
+			case NewEventActivity.WEEKLY_VIEW_ACTIVITY:
 				intent = new Intent(this, WeeklyViewActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); //this is needed to start an activity, otherwise oncreate method is called
 				startActivity(intent);
 				break; 
-			case MONTHLY_VIEW_ACTIVITY:
+			case NewEventActivity.MONTHLY_VIEW_ACTIVITY:
 				intent = new Intent(this, MonthlyViewActivity.class);
 				startActivity(intent);
 				break; 
@@ -276,11 +272,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 				break;
 		}
 	}
+	
 
 	public void cancel(View v) {
 		jump();
 	}
-	
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
@@ -293,4 +289,5 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	public void onNothingSelected(AdapterView<?> parent) {
 		
 	}
+
 }

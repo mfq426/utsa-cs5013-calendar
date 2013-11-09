@@ -48,5 +48,7 @@ public class NewCategoryActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	
 
 }
