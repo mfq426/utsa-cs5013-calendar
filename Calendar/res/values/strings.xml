@@ -4,29 +4,27 @@
     <string name="app_name">Calendar</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">hello world</string>
-
     <string name="title_activity_weekly_view">WeeklyViewActivity</string>
     <string name="title_activity_daily_view">DailyViewActivity</string>
     <string name="title_activity_monthly_view">MonthlyViewActivity</string>
     <string name="title_activity_agenda_view">Agenda List</string>
     <string name="title_activity_agenda_details">Agenda Details</string>
-   
-	<string name="buttonNextWeekText">Next Week</string>
+    <string name="buttonNextWeekText">Next Week</string>
     <string name="buttonPreviousWeekText">Previous Week</string>
     <string name="description">Previous Week</string>
+
     <color name="gray">#d3d3d3</color>
-    
-    
+
     <string name="from">From</string>
     <string name="to">To</string>
     <string name="event_description">Event Description</string>
     <string name="what">What</string>
     <string name="periodical">Weekly Repeating Event?</string>
+    <string name="weeks">Weeks</string>
     <string name="category">Category(Optional)</string>
     <string name="or">OR</string>
     <string name="new_category">New Category</string>
-    <string name="number">5 weeks?</string>
-    
+    <string name="number">5</string>
     <string name="title_activity_new_category">New Category</string>
     <string name="title_activity_new_event">New Event</string>
     <string name="category_name">Name</string>
@@ -34,11 +32,11 @@
     <string name="category_description">Description</string>
     <string name="description_hint">More information about the category</string>
     <string name="category_color">Color</string>
-    
-    
-    <string name="create_event">Create Event</string>
+    <string name="create_event">Create</string>
+    <string name="remove_event">Remove</string>
+    <string name="modify_event">Modify</string>
     <string name="create_category">Create Category</string>
     <string name="cancel">Cancel</string>
-    
+    <string name="title_activity_modify_event">ModifyEventActivity</string>
 
 </resources>
