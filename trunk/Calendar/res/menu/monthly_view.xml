@@ -5,5 +5,16 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    
+    <Spinner 
+        android:id="@+id/spinner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:drawSelectorOnTop="true"
+        android:entries="@array/view_name"
+        android:orderInCategory="1"
+        android:showAsAction="always"
+        
+    />
 
 </menu>
