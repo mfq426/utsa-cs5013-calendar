@@ -1,6 +1,9 @@
 package edu.utsa.calendar;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,42 +20,53 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	//ArrayList<Event> items =new ArrayList<Event>();
 	//TODO: Replace three lists below with one event object list
 	// dummy lists
-	ArrayList<String> agendaList;
+	ArrayList<Event> agendaList;
     ArrayList<String> startTimes;
-    ArrayList<String> agendDay;
+    ArrayList<String> agendaDay;
+    ArrayList<String> agendaText;
 
-	public CustomAgendaGridAdaptor(Context context ) {
+	public CustomAgendaGridAdaptor(Context context, ArrayList<Event> agendaList ) {
 		super();
 		this.context = context;
 		
-		//REMOVE: code for generating dummy data
-		agendaList =new ArrayList<String>();
-	    startTimes = new ArrayList<String>();
-	    agendDay = new ArrayList<String>();
-		agendaList.add("Meeting with A");
-		agendaList.add("Meeting with B");
-		agendaList.add("Lunch at Z");
+		this.agendaList = agendaList;
 		
-		startTimes.add("9:00 am");
-		startTimes.add("11:00 am");
-		startTimes.add("12:30 am");
+		startTimes = new ArrayList<String>();
+		agendaDay = new ArrayList<String>();
+		agendaText = new ArrayList<String>();
 		
-		agendDay.add("Today");
-		agendDay.add("Today");
-		agendDay.add("Today");
+		System.out.println("No of events found :: " + agendaList.size());
+		createListforFields();
+		
+		
 	}
 
 	@Override
 	public int getCount() {
 		
 		return agendaList.size();
+		
 	//	return items.size();
+	}
+	
+	public void createListforFields() {
+		
+		System.out.println("In agenda fields create lists;");
+		for( Event e : agendaList ) {
+			Calendar startDate = e.getStartDate();
+			String starDateString = new SimpleDateFormat("dd/MM/yyyy").format(startDate.getTime());
+			startTimes.add(starDateString);
+			String agendDayString = new SimpleDateFormat("EEEE").format(startDate.getTime());
+			agendaDay.add(agendDayString);
+			agendaText.add(e.getDescription());
+		}
+		System.out.println("Agenda fields data filled up");
 	}
 
 	@Override
 	public Object getItem(int position) {
-		
-		return agendaList.get(position);
+		return agendaText.get(position);
+	//	return agendaList.get(position);
 		//	return items.get(position);
 	}
 
@@ -98,9 +112,9 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	        //ll.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
 	        ll.setPadding(5, 5, 5, 10);
 
-	        tv1.setText(String.valueOf(agendDay.get(position)));
+	        tv1.setText(String.valueOf(agendaDay.get(position)));
 	        tv2.setText(String.valueOf(startTimes.get(position)));
-	        tv3.setText(String.valueOf(agendaList.get(position)));
+	        tv3.setText(String.valueOf(agendaText.get(position)));
 	        ll.addView(tv1);
 	        ll.addView(tv2);
 	        ll.addView(tv3);
@@ -111,9 +125,9 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	        tv2 = (TextView) ll.getChildAt(1);
 	        tv3 = (TextView) ll.getChildAt(2);
 	        
-	        tv1.setText(String.valueOf(agendDay.get(position)));
+	        tv1.setText(String.valueOf(agendaDay.get(position)));
 	        tv2.setText(String.valueOf(startTimes.get(position)));
-	        tv3.setText(String.valueOf(agendaList.get(position)));
+	        tv3.setText(String.valueOf(agendaText.get(position)));
 	    }
 	    
 		

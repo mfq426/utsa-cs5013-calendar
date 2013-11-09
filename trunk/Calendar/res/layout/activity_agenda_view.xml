@@ -9,13 +9,19 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".AgendaViewActivity" >
 
+    <TextView
+        android:id="@+id/agendaViewHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"/>
+    
     <GridView
         android:id="@+id/gridAgendaView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:numColumns="1" >
+        android:numColumns="1"
+        android:layout_below="@id/agendaViewHeader"  >
+
     </GridView>
 
 </RelativeLayout>
