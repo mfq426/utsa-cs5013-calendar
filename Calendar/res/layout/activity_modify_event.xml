@@ -1,0 +1,139 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id = '@+id/relative_layout'
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".NewEventActivity" >
+
+    <TextView
+        android:id="@+id/from_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/from" />
+
+    <TextView
+        android:id="@+id/from_date_m"
+        style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/from_m"
+        android:layout_toLeftOf="@+id/from_time_m"
+        android:clickable="true"
+        android:onClick="showFromDatePickerDialog" />
+
+    <TextView
+        android:id="@id/from_time_m"
+        style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/from_m"
+        android:clickable="true"
+        android:onClick="showFromTimePickerDialog" />
+
+    <TextView
+        android:id="@+id/to_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/from_date_m"
+        android:text="@string/to" />
+
+    <TextView
+        android:id="@+id/to_date_m"
+        style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/to_m"
+        android:layout_toLeftOf="@+id/to_time_m"
+        android:clickable="true"
+        android:onClick="showToDatePickerDialog" />
+
+    <TextView
+        android:id="@id/to_time_m"
+        style="@android:style/Widget.DeviceDefault.Light.Spinner"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/to_m"
+        android:clickable="true"
+        android:onClick="showToTimePickerDialog" />
+
+    <TextView
+        android:id="@+id/event_description_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/to_date_m"
+        android:text="@string/event_description" />
+
+    <EditText
+        android:id="@+id/what_m"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_description_m"
+        android:hint="@string/what" />
+
+    <CheckBox
+        android:id="@+id/periodical_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/what_m"
+        android:onClick="onCheckboxClicked"
+        android:text="@string/periodical" />
+    
+    <EditText
+        android:id="@+id/times_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/what_m"
+        android:layout_toRightOf="@id/periodical_m"
+        android:hint="@string/number"/>
+
+    <TextView
+        android:id="@+id/category_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/times_m"
+        android:text="@string/category" />
+
+    <Spinner
+        android:id="@+id/category_spinner_m"
+        android:layout_width="126dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/times_m"
+        android:layout_toRightOf="@id/category_m" />
+    
+    <Button
+        android:id="@+id/remove"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/remove_event"
+        android:onClick="removeEvent" />
+    
+    <Button
+        android:id="@+id/modify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/modify_event"
+        android:onClick="modifyEvent" />
+    
+    <Button
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:text="@string/cancel"
+        android:onClick="cancel" />
+
+</RelativeLayout>
