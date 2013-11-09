@@ -4,13 +4,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.app.Activity;
+import android.app.ActionBar.OnNavigationListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -56,44 +59,13 @@ public class WeeklyViewActivity extends Activity {
     	
     };
 	
-   private static String[] weekWorks2 = new String[]{
-    	
-    	"Time","SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT",
-    	"9.00","SWIM","   ","   ","   ","   ","   ","   ",
-    	"10.00","","","","","","","",
-    	"11.00","","EAT","","","","","",
-    	"12.00","","","","","Cla","","",
-    	"1.00","","","","","","","",
-    	"2.00","","Cla","","","","Pra","",
-    	"3.00","","","Wor","","","","",
-    	"4.00","","","","","","","",
-    	"5.00","","","Swi","","Cla","","",
-    	"6.00","Swi","","","","","","",
-    	"7.00","","","","Wor","","","",
-    	"8.00","","Cla","","","","","",
-    	"9.00","Din","","","Mee","","","",
-    	"10.00","","","","Sho","","","",
-    	"11.00","","Sho","","","","",""   	
-    };
-	
-	
+   	
 	private void setDate(){
 		
 		
 		startDate = Calendar.getInstance();
 		endDate = Calendar.getInstance();
 		int dayOfWeek = startDate.get(Calendar.DAY_OF_WEEK);
-		
-		/*System.out.println("Time is "+startDate.getTimeInMillis()+" "+startDate.toString());
-		long time = startDate.getTimeInMillis();
-		
-		Calendar cc = Calendar.getInstance();
-		cc.setTimeInMillis(time);
-		
-		Date dd = new Date(time);
-		System.out.println(dd.toString());
-		System.out.println(cc.toString());
-		*/
 		
 		if(Calendar.SUNDAY==dayOfWeek){
 			startDate.add(Calendar.DATE, 0);
@@ -126,13 +98,25 @@ public class WeeklyViewActivity extends Activity {
 			
 		}
 		else if(Calendar.SATURDAY==dayOfWeek){
-			startDate.add(Calendar.DATE, 6);
+			startDate.add(Calendar.DATE, -6);
 			endDate.add(Calendar.DATE, 0);
 			
 		}
 		else{
 			System.out.println("Day format not found");
 		}
+		
+		
+		//set time to initial values
+		startDate.set(Calendar.HOUR_OF_DAY, 0);
+		startDate.set(Calendar.MINUTE, 0);
+		startDate.set(Calendar.SECOND, 0);
+		startDate.set(Calendar.MILLISECOND, 0);
+		
+		endDate.set(Calendar.HOUR_OF_DAY, 23);
+		endDate.set(Calendar.MINUTE, 59);
+		endDate.set(Calendar.SECOND, 59);
+		endDate.set(Calendar.MILLISECOND, 999);
 		
 		
 	}
@@ -172,10 +156,10 @@ public class WeeklyViewActivity extends Activity {
 	private void populateFields(){
 	
 		setWeekWorks();
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy",java.util.Locale.getDefault());
+		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yy",java.util.Locale.getDefault());
 	    weekViewHeader.setText(sdf.format(startDate.getTime())+" to "+sdf.format(endDate.getTime()));
 	    
-	    gridView.setAdapter(new CalendarEntryAdapterWeek(this,weekWorks));
+	    
 	    	  
 	    List<Event> events = ((GlobalVariables) this.getApplication()).getEventManager().readEvents(startDate,endDate); 
 	    
@@ -218,7 +202,7 @@ public class WeeklyViewActivity extends Activity {
 	    	
 	    	
     }
-		
+	    gridView.setAdapter(new CalendarEntryAdapterWeek(this,weekWorks));
 	}
 
 	@Override
@@ -238,9 +222,75 @@ public class WeeklyViewActivity extends Activity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.weekly_view, menu);
-        return true;
+    	// Inflate the menu; this adds items to the action bar if it is present.
+    			String[] actions = new String[] {
+    	    	        "Select Action",
+    					"Daily View",
+    	    	        "Weekly View ",
+    	    	        "Monthly View",
+    	    	        "Agenda View",
+    	    	        "Create Event",
+    	    	        "Create Category"
+    	    	    };
+    	   
+    	    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
+    	     
+    	        /** Enabling dropdown list navigation for the action bar */
+    	        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+    	        getActionBar().setTitle("");
+    	      
+    	        /** Defining Navigation listener */
+    	        ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {
+    	 
+    	            @Override
+    	            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+    	               
+    	            	if(itemPosition==0){
+    	            		//do nothing
+    	            	}
+    	            	else if(itemPosition==1){
+    	                	Intent intent = new Intent(WeeklyViewActivity.this, DailyViewActivity.class);
+    	     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+    	     				startActivity(intent);
+    	                }
+    	                else if(itemPosition==2){
+    	                
+    	                	Intent intent = new Intent(WeeklyViewActivity.this, WeeklyViewActivity.class);
+    	     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+    	     				startActivity(intent);
+    	     				
+    	                }
+    	                else if(itemPosition==3){
+    	                	Intent intent = new Intent(WeeklyViewActivity.this, MonthlyViewActivity.class);
+    	     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+    	     				startActivity(intent);
+    	                }
+    	                else if(itemPosition==4){
+    	                	Intent intent = new Intent(WeeklyViewActivity.this, AgendaViewActivity.class);
+    	     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+    	     				startActivity(intent);
+    	                }
+    	                else if(itemPosition==5){
+    	                	Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
+    	                	intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
+    	                	//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+    	                    startActivity(intent);
+    	                	
+    	                }
+    	                else if(itemPosition==6){
+    	                	
+    	                }
+    	                
+    	               
+    	                return false;
+    	            }
+    	        };
+    	 
+    	        /** Setting dropdown items and item navigation listener for the actionbar */
+    	        getActionBar().setListNavigationCallbacks(adapter, navigationListener);
+    	    	
+    	    	//getMenuInflater().inflate(R.menu.main, menu);
+    			return true;
     }
     
     
@@ -292,10 +342,10 @@ public class WeeklyViewActivity extends Activity {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int position,long arg3) {
-            	Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
+            	//Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
             	// pass the calling activity to my NewEventActivity;
-            	intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
-                startActivity(intent);
+            	//intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
+                //startActivity(intent);
             	
             }
         });

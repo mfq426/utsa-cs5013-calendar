@@ -5,13 +5,17 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -66,7 +70,7 @@ private void setDate(){
 	startDate.set(Calendar.SECOND, 0);
 	startDate.set(Calendar.MILLISECOND, 0);
 	startDate.set(Calendar.DAY_OF_MONTH, 1);			
-	System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(startDate.getTime()));
+	//System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(startDate.getTime()));
 	
 	// get the current date and set the start date to the beginning of the month    
 	endDate = Calendar.getInstance();
@@ -75,7 +79,7 @@ private void setDate(){
 	endDate.set(Calendar.SECOND, 59);
 	endDate.set(Calendar.MILLISECOND, 999);
 	endDate.set(Calendar.DAY_OF_MONTH, endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-	System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(endDate.getTime()));
+	//System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(endDate.getTime()));
 				
 }
 	
@@ -156,7 +160,7 @@ private void setDate(){
 	    // delete this item, only for testing
 		
 		// Entry 1
-				Calendar startDate = Calendar.getInstance();
+		/*		Calendar startDate = Calendar.getInstance();
 				startDate.set(2013, 11, 8, 11, 20, 0);
 				
 				Calendar endDate = Calendar.getInstance();
@@ -214,13 +218,12 @@ private void setDate(){
 				
 		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "BIBM deadline");
 				
-		
-		
-		
-		
+		*/		
 		gridView = (GridView) findViewById(R.id.gridViewMonthly);
 	    monthViewHeader = (TextView) findViewById(R.id.monthViewHeader);
 	    this.setDate();
+	    
+	    
 	    addListenerOnButton(gridView);
 		
 	}
@@ -228,7 +231,73 @@ private void setDate(){
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.monthly_view, menu);
+		String[] actions = new String[] {
+    	        "Select Action",
+				"Daily View",
+    	        "Weekly View ",
+    	        "Monthly View",
+    	        "Agenda View",
+    	        "Create Event",
+    	        "Create Category"
+    	    };
+   
+    	ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
+     
+        /** Enabling dropdown list navigation for the action bar */
+        getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+        getActionBar().setTitle("");
+      
+        /** Defining Navigation listener */
+        ActionBar.OnNavigationListener navigationListener = new OnNavigationListener() {
+ 
+            @Override
+            public boolean onNavigationItemSelected(int itemPosition, long itemId) {
+               
+            	if(itemPosition==0){
+            		//do nothing
+            	}
+            	else if(itemPosition==1){
+                	Intent intent = new Intent(MonthlyViewActivity.this, DailyViewActivity.class);
+     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				startActivity(intent);
+                }
+                else if(itemPosition==2){
+                
+                	Intent intent = new Intent(MonthlyViewActivity.this, WeeklyViewActivity.class);
+     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				startActivity(intent);
+     				
+                }
+                else if(itemPosition==3){
+                	Intent intent = new Intent(MonthlyViewActivity.this, MonthlyViewActivity.class);
+     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				startActivity(intent);
+                }
+                else if(itemPosition==4){
+                	Intent intent = new Intent(MonthlyViewActivity.this, AgendaViewActivity.class);
+     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				startActivity(intent);
+                }
+                else if(itemPosition==5){
+                	Intent intent = new Intent(MonthlyViewActivity.this, NewEventActivity.class);
+                	intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
+                	//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+                    startActivity(intent);
+                	
+                }
+                else if(itemPosition==6){
+                	
+                }
+                
+               
+                return false;
+            }
+        };
+ 
+        /** Setting dropdown items and item navigation listener for the actionbar */
+        getActionBar().setListNavigationCallbacks(adapter, navigationListener);
+    	
+    	//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 	
