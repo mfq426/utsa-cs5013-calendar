@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
 		
 		// go to the last view user stayed
 		mPrefs = getSharedPreferences("view", 0);
-		mCurViewMode = mPrefs.getInt("view_mode", WEEKLY_VIEW_MODE);
+		mCurViewMode = mPrefs.getInt("view_mode", MONTHLY_VIEW_MODE);
 		
 		Intent firstView;
 		switch(mCurViewMode) {
