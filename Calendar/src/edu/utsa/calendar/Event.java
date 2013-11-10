@@ -21,17 +21,7 @@ public class Event {
 		mID = pID;
 	}
 
-	// need to delete this constructor
-	public Event(int mID, java.util.Calendar mStartDate, java.util.Calendar mEndDate, String mCategoryID,
-			String mDescription) {
-		super();
-		this.mID = mID;
-		this.mStartDate = mStartDate;
-		this.mEndDate = mEndDate;
-		this.mCategoryID = mCategoryID;
-		this.mDescription = mDescription;
-	}
-
+	
 	public Event(int mID, Calendar mStartDate, Calendar mEndDate,
 			String mCategoryID, String mDescription, int totalOccurance,
 			int occuranceIndex) {
@@ -43,6 +33,7 @@ public class Event {
 		this.mDescription = mDescription;
 		this.totalOccurance = totalOccurance;
 		this.occuranceIndex = occuranceIndex;
+		this.eColor = -1;
 	}
 
 	public Event( Calendar mStartDate, Calendar mEndDate,
@@ -55,44 +46,39 @@ public class Event {
 		this.mDescription = mDescription;
 		this.totalOccurance = totalOccurance;
 		this.occuranceIndex = occuranceIndex;
+		this.eColor=-1;
+		this.mID = -1;
 	}
-	public int getmID() {
-		return mID;
-	}
-
-	public void setmID(int mID) {
-		this.mID = mID;
-	}
-
-	public java.util.Calendar getmStartDate() {
+	
+	public java.util.Calendar getStartDate() {
 		return mStartDate;
 	}
 
-	public void setmStartDate(java.util.Calendar mStartDate) {
+	public void setStartDate(java.util.Calendar mStartDate) {
 		this.mStartDate = mStartDate;
 	}
 
-	public java.util.Calendar getmEndDate() {
+	public java.util.Calendar getEndDate() {
 		return mEndDate;
 	}
 
-	public void setmEndDate(java.util.Calendar mEndDate) {
+	public void setEndDate(java.util.Calendar mEndDate) {
 		this.mEndDate = mEndDate;
 	}
 
-	public String getmCategoryID() {
+	public String getCategoryID() {
 		return mCategoryID;
 	}
 
-	public void setmCategoryID(String mCategoryID) {
+	public void setCategoryID(String mCategoryID) {
 		this.mCategoryID = mCategoryID;
 	}
 
-	public String getmDescription() {
+	public String getDescription() {
 		return mDescription;
 	}
 
-	public void setmDescription(String mDescription) {
+	public void setDescription(String mDescription) {
 		this.mDescription = mDescription;
 	}
 
