@@ -44,5 +44,6 @@
     <string name="create_category">Create Category</string>
     <string name="cancel">Cancel</string>
     <string name="title_activity_modify_event">ModifyEventActivity</string>
+    <string name="title_activity_modify_category">ModifyCategoryActivity</string>
 
 </resources>
