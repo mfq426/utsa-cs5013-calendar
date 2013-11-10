@@ -19,16 +19,18 @@ public class EventManager{
 	}
 	
 	
-	public void createEvent( java.util.Calendar startDate, java.util.Calendar endDate, int mCategoryID,
-			String mDescription ) {
+	public void createEvent( Event event ) {
 		// Query for create event
 
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		 
 		ContentValues values = new ContentValues();
-		values.put(storageHandler.getEventsStartTime(), startDate.getTimeInMillis());
-		values.put(storageHandler.getEventsEndTime(), endDate.getTimeInMillis());
-		values.put(storageHandler.getEventsDescription(),mDescription);
+		values.put(storageHandler.getEventsStartTime(), event.getmStartDate().getTimeInMillis());
+		values.put(storageHandler.getEventsEndTime(), event.getmEndDate().getTimeInMillis());
+		values.put(storageHandler.getEventsDescription(),event.getmDescription());
+		values.put(storageHandler.getEVENTS_CATEGORY(), event.getmCategoryID());
+		values.put(storageHandler.getEVENTS_TOTAL_OCCURANCE(), event.getTotalOccurance());
+		values.put(storageHandler.getEVENTS_OCCURANCE_INDEX(), event.getOccuranceIndex());
 				 
 		// Inserting Row
 		db.insert(storageHandler.getEventTableName(), null, values);
@@ -52,10 +54,9 @@ public class EventManager{
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
             	Calendar endDate = Calendar.getInstance();
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
-            	
-            	System.out.println(cursor.getString(1));
-                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, 0,
-            			cursor.getString(1));
+            	            	
+                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
+            	                               
             	// Adding contact to list
                 eventList.add(event);
                 System.out.println(event.toString());
@@ -85,8 +86,8 @@ public class EventManager{
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	
             	System.out.println(cursor.getString(1));
-                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, 0,
-            			cursor.getString(1));
+            	 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
+             	
             	// Adding contact to list
                 eventList.add(event);
                 System.out.println(event.toString());
@@ -110,15 +111,17 @@ public class EventManager{
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	
             	System.out.println(cursor.getString(1));
-                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, 0,
-            			cursor.getString(1));
+            	 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
+             	
             	// Adding contact to list
                 eventList.add(event);
                 System.out.println(event.toString());
             } while (cursor.moveToNext());
         }
  
-               
+        
+        // *** need to implement the event conflict if it is within the events
+        
         // return contact list
         return eventList;
     }
