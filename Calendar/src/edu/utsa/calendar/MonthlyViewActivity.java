@@ -9,6 +9,7 @@ import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -150,6 +151,9 @@ public class MonthlyViewActivity extends CalendarActivity {
 		setContentView(R.layout.activity_monthly_view);
 
 		gridView = (GridView) findViewById(R.id.gridViewMonthly);
+		gridView.setBackgroundColor(Color.GRAY);
+	    gridView.setVerticalSpacing(1);
+	    gridView.setHorizontalSpacing(1);
 		monthViewHeader = (TextView) findViewById(R.id.monthViewHeader);
 		this.setDate();
 
