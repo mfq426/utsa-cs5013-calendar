@@ -82,11 +82,11 @@ public class Event {
 		this.mDescription = mDescription;
 	}
 
-	public int geteColor() {
+	public int getColor() {
 		return eColor;
 	}
 
-	public void seteColor(int eColor) {
+	public void setColor(int eColor) {
 		this.eColor = eColor;
 	}
 

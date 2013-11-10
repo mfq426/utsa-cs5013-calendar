@@ -63,11 +63,18 @@ public class EventManager{
             	            	
                 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
             	
-                
+                // Set the category color
+                for (Category ct : categoryList) {
+                    
+        	    	if(ct.getName().equals(event.getCategoryID())){
+        	    		event.setColor(ct.getColor());
+        	    	}
+        	    		    	
+        	    }
                 
             	// Adding contact to list
                 eventList.add(event);
-                System.out.println(event.toString());
+                //System.out.println(event.toString());
             } while (cursor.moveToNext());
         }
  
