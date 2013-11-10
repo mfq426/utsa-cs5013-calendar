@@ -55,6 +55,10 @@
             android:name="edu.utsa.calendar.ModifyEventActivity"
             android:label="@string/title_activity_modify_event" >
         </activity>
+        <activity
+            android:name="edu.utsa.calendar.ModifyCategoryActivity"
+            android:label="@string/title_activity_modify_category" >
+        </activity>
     </application>
 
 </manifest>
