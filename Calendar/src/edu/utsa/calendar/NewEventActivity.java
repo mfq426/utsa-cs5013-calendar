@@ -33,7 +33,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	private String description;
 	private boolean checked = false;
 	private int occurance = 1;
-	private int categoryId = 0;
+	private String categoryName;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -225,7 +225,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 				
 				if(flag) {
 					for(int i=0; i<occurance; i++) {
-						manager.createEvent(from[i], to[i], categoryId, description);
+						manager.createEvent(from[i], to[i], categoryName, description);
 					}
 					
 					finish();
@@ -247,9 +247,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
-		String tmp = (String)parent.getItemAtPosition(pos);
-		
-		// convert string to int
+		categoryName = (String)parent.getItemAtPosition(pos);
 	}
 
 	@Override
