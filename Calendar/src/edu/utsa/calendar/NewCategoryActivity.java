@@ -91,6 +91,7 @@ public class NewCategoryActivity extends Activity {
 			} else {
 				Category c = new Category(color, name, description);
 				manager.addCategory(c);
+				finish();
 			}
 		} else {
 			popup("incomplete user input");
@@ -106,7 +107,7 @@ public class NewCategoryActivity extends Activity {
 	}
 	
 	public void cancel(View v) {
-		super.finish();
+		finish();
 	}
 
 }
