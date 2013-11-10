@@ -2,9 +2,7 @@ package com.utsa.cs5013.database;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Date;
 
-import android.R.anim;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.database.sqlite.SQLiteDatabase;

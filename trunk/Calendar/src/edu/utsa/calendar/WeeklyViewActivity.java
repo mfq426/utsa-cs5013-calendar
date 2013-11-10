@@ -8,6 +8,7 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.OnNavigationListener;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -21,8 +22,6 @@ import android.widget.Toast;
 
 public class WeeklyViewActivity extends CalendarActivity {
 
-	private CategoryManager categoryManager;
-	private EventManager eventManager;
 	private GridView gridView;
 	private TextView weekViewHeader;
 	private Calendar startDate;
@@ -212,6 +211,9 @@ public class WeeklyViewActivity extends CalendarActivity {
         
         
         gridView = (GridView) findViewById(R.id.gridViewWeekly);
+        gridView.setBackgroundColor(Color.GRAY);
+        gridView.setVerticalSpacing(1);
+        gridView.setHorizontalSpacing(1);
         weekViewHeader = (TextView) findViewById(R.id.weekViewHeader);
         this.setDate();
         //this.populateFields();
