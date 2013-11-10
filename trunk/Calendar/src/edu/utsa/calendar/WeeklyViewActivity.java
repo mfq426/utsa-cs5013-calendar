@@ -166,8 +166,8 @@ public class WeeklyViewActivity extends Activity {
 	    for (Event ev : events) {
             
 	    	
-	    	int dayOfWeek = ev.getStartDate().get(Calendar.DAY_OF_WEEK);
-	    	int timeOfDay = ev.getStartDate().get(Calendar.HOUR_OF_DAY);
+	    	int dayOfWeek = ev.getmStartDate().get(Calendar.DAY_OF_WEEK);
+	    	int timeOfDay = ev.getmStartDate().get(Calendar.HOUR_OF_DAY);
 	    	int columnName=0;
 	    	
 
@@ -197,8 +197,8 @@ public class WeeklyViewActivity extends Activity {
 			}
 			System.out.println(timeOfDay);
 			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm",java.util.Locale.getDefault());
-			System.out.println(sdf.format(ev.getStartDate().getTime()));
-	    	weekWorks[8*timeOfDay+columnName] = ev.getDescription();
+			System.out.println(sdf.format(ev.getmStartDate().getTime()));
+	    	weekWorks[8*timeOfDay+columnName] = ev.getmDescription();
 	    	
 	    	
     }
@@ -272,9 +272,7 @@ public class WeeklyViewActivity extends Activity {
     	                }
     	                else if(itemPosition==5){
     	                	Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
-    	                	intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
-    	                	//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
-    	                    startActivity(intent);
+    	                	startActivity(intent);
     	                	
     	                }
     	                else if(itemPosition==6){

@@ -16,6 +16,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final String EVENTS_START_TIME = "start_time"; 
     private final String EVENTS_END_TIME = "end_time"; 
     private final String EVENTS_DESCRIPTION = "details";
+    private final String EVENTS_CATEGORY = "category";
+    private final String EVENTS_TOTAL_OCCURANCE = "total_occurance";
+    private final String EVENTS_OCCURANCE_INDEX = "occurance_index";
  
     //Category Table Columns names
     private final String CATEGORY_TABLE_NAME = "Category";
@@ -37,7 +40,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + EVENTS_KEY_ID + " INTEGER PRIMARY KEY," 
 				+ EVENTS_DESCRIPTION + " TEXT,"
                 + EVENTS_START_TIME +" INTEGER,"
-                + EVENTS_END_TIME +" INTEGER"
+                + EVENTS_END_TIME +" INTEGER,"
+                + EVENTS_CATEGORY +" TEXT,"
+                + EVENTS_TOTAL_OCCURANCE+" INTEGER,"
+                + EVENTS_OCCURANCE_INDEX+" INTEGER"
                 +  ")";
         db.execSQL(CREATE_EVENTS_TABLE);
        
@@ -50,6 +56,18 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	}
 
 	
+
+	public String getEVENTS_CATEGORY() {
+		return EVENTS_CATEGORY;
+	}
+
+	public String getEVENTS_TOTAL_OCCURANCE() {
+		return EVENTS_TOTAL_OCCURANCE;
+	}
+
+	public String getEVENTS_OCCURANCE_INDEX() {
+		return EVENTS_OCCURANCE_INDEX;
+	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {

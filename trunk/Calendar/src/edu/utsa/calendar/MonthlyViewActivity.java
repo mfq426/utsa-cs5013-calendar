@@ -86,9 +86,7 @@ private void setDate(){
 	
 	private void populateFields(){
 		
-		System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(startDate.getTime()));
-		System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(endDate.getTime()));
-		
+
 		setMonthWorks();
 	    monthViewHeader.setText(new SimpleDateFormat("MMMM").format(startDate.getTime())+ " "+ new SimpleDateFormat("yyyy").format(startDate.getTime()));
 	            	  
@@ -142,7 +140,7 @@ private void setDate(){
 	    for (Event ev : events) {
             
 	    	
-	    	int dayOfMonth = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
+	    	int dayOfMonth = ev.getmStartDate().get(Calendar.DAY_OF_MONTH);
 	    	
 	    	workDayIndicator.set(6+padding+dayOfMonth, "1");
 	    			    	
@@ -280,9 +278,7 @@ private void setDate(){
                 }
                 else if(itemPosition==5){
                 	Intent intent = new Intent(MonthlyViewActivity.this, NewEventActivity.class);
-                	intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
-                	//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
-                    startActivity(intent);
+                	startActivity(intent);
                 	
                 }
                 else if(itemPosition==6){
