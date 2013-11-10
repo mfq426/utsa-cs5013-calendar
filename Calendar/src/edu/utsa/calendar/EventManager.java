@@ -11,11 +11,12 @@ import android.database.sqlite.SQLiteDatabase;
 public class EventManager{
 	
 	private DatabaseHelper storageHandler;
+	private CategoryManager categoryManager;
 	
-	
-	public EventManager(DatabaseHelper storageHandler) {
+	public EventManager(DatabaseHelper storageHandler, CategoryManager categoryManager) {
 		super();
 		this.storageHandler = storageHandler;
+		this.categoryManager = categoryManager;
 	}
 	
 	
@@ -25,10 +26,10 @@ public class EventManager{
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		 
 		ContentValues values = new ContentValues();
-		values.put(storageHandler.getEventsStartTime(), event.getmStartDate().getTimeInMillis());
-		values.put(storageHandler.getEventsEndTime(), event.getmEndDate().getTimeInMillis());
-		values.put(storageHandler.getEventsDescription(),event.getmDescription());
-		values.put(storageHandler.getEVENTS_CATEGORY(), event.getmCategoryID());
+		values.put(storageHandler.getEventsStartTime(), event.getStartDate().getTimeInMillis());
+		values.put(storageHandler.getEventsEndTime(), event.getEndDate().getTimeInMillis());
+		values.put(storageHandler.getEventsDescription(),event.getDescription());
+		values.put(storageHandler.getEVENTS_CATEGORY(), event.getCategoryID());
 		values.put(storageHandler.getEVENTS_TOTAL_OCCURANCE(), event.getTotalOccurance());
 		values.put(storageHandler.getEVENTS_OCCURANCE_INDEX(), event.getOccuranceIndex());
 				 
@@ -39,6 +40,11 @@ public class EventManager{
 	
 	public List<Event> readEvents(java.util.Calendar sDate, java.util.Calendar eDate) {
         List<Event> eventList = new ArrayList<Event>();
+        
+        
+        // Read all entry for category table
+        List<Category> categoryList = categoryManager.readAllCategory();        
+        
         // Select All Query
         String selectQuery = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " BETWEEN " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
  
@@ -56,7 +62,9 @@ public class EventManager{
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	            	
                 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
-            	                               
+            	
+                
+                
             	// Adding contact to list
                 eventList.add(event);
                 System.out.println(event.toString());

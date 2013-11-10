@@ -140,7 +140,7 @@ private void setDate(){
 	    for (Event ev : events) {
             
 	    	
-	    	int dayOfMonth = ev.getmStartDate().get(Calendar.DAY_OF_MONTH);
+	    	int dayOfMonth = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
 	    	
 	    	workDayIndicator.set(6+padding+dayOfMonth, "1");
 	    			    	
