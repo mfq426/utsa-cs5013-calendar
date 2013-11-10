@@ -42,7 +42,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(CREATE_EVENTS_TABLE);
        
         String CREATE_CATEGORIES_TABLE = "CREATE TABLE " + CATEGORY_TABLE_NAME + "("
-                + CATEGORY_KEY_ID + " INTEGER PRIMARY KEY," + CATEGORY_COLOR + " TEXT,"
+                + CATEGORY_KEY_ID + " INTEGER PRIMARY KEY,"
+        		+ CATEGORY_COLOR + " INTEGER,"
                 + CATEGORY_TYPE + " TEXT," + CATEGORY_DESCRIPTION + " TEXT"+ ")";
         db.execSQL(CREATE_CATEGORIES_TABLE);
 		
