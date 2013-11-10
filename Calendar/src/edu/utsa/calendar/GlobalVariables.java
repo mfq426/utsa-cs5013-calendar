@@ -7,6 +7,10 @@ public class GlobalVariables extends Application{
 	private EventManager eventManager;
 	private CategoryManager categoryManager;
 	
+	public GlobalVariables() {
+		
+	}
+	
 	public EventManager getEventManager() {
 		return eventManager;
 	}
