@@ -8,9 +8,11 @@ import java.util.List;
 import edu.utsa.calendar.InteractiveArrayAdapter.ViewHolder;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActivityOptions;
 import android.app.ListActivity;
+import android.app.ActionBar.OnNavigationListener;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
@@ -26,7 +28,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class DailyViewActivity extends Activity {
+public class DailyViewActivity extends CalendarActivity {
 
 	private ArrayAdapter<DailyViewModel> mAdapter = null;
 	TextView previous = null;
@@ -45,30 +47,26 @@ public class DailyViewActivity extends Activity {
 		mListView = (ListView) findViewById(R.id.listView1);
 		dayViewHeader = (TextView) findViewById(R.id.dayViewHeader);
 
-		
 		addListenerOnButton(mListView);
 		selectedDate = Calendar.getInstance();
-		
-		
 
 		// mAdapter = new InteractiveArrayAdapter(this, getModel());
 		// mListView.setAdapter(mAdapter);
 	}
 
-	
 	private void populateModel() {
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yy HH:mm", java.util.Locale.getDefault());
-		if(startDate==null){
+		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault());
+		if (startDate == null) {
 			startDate = Calendar.getInstance();
 			endDate = Calendar.getInstance();
 		}
 		startDate.setTime(selectedDate.getTime());
 		startDate.set(Calendar.HOUR_OF_DAY, 0);
 		startDate.set(Calendar.MINUTE, 0);
-		endDate.setTime( selectedDate.getTime());
+		endDate.setTime(selectedDate.getTime());
 		endDate.set(Calendar.HOUR_OF_DAY, 23);
 		endDate.set(Calendar.MINUTE, 59);
-		
+
 		String header = sdf.format(selectedDate.getTime());
 		dayViewHeader.setText(header);
 		List<Event> events = ((GlobalVariables) this.getApplication()).getEventManager().readEvents(startDate, endDate);
@@ -102,13 +100,13 @@ public class DailyViewActivity extends Activity {
 
 			@Override
 			public void onClick(View pView) {
-				//DailyViewActivity.this.onResume();
+				// DailyViewActivity.this.onResume();
 				selectedDate.add(Calendar.DATE, 1);
-				
+
 				Intent intent = getIntent();
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
-				
+
 				overridePendingTransition(R.anim.animation, R.anim.animation2);
 			}
 
@@ -144,10 +142,10 @@ public class DailyViewActivity extends Activity {
 				holder.text2.setBackgroundResource(R.drawable.list_selected);
 				if (preVposition == position) {
 					Intent intent = new Intent(DailyViewActivity.this, NewEventActivity.class);
-	            	// pass the calling activity to my NewEventActivity;
-	            	//intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.DAILY_VIEW_ACTIVITY);
-	                startActivity(intent);
-	            	
+					// pass the calling activity to my NewEventActivity;
+					// intent.putExtra(NewEventActivity.CALLING_ACTIVITY,
+					// NewEventActivity.DAILY_VIEW_ACTIVITY);
+					startActivity(intent);
 
 				} else if (previous != null) {
 					previous.setBackgroundResource(getResources().getColor(android.R.color.transparent));
@@ -165,10 +163,22 @@ public class DailyViewActivity extends Activity {
 		});
 
 	}
+	
+	
 
 	@Override
 	protected void onResume() {
 		super.onResume();
+		Bundle bundle = getIntent().getExtras();
+		Long time = bundle.getLong("selectedDay");
+		if (time != null && time > 0) {
+			selectedDate = Calendar.getInstance();
+			selectedDate.setTimeInMillis(time);
+			time = Long.valueOf(0);
+			getIntent().putExtra("selectedDay", time);
+			
+
+		}
 		populateModel();
 
 	}
