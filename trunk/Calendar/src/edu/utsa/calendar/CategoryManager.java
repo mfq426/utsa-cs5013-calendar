@@ -34,7 +34,7 @@ public class CategoryManager implements Serializable{
 				 
 		// Inserting Row
 		db.insert(storageHandler.getCategoryTableName(), null, values);
-		db.close(); // Closing database connection		db.close(); // Closing database connection
+		db.close(); // Closing database connection	
 			
 	
 	}
@@ -52,7 +52,7 @@ public class CategoryManager implements Serializable{
 		db.delete(storageHandler.getCategoryTableName(), 
 	            storageHandler.getCategoryType() + "= " + c.getName(), 
 	            null);
-		db.close(); // Closing database connection		db.close(); // Closing database connection
+		db.close(); // Closing database connection	
 			
 	
 	}
@@ -70,7 +70,7 @@ public class CategoryManager implements Serializable{
 		db.delete(storageHandler.getCategoryTableName(), 
 	            storageHandler.getCategoryType() + "= " + name, 
 	            null);
-		db.close(); // Closing database connection		db.close(); // Closing database connection
+		db.close(); // Closing database connection	
 			
 	
 	}
@@ -88,7 +88,7 @@ public class CategoryManager implements Serializable{
 		db.delete(storageHandler.getCategoryTableName(), 
 	            storageHandler.getCategoryColor() + "= " + color, 
 	            null);
-		db.close(); // Closing database connection		db.close(); // Closing database connection
+		db.close(); // Closing database connection	
 			
 	
 	}
@@ -126,6 +126,28 @@ public class CategoryManager implements Serializable{
 		ArrayList<Category>categoryList = new ArrayList<Category>();
 		String selectQuery = "SELECT  * FROM " + storageHandler.getCategoryTableName()+ 
 				" WHERE " +storageHandler.getCategoryType()+ " = " + "\"" + color + "\"";
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+		if (cursor.moveToFirst()) {
+            do {
+			
+            	Category c = new Category( Integer.parseInt(cursor.getString(0)), Integer.parseInt(cursor.getString(1)), cursor.getString(2), cursor.getString(3));
+			
+            	categoryList.add(c);
+            } while(cursor.moveToNext());
+		}
+		
+		return categoryList;
+		
+	}
+	/**
+	 * reads all the categories from the database
+	 * @return list of all the existing categories
+	 */
+	
+	public ArrayList<Category> readAllCategory( ) {
+		ArrayList<Category>categoryList = new ArrayList<Category>();
+		String selectQuery = "SELECT  * FROM " + storageHandler.getCategoryTableName();
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 		if (cursor.moveToFirst()) {
