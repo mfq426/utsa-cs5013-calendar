@@ -45,9 +45,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	public int getCount() {
 		
 		return agendaList.size();
-		
-	//	return items.size();
-	}
+    }
 	
 	public void createListforFields() {
 		
@@ -67,7 +65,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	public Object getItem(int position) {
 		return agendaText.get(position);
 	//	return agendaList.get(position);
-		//	return items.get(position);
+	
 	}
 
 	@Override
@@ -77,7 +75,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position , View convertView, ViewGroup parent) {
+	public View getView(final int position , View convertView, ViewGroup parent) {
 		TextView tv1;
 	    TextView tv2;
 	    TextView tv3;
@@ -130,19 +128,20 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	        tv3.setText(String.valueOf(agendaText.get(position)));
 	    }
 	    
+/* agenda details is not needed now **/		
+//			ll.setOnClickListener(new View.OnClickListener() {
+//							
+//				@Override
+//				public void onClick(View v) {
+//					String detailsData = new String(agendaText.get(position));
+////					System.out.println("<<<< IN onClick :: AgendaView >>>>");
+//					Intent intent = new Intent( context , AgendaDetailsActivity.class);
+//					intent.putExtra("event_details", "AgendaDetails");
+//					context.startActivity(intent);
+//					
+//				}
+//			});
 		
-			ll.setOnClickListener(new View.OnClickListener() {
-							
-				@Override
-				public void onClick(View v) {
-//					System.out.println("<<<< IN onClick :: AgendaView >>>>");
-					Intent intent = new Intent( context , AgendaDetailsActivity.class);
-					intent.putExtra("event_details", "AgendaDetails");
-					context.startActivity(intent);
-					
-				}
-			});
-		//}
 	    return ll;
 	}
 	
