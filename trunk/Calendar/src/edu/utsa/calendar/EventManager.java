@@ -125,4 +125,16 @@ public class EventManager{
         // return contact list
         return eventList;
     }
+	
+	public void deleteEvent(Calendar startDate, Calendar endDate){
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+		 
+		// Deleting events
+		db.delete(storageHandler.getEventTableName(), 
+	            storageHandler.getEventsStartTime() + "= ? AND"+ storageHandler.getEventsEndTime()+ " = ?", new String[] { String.valueOf(startDate.getTimeInMillis()),String.valueOf(endDate.getTimeInMillis())});
+		db.close();
+		
+		
+		
+	}
 }
