@@ -30,8 +30,8 @@ public class MainActivity extends Activity {
 		databaseHelper = new DatabaseHelper(this);
 		
 		// Next create CategoryManager and EventManager
-		eventManager = new EventManager(databaseHelper);
 		categoryManager = new CategoryManager(databaseHelper);
+		eventManager = new EventManager(databaseHelper,categoryManager);
 		
 		// Set into the global variables
 		((GlobalVariables) this.getApplication()).setEventManager(eventManager);
