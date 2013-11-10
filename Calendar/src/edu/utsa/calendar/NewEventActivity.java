@@ -224,8 +224,10 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 				}
 				
 				if(flag) {
+					Event e;
 					for(int i=0; i<occurance; i++) {
-						manager.createEvent(from[i], to[i], categoryName, description);
+						e = new Event(from[i], to[i], categoryName, description, occurance, i+1);
+						manager.createEvent(e);
 					}
 					
 					finish();
