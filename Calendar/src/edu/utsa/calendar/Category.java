@@ -14,6 +14,14 @@ public class Category {
 		this.mColor = mColor;
 		this.mDescription = mDescription;
 	}
+	
+	public Category( int mColor, String mName, String mDescription ) {
+		super();
+		this.mID = -1;
+		this.mName = mName;
+		this.mColor = mColor;
+		this.mDescription = mDescription;
+	}
 
 	public int getID() {
 		return mID;
