@@ -72,7 +72,10 @@ public class CalendarActivity extends Activity{
                 	
                 }
                 else if(itemPosition==6){
+                	Intent intent = new Intent(CalendarActivity.this, NewCategoryActivity.class);
                 	
+                	
+                	startActivity(intent);
                 }
                 
                
