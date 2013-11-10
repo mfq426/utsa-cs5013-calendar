@@ -104,10 +104,10 @@ public class DailyViewActivity extends CalendarActivity {
 				selectedDate.add(Calendar.DATE, 1);
 
 				Intent intent = getIntent();
-				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
-
-				overridePendingTransition(R.anim.animation, R.anim.animation2);
+				overridePendingTransition(R.anim.animation_slide_in_left, R.anim.animation_slide_out_right);
+				
 			}
 
 		});
@@ -121,9 +121,9 @@ public class DailyViewActivity extends CalendarActivity {
 			public void onClick(View pView) {
 				selectedDate.add(Calendar.DATE, -1);
 				Intent intent = getIntent();
-				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
-				overridePendingTransition(R.anim.animation, R.anim.animation2);
+				overridePendingTransition(R.anim.animation_slide_in_right,R.anim.animation_slide_out_left);
 			}
 
 		});
@@ -170,6 +170,7 @@ public class DailyViewActivity extends CalendarActivity {
 	protected void onResume() {
 		super.onResume();
 		Bundle bundle = getIntent().getExtras();
+		if(bundle!=null){
 		Long time = bundle.getLong("selectedDay");
 		if (time != null && time > 0) {
 			selectedDate = Calendar.getInstance();
@@ -179,7 +180,9 @@ public class DailyViewActivity extends CalendarActivity {
 			
 
 		}
+		}
 		populateModel();
+		
 
 	}
 
