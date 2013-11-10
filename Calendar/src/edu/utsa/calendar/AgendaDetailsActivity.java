@@ -1,19 +1,28 @@
 package edu.utsa.calendar;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Gravity;
+import android.os.Bundle;
 import android.view.Menu;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class AgendaDetailsActivity extends Activity {
 
+	private String details;
+	private ListView listAgendaDetails;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_agenda_details);
+		Bundle extras = getIntent().getExtras();
+		if (extras != null) {
+		    details = extras.getString("event_details");
+		}
+		TextView descriptionText = new TextView(this);
+		descriptionText.setText(String.valueOf(details));
+		listAgendaDetails = (ListView) findViewById(R.id.listAgendaDetailsView);
+		listAgendaDetails.addView(descriptionText);
+		
 	}
 
 	@Override
