@@ -1,11 +1,11 @@
 package edu.utsa.calendar;
 
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -18,7 +18,6 @@ import android.widget.Toast;
 
 public class ModifyEventActivity extends Activity implements OnItemSelectedListener{
 	
-	private int callingActivity;
 	private int fromYear;
 	private int fromMonth;
 	private int fromDay;
@@ -30,9 +29,14 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	private int toHour;
 	private int toMinute;
 	private String description;
-	private boolean checked = false;
+	private boolean checked;
 	private int occurance;
-	private int categoryId;
+	private String categoryName;
+	
+	private Calendar oldfrom;
+	private Calendar oldto;
+	private int index;
+	private int total;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -112,9 +116,9 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 			return false;
 		String[] s = tmp.split("/");
 		String[] time;
-		fromYear = Integer.parseInt(s[0]);
-		fromMonth = Integer.parseInt(s[1]);
-		fromDay = Integer.parseInt(s[2]);
+		fromYear = Integer.parseInt(s[2]);
+		fromMonth = Integer.parseInt(s[0]) - 1;
+		fromDay = Integer.parseInt(s[1]);
 		
 		TextView f_time = (TextView)findViewById(R.id.from_time);
 		tmp = f_time.getText().toString();
@@ -136,9 +140,9 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		if (tmp == null || tmp.isEmpty())
 			return false;
 		s = tmp.split("/");
-		toYear = Integer.parseInt(s[0]);
-		toMonth = Integer.parseInt(s[1]);
-		toDay = Integer.parseInt(s[2]);
+		toYear = Integer.parseInt(s[2]);
+		toMonth = Integer.parseInt(s[0]) - 1;
+		toDay = Integer.parseInt(s[1]);
 		
 		TextView t_time = (TextView)findViewById(R.id.to_time);
 		tmp = t_time.getText().toString();
@@ -212,6 +216,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 				EventManager manager = ((GlobalVariables) this.getApplication()).getEventManager();
 				List<Event> list = null;
 				boolean flag = true;
+				Iterator<Event> iterator;
+				Event e;
 				
 				// check event time conflict
 				for(int i=0; i<occurance; i++) {
@@ -223,19 +229,26 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 					to[i].add(Calendar.DAY_OF_MONTH, 7*i);
 					
 					list = manager.readEvents(from[i], to[i]);
+					iterator = list.iterator();
 					if(list.size() != 0) {
-						flag = false;
-						break;
+						while(iterator.hasNext()) {
+							e = iterator.next();
+							if(!(e.getStartDate().equals(oldfrom) && e.getEndDate().equals(oldto))) {
+								flag = false;
+								break;
+							}
+						}
 					}
 				}
 				
 				if(flag) {
+					removeEvent(v);
+					
 					for(int i=0; i<occurance; i++) {
-						manager.createEvent(from[i], to[i], categoryId, description);
+						e = new Event(from[i], to[i], categoryName, description, occurance, i+1);
+						manager.createEvent(e);
 					}
 					
-					// pass user inputs though intent to the calling activity
-					//jump();
 					finish();
 				} else {
 					popup("event time conflict");
@@ -249,36 +262,30 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	}
 	
 	public void removeEvent(View v) {
-		
-	}
-	
-	/*private void jump() {
-		Intent intent;
-		switch (callingActivity) {
-			case NewEventActivity.DAILY_VIEW_ACTIVITY:
-				intent = new Intent(this, DailyViewActivity.class);
-				startActivity(intent);
-				break;
-			case NewEventActivity.WEEKLY_VIEW_ACTIVITY:
-				intent = new Intent(this, WeeklyViewActivity.class);
-				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); //this is needed to start an activity, otherwise oncreate method is called
-				startActivity(intent);
-				break; 
-			case NewEventActivity.MONTHLY_VIEW_ACTIVITY:
-				intent = new Intent(this, MonthlyViewActivity.class);
-				startActivity(intent);
-				break; 
-			default:
-				System.out.println("The activity invoke new event is not legitmate.");
-				break;
+		EventManager manager = ((GlobalVariables) this.getApplication()).getEventManager();
+		manager.deleteEvent(oldfrom, oldto);
+		Calendar tmp1 = oldfrom;
+		Calendar tmp2 = oldto;
+		for(int i=index-1; i>=1; i--) {
+			tmp1.add(Calendar.DAY_OF_MONTH, -7*(index-i));
+			tmp2.add(Calendar.DAY_OF_MONTH, -7*(index-i));
+			manager.deleteEvent(tmp1, tmp2);
 		}
-	}*/
+		
+		tmp1 = oldfrom;
+		tmp2 = oldto;
+		for(int i=index+1; i<=total; i++) {
+			tmp1.add(Calendar.DAY_OF_MONTH, 7*(i-index));
+			tmp2.add(Calendar.DAY_OF_MONTH, 7*(i-index));
+			manager.deleteEvent(tmp1, tmp2);
+		}
+	}
 	
 
 	public void cancel(View v) {
-		//jump();
 		finish();
 	}
+	
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
