@@ -38,11 +38,11 @@
     <string name="category_description">Description</string>
     <string name="description_hint">More information about the category</string>
     <string name="category_color">Color</string>
-    <string name="create_event">Create</string>
-    <string name="remove_event">Remove</string>
-    <string name="modify_event">Modify</string>
-    <string name="create_category">Create Category</string>
-    <string name="cancel">Cancel</string>
+    <string name="create_event">create</string>
+    <string name="remove_event">remove</string>
+    <string name="modify_event">modify</string>
+    <string name="create_category">create category</string>
+    <string name="cancel">return</string>
     <string name="title_activity_modify_event">ModifyEventActivity</string>
     <string name="title_activity_modify_category">ModifyCategoryActivity</string>
 
