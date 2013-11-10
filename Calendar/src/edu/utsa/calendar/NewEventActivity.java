@@ -2,6 +2,7 @@ package edu.utsa.calendar;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
@@ -43,12 +44,17 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
 		
 		// get category data from database
-		ArrayList<String> test = new ArrayList<String>();
-		test.add("work");
-		test.add("study");
-		test.add("fun");
+		CategoryManager manager = ((GlobalVariables) this.getApplication()).getCategoryManager();
+		ArrayList<Category> list = manager.readAllCategory();
+		Iterator<Category> itr = list.iterator();
+		ArrayList<String> options = new ArrayList<String>();
+		Category c;
+		while(itr.hasNext()) {
+			c = itr.next();
+			options.add(c.getName());
+		}
 		
-		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, test);
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
 		spinner.setOnItemSelectedListener(this);
