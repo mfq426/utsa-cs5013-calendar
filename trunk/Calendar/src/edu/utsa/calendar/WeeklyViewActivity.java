@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -54,6 +55,7 @@ public class WeeklyViewActivity extends CalendarActivity {
     };
 	
 	private static int [] weekWorkColor = new int[200];
+	private static int [] eventID = new int[200];
    	
 	private void setDate(){
 		
@@ -148,6 +150,7 @@ public class WeeklyViewActivity extends CalendarActivity {
     	    };
     		
     	weekWorkColor = new int[200];
+    	eventID = new int[200];
     }
 	private void populateFields(){
 	
@@ -223,30 +226,24 @@ public class WeeklyViewActivity extends CalendarActivity {
 			else{
 				System.out.println("Day format not found");
 			}
-			System.out.println(ev.toString());
 			
-			System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(ev.getStartDate().getTime()));
-			System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(ev.getEndDate().getTime()));
-			
-			System.out.println(columnNameStart+" "+columnNameEnd);
+			//System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(ev.getStartDate().getTime()));
+			//System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(ev.getEndDate().getTime()));
 			
 			//if end day in the next week then set the columnNameEnd to the end day of this week
 			if(columnNameEnd<columnNameStart){
 				columnNameEnd=DAY_IN_NEXT_WEEK;
 			}
-			System.out.println(columnNameStart+" "+columnNameEnd);
-			System.out.println(timeOfDayStart+" "+timeOfDayEnd);
 			// set the work and color 
 			for(int i=columnNameStart;i<=columnNameEnd;i++){
 				
 				if(columnNameEnd==columnNameStart){ // event ends in the same day
 					for(int j=timeOfDayStart;j<=timeOfDayEnd;j++){
-						System.out.println("Jamil");
 						weekWorks[8*j+i] = ev.getDescription();
+						eventID[8*j+i]=ev.getID();
 						//set the category color
-						if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
-							weekWorkColor[8*j+i] = ev.getColor();
-						}
+						weekWorkColor[8*j+i] = ev.getColor();
+						
 						
 					}
 				}
@@ -254,34 +251,32 @@ public class WeeklyViewActivity extends CalendarActivity {
 					System.out.println("Jamil in multiple days");
 					if(i==columnNameStart){ //first day of the event, color should be from start time to the end of the day
 						for(int j=timeOfDayStart;j<=24;j++){
-							System.out.println("Jamil in start day"); 
 							weekWorks[8*j+i] = ev.getDescription();
+							eventID[8*j+i]=ev.getID();
 							//set the category color
-							if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
-								weekWorkColor[8*j+i] = ev.getColor();
-							}
+							weekWorkColor[8*j+i] = ev.getColor();
+							
 							
 						}
 					}
 					else if(i==columnNameEnd){ //last day of the event, color should be from 00 Hour to end hour of the event
-						for(int j=0;j<=timeOfDayEnd;j++){
-							System.out.println("Jamil in End day"); 
+						for(int j=1;j<=timeOfDayEnd;j++){
 							weekWorks[8*j+i] = ev.getDescription();
+							eventID[8*j+i]=ev.getID();
 							//set the category color
-							if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
-								weekWorkColor[8*j+i] = ev.getColor();
-							}
+							weekWorkColor[8*j+i] = ev.getColor();
+							
 							
 						}
 					}
 					else{ // middle day of events, all field should get the event description and color
 						
-						for(int j=0;j<=24;j++){
+						for(int j=1;j<=24;j++){
 							weekWorks[8*j+i] = ev.getDescription();
+							eventID[8*j+i]=ev.getID();
 							//set the category color
-							if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
-								weekWorkColor[8*j+i] = ev.getColor();
-						}
+							weekWorkColor[8*j+i] = ev.getColor();
+						
 					}
 				
 				
@@ -371,6 +366,17 @@ public class WeeklyViewActivity extends CalendarActivity {
 
             @Override
             public void onItemClick(AdapterView<?> arg0, View view, int position,long arg3) {
+            	if(eventID[position]!=0){
+            		Intent intent = new Intent(WeeklyViewActivity.this, ModifyEventActivity.class);
+            		intent.putExtra("event_id", eventID[position]);
+            		startActivity(intent);
+            	}
+            	else if(weekWorks[position].equals("   ")){
+            		Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
+            		startActivity(intent);
+            	}
+            	
+            	
             	//Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
             	// pass the calling activity to my NewEventActivity;
             	//intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
