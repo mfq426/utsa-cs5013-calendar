@@ -164,4 +164,41 @@ public class CategoryManager implements Serializable{
 	}
 	
 	
+	/**
+	 * Updates category color
+	 * @param categoryId
+	 * @param c
+	 */
+	public void updateCategoryColor( int categoryId, Category c ) {
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+		
+		String strFilter = "_id=" + categoryId;
+		ContentValues args = new ContentValues();
+		args.put(storageHandler.getCategoryColor(), c.getColor());
+		db.update(storageHandler.getCategoryTableName(), args, strFilter, null);
+		
+		db.close();
+		
+		
+	}
+
+	
+	/**
+	 * Updates category name
+	 * @param categoryId
+	 * @param c
+	 */
+	public void updateCategoryName( int categoryId, Category c ) {
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+		
+		String strFilter = "_id=" + categoryId;
+		ContentValues args = new ContentValues();
+		args.put(storageHandler.getCategoryType(), c.getName());
+		db.update(storageHandler.getCategoryTableName(), args, strFilter, null);
+		
+		db.close();
+		
+		
+	}
+	
 }
