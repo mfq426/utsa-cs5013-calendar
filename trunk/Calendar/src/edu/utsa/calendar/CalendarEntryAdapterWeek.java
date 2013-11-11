@@ -1,6 +1,7 @@
 package edu.utsa.calendar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,13 +12,15 @@ public class CalendarEntryAdapterWeek extends BaseAdapter {
 
 	private Context context;
 	private String[] text ={};
+	private int[] color;
 	
 	
-	public CalendarEntryAdapterWeek(Context c,String[] text){
+	public CalendarEntryAdapterWeek(Context c,String[] text, int[] color){
 		
 		
 		context = c;
 		this.text = text;
+		this.color = color;
 		
 	}
 
@@ -63,7 +66,11 @@ public class CalendarEntryAdapterWeek extends BaseAdapter {
         textView = (TextView) gridView
                 .findViewById(R.id.textViewGridEntryWeek);
         textView.setText(text[position]);
-   
+        if(color[position]!=-1){
+        	System.out.println(color[position]);
+        	textView.setBackgroundColor(color[position]);
+        	
+        }
         return gridView;
 	}
 	

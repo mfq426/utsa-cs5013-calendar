@@ -4,17 +4,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
-import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ActionBar.OnNavigationListener;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -27,6 +21,7 @@ public class WeeklyViewActivity extends CalendarActivity {
 	private Calendar startDate;
 	private Calendar endDate;
 		
+	private static int DAY_IN_NEXT_WEEK=8;
 		
 	private static String[] weekWorks = new String[]{
     	
@@ -58,6 +53,7 @@ public class WeeklyViewActivity extends CalendarActivity {
     	
     };
 	
+	private static int [] weekWorkColor = new int[200];
    	
 	private void setDate(){
 		
@@ -151,6 +147,7 @@ public class WeeklyViewActivity extends CalendarActivity {
     	    	
     	    };
     		
+    	weekWorkColor = new int[200];
     }
 	private void populateFields(){
 	
@@ -165,43 +162,146 @@ public class WeeklyViewActivity extends CalendarActivity {
 	    for (Event ev : events) {
             
 	    	
-	    	int dayOfWeek = ev.getStartDate().get(Calendar.DAY_OF_WEEK);
-	    	int timeOfDay = ev.getStartDate().get(Calendar.HOUR_OF_DAY);
-	    	int columnName=0;
+	    	int dayOfWeekStart = ev.getStartDate().get(Calendar.DAY_OF_WEEK);
+	    	int timeOfDayStart = ev.getStartDate().get(Calendar.HOUR_OF_DAY);
 	    	
-
-			if(Calendar.SUNDAY==dayOfWeek){
-				columnName = 1;				
+	    	int dayOfWeekEnd = ev.getEndDate().get(Calendar.DAY_OF_WEEK);
+	    	int timeOfDayEnd = ev.getEndDate().get(Calendar.HOUR_OF_DAY);
+	    	
+	    	
+	    	int columnNameStart=0;
+  	
+			if(Calendar.SUNDAY==dayOfWeekStart){
+				columnNameStart = 1;				
 			}
-			else if(Calendar.MONDAY==dayOfWeek){
-				columnName = 2;				
+			else if(Calendar.MONDAY==dayOfWeekStart){
+				columnNameStart = 2;				
 			}
-			else if(Calendar.TUESDAY==dayOfWeek){
-				columnName = 3;				
+			else if(Calendar.TUESDAY==dayOfWeekStart){
+				columnNameStart = 3;				
 			}
-			else if(Calendar.WEDNESDAY==dayOfWeek){
-				columnName = 4;				
+			else if(Calendar.WEDNESDAY==dayOfWeekStart){
+				columnNameStart = 4;				
 			}
-			else if(Calendar.THURSDAY==dayOfWeek){
-				columnName = 5;				
+			else if(Calendar.THURSDAY==dayOfWeekStart){
+				columnNameStart = 5;				
 			}
-			else if(Calendar.FRIDAY==dayOfWeek){
-				columnName = 6;				
+			else if(Calendar.FRIDAY==dayOfWeekStart){
+				columnNameStart = 6;				
 			}
-			else if(Calendar.SATURDAY==dayOfWeek){
-				columnName = 7;
+			else if(Calendar.SATURDAY==dayOfWeekStart){
+				columnNameStart = 7;
 			}
 			else{
 				System.out.println("Day format not found");
 			}
-			System.out.println(timeOfDay);
-			sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm",java.util.Locale.getDefault());
-			System.out.println(sdf.format(ev.getStartDate().getTime()));
-	    	weekWorks[8*timeOfDay+columnName] = ev.getDescription();
+			
+			
+			int columnNameEnd=0;
+		  	
+			if(Calendar.SUNDAY==dayOfWeekEnd){
+				columnNameEnd = 1;				
+			}
+			else if(Calendar.MONDAY==dayOfWeekEnd){
+				columnNameEnd = 2;				
+			}
+			else if(Calendar.TUESDAY==dayOfWeekEnd){
+				columnNameEnd = 3;				
+			}
+			else if(Calendar.WEDNESDAY==dayOfWeekEnd){
+				columnNameEnd = 4;				
+			}
+			else if(Calendar.THURSDAY==dayOfWeekEnd){
+				columnNameEnd = 5;				
+			}
+			else if(Calendar.FRIDAY==dayOfWeekEnd){
+				columnNameEnd = 6;				
+			}
+			else if(Calendar.SATURDAY==dayOfWeekEnd){
+				columnNameEnd = 7;
+			}
+			else{
+				System.out.println("Day format not found");
+			}
+			System.out.println(ev.toString());
+			
+			System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(ev.getStartDate().getTime()));
+			System.out.println(new SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(ev.getEndDate().getTime()));
+			
+			System.out.println(columnNameStart+" "+columnNameEnd);
+			
+			//if end day in the next week then set the columnNameEnd to the end day of this week
+			if(columnNameEnd<columnNameStart){
+				columnNameEnd=DAY_IN_NEXT_WEEK;
+			}
+			System.out.println(columnNameStart+" "+columnNameEnd);
+			System.out.println(timeOfDayStart+" "+timeOfDayEnd);
+			// set the work and color 
+			for(int i=columnNameStart;i<=columnNameEnd;i++){
+				
+				if(columnNameEnd==columnNameStart){ // event ends in the same day
+					for(int j=timeOfDayStart;j<=timeOfDayEnd;j++){
+						System.out.println("Jamil");
+						weekWorks[8*j+i] = ev.getDescription();
+						//set the category color
+						if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
+							weekWorkColor[8*j+i] = ev.getColor();
+						}
+						
+					}
+				}
+				else{ // event spans for multiple days
+					System.out.println("Jamil in multiple days");
+					if(i==columnNameStart){ //first day of the event, color should be from start time to the end of the day
+						for(int j=timeOfDayStart;j<=24;j++){
+							System.out.println("Jamil in start day"); 
+							weekWorks[8*j+i] = ev.getDescription();
+							//set the category color
+							if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
+								weekWorkColor[8*j+i] = ev.getColor();
+							}
+							
+						}
+					}
+					else if(i==columnNameEnd){ //last day of the event, color should be from 00 Hour to end hour of the event
+						for(int j=0;j<=timeOfDayEnd;j++){
+							System.out.println("Jamil in End day"); 
+							weekWorks[8*j+i] = ev.getDescription();
+							//set the category color
+							if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
+								weekWorkColor[8*j+i] = ev.getColor();
+							}
+							
+						}
+					}
+					else{ // middle day of events, all field should get the event description and color
+						
+						for(int j=0;j<=24;j++){
+							weekWorks[8*j+i] = ev.getDescription();
+							//set the category color
+							if(!ev.getCategoryID().equals("default")){ //set color if categoryID is not default
+								weekWorkColor[8*j+i] = ev.getColor();
+						}
+					}
+				
+				
+				}
+				
+				
+			}
+			
+			if((i+1)==DAY_IN_NEXT_WEEK){
+				break;
+			}
+				//System.out.println(timeOfDayStart);
+			//sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm",java.util.Locale.getDefault());
+			//System.out.println(sdf.format(ev.getStartDate().getTime()));
+	    	//weekWorks[8*timeOfDayStart+columnNameStart] = ev.getDescription();
 	    	
+			}	
 	    	
     }
-	    gridView.setAdapter(new CalendarEntryAdapterWeek(this,weekWorks));
+	    gridView.setAdapter(new CalendarEntryAdapterWeek(this,weekWorks,weekWorkColor));
 	}
 
 	@Override

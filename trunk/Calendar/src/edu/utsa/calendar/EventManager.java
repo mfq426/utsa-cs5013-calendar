@@ -59,7 +59,7 @@ public class EventManager{
             	Calendar startDate = Calendar.getInstance();
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
             	Calendar endDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	endDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	            	
                 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
             	
@@ -98,7 +98,7 @@ public class EventManager{
             	Calendar startDate = Calendar.getInstance();
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
             	Calendar endDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	endDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	
             	System.out.println(cursor.getString(1));
             	 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
@@ -123,7 +123,7 @@ public class EventManager{
             	Calendar startDate = Calendar.getInstance();
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
             	Calendar endDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	endDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	
             	System.out.println(cursor.getString(1));
             	 Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
