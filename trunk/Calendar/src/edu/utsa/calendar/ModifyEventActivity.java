@@ -118,11 +118,9 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		
 		Intent intent = getIntent();
 		int event_id = intent.getIntExtra("event_id", -100);
+		Event e = manager.getEventById(event_id);
 		
-		// query databse 
-		Event e;
-		
-		//setData(e);
+		setData(e);
 		
 		String s;
 		TextView from_date = (TextView)findViewById(R.id.from_date_m);
