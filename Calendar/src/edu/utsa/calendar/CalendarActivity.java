@@ -6,6 +6,8 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.ActionBar.OnNavigationListener;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 
@@ -37,10 +39,19 @@ public class CalendarActivity extends Activity{
             @Override
             public boolean onNavigationItemSelected(int itemPosition, long itemId) {
                
+            	// save last stay view (Daily, Weekly, Monthly, Agenda) to preference
+            	SharedPreferences mPrefs = getSharedPreferences("view", 0);
+            	Editor edit = mPrefs.edit();
+            	
             	if(itemPosition==0){
             		//do nothing
             	}
             	else if(itemPosition==1){
+            		
+            		edit.clear();
+            		edit.putInt("view_mode", MainActivity.DAILY_VIEW_MODE);
+            		edit.commit();
+            		
                 	Intent intent = new Intent( CalendarActivity.this, DailyViewActivity.class);
      				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
                 	Calendar instance = Calendar.getInstance();
@@ -49,6 +60,9 @@ public class CalendarActivity extends Activity{
      				startActivity(intent);
                 }
                 else if(itemPosition==2){
+            		edit.clear();
+            		edit.putInt("view_mode", MainActivity.WEEKLY_VIEW_MODE);
+            		edit.commit();
                 
                 	Intent intent = new Intent(CalendarActivity.this, WeeklyViewActivity.class);
      				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
@@ -56,11 +70,21 @@ public class CalendarActivity extends Activity{
      				
                 }
                 else if(itemPosition==3){
+                	
+            		edit.clear();
+            		edit.putInt("view_mode", MainActivity.MONTHLY_VIEW_MODE);
+            		edit.commit();
+                	
                 	Intent intent = new Intent(CalendarActivity.this, MonthlyViewActivity.class);
      				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
      				startActivity(intent);
                 }
                 else if(itemPosition==4){
+                	
+            		edit.clear();
+            		edit.putInt("view_mode", MainActivity.AGENDA_VIEW_MODE);
+            		edit.commit();
+                	
                 	Intent intent = new Intent(CalendarActivity.this, AgendaViewActivity.class);
      				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
      				startActivity(intent);
