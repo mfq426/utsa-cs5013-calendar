@@ -1,18 +1,22 @@
 package edu.utsa.calendar;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,41 +33,151 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	private int toHour;
 	private int toMinute;
 	private String description;
-	private boolean checked;
+	private boolean checked=false;
 	private int occurance;
 	private String categoryName;
 	
-	private Calendar oldfrom;
-	private Calendar oldto;
+	private Calendar[] oldfrom;
+	private Calendar[] oldto;
 	private int index;
 	private int total;
+	private EventManager manager;
+	
+	private void setData(Event e) {
+		fromYear = e.getStartDate().get(Calendar.YEAR);
+		fromMonth = e.getStartDate().get(Calendar.MONTH) + 1;
+		fromDay = e.getStartDate().get(Calendar.DAY_OF_MONTH);
+		fromHour = e.getStartDate().get(Calendar.HOUR_OF_DAY);
+		fromMinute = e.getStartDate().get(Calendar.MINUTE);
+		
+		toYear = e.getEndDate().get(Calendar.YEAR);
+		toMonth = e.getEndDate().get(Calendar.MONTH) + 1;
+		toDay = e.getEndDate().get(Calendar.DAY_OF_MONTH);
+		toHour = e.getEndDate().get(Calendar.HOUR_OF_DAY);
+		toMinute = e.getEndDate().get(Calendar.MINUTE);
+		
+		description = e.getDescription();
+		occurance = e.getTotalOccurance();
+		total = occurance;
+		if(occurance > 1) {
+			checked = true;
+		}
+		index = e.getOccuranceIndex();
+		categoryName = e.getCategoryID();
+		
+		oldfrom = new Calendar[total];
+		oldto = new Calendar[total];
+		
+		oldfrom[index-1] = e.getStartDate();
+		oldto[index-1] = e.getEndDate();
+		
+		Calendar tmp1 = e.getStartDate();
+		Calendar tmp2 = e.getEndDate();
+		for(int i=index-2; i>=0; i--) {
+			tmp1.add(Calendar.DAY_OF_MONTH, -7);
+			oldfrom[i] = tmp1;
+			tmp2.add(Calendar.DAY_OF_MONTH, -7);
+			oldto[i] = tmp2;
+		}
+		
+		tmp1 = e.getStartDate();
+		tmp2 = e.getEndDate();
+		for(int i=index; i<=total-1; i++) {
+			tmp1.add(Calendar.DAY_OF_MONTH, 7);
+			oldfrom[i] = tmp1;
+			tmp2.add(Calendar.DAY_OF_MONTH, 7);
+			oldto[i] = tmp2;
+		}		
+		
+	}
+	
+	private String constructTime(int hourOfDay, int minute) {
+		String suffix;
+		if (hourOfDay < 12) {
+			suffix = " AM";
+			if (minute < 10)
+				return String.valueOf(hourOfDay) + ":" + 0 + String.valueOf(minute) + suffix;
+			else
+				return String.valueOf(hourOfDay) + ":" + String.valueOf(minute) + suffix;
+		}
+		else {
+			suffix = " PM";
+			if (minute < 10)
+				return String.valueOf(hourOfDay-12) + ":" + 0 + String.valueOf(minute) + suffix;
+			else
+				return String.valueOf(hourOfDay-12) + ":" + String.valueOf(minute) + suffix;
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_event);
 		
-		// get Data from the calling activity
+		manager = ((GlobalVariables) this.getApplication()).getEventManager();
 		
+		Intent intent = getIntent();
+		int event_id = intent.getIntExtra("event_id", -100);
+		
+		// query databse 
+		Event e;
+		
+		//setData(e);
+		
+		String s;
 		TextView from_date = (TextView)findViewById(R.id.from_date_m);
-		from_date.setText("11/7/2013");
+		from_date.setText(fromMonth + "/" + fromDay + "/" + fromYear);
 		
 		TextView from_time = (TextView)findViewById(R.id.from_time_m);
-		from_time.setText("6:04 PM");
+		s = constructTime(fromHour, fromMinute);
+		from_time.setText(s);
 		
 		TextView to_date = (TextView)findViewById(R.id.to_date_m);
-		to_date.setText("11/7/2013");
+		to_date.setText(toMonth + "/" + toDay + "/" + toYear);
 		
 		TextView to_time = (TextView)findViewById(R.id.to_time_m);
-		to_time.setText("7:00 PM");
+		s = constructTime(toHour, toMinute);
+		to_time.setText(s);
 		
 		EditText what = (EditText)findViewById(R.id.what_m);
-		what.setText("dinner with friend");
+		what.setText(description);
 		
 		CheckBox checkbox = (CheckBox)findViewById(R.id.periodical_m);
-		checkbox.setPressed(true);
+		if(checked) {
+			checkbox.setPressed(true);
+		}
 		
+		TextView times = (TextView)findViewById(R.id.times_m);
+		times.setText(String.valueOf(occurance));
 		
+		Spinner spinner = (Spinner)findViewById(R.id.category_spinner_m);
+		CategoryManager category_manager = ((GlobalVariables) this.getApplication()).getCategoryManager();
+		ArrayList<Category> list = category_manager.readAllCategory();
+		Iterator<Category> itr = list.iterator();
+		ArrayList<String> options = new ArrayList<String>();
+		Category c;
+		int pos=-1;
+		int i=0;
+		while(itr.hasNext()) {
+			c = itr.next();
+			s = c.getName();
+			if(!(s.equalsIgnoreCase("default"))) {
+				options.add(s);
+				i++;
+				if(s.equals(categoryName)) {
+					pos = i;
+				}
+			}
+		}
+		
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options);
+		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+		spinner.setAdapter(adapter);
+		if(i>0&&pos!=-1) {
+			spinner.setSelection(pos);
+			adapter.notifyDataSetChanged();
+		}
+		spinner.setOnItemSelectedListener(this);
 	}
 
 	@Override
@@ -205,6 +319,17 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		Toast toast = Toast.makeText(context, text, duration);
 		toast.show();
 	}
+	
+	private boolean contains(Calendar from, Calendar to) {
+		boolean flag = false;
+		for(int i=0; i<=total-1; i++) {
+			if(from.equals(oldfrom[i]) && to.equals(oldto[i])) {
+				flag = true;
+				break;
+			}
+		}
+		return flag;
+	}
 
 	public void modifyEvent(View v) {
 		
@@ -213,7 +338,6 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 				Calendar[] from = new Calendar[occurance];
 				Calendar[] to = new Calendar[occurance];
 				
-				EventManager manager = ((GlobalVariables) this.getApplication()).getEventManager();
 				List<Event> list = null;
 				boolean flag = true;
 				Iterator<Event> iterator;
@@ -233,7 +357,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 					if(list.size() != 0) {
 						while(iterator.hasNext()) {
 							e = iterator.next();
-							if(!(e.getStartDate().equals(oldfrom) && e.getEndDate().equals(oldto))) {
+							boolean b = contains(e.getStartDate(), e.getEndDate());
+							if(!b) {
 								flag = false;
 								break;
 							}
@@ -262,22 +387,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	}
 	
 	public void removeEvent(View v) {
-		EventManager manager = ((GlobalVariables) this.getApplication()).getEventManager();
-		manager.deleteEvent(oldfrom, oldto);
-		Calendar tmp1 = oldfrom;
-		Calendar tmp2 = oldto;
-		for(int i=index-1; i>=1; i--) {
-			tmp1.add(Calendar.DAY_OF_MONTH, -7*(index-i));
-			tmp2.add(Calendar.DAY_OF_MONTH, -7*(index-i));
-			manager.deleteEvent(tmp1, tmp2);
-		}
-		
-		tmp1 = oldfrom;
-		tmp2 = oldto;
-		for(int i=index+1; i<=total; i++) {
-			tmp1.add(Calendar.DAY_OF_MONTH, 7*(i-index));
-			tmp2.add(Calendar.DAY_OF_MONTH, 7*(i-index));
-			manager.deleteEvent(tmp1, tmp2);
+		for(int i=0; i<=total-1; i++) {
+			manager.deleteEvent(oldfrom[i], oldto[i]);
 		}
 	}
 	
@@ -289,9 +400,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	@Override
 	public void onItemSelected(AdapterView<?> parent, View view, int pos,
 			long id) {
-		String tmp = (String)parent.getItemAtPosition(pos);
-		
-		// convert string to int
+		categoryName = (String)parent.getItemAtPosition(pos);
 	}
 
 	@Override
