@@ -22,6 +22,8 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	// dummy lists
 	ArrayList<Event> agendaList;
     ArrayList<String> startTimes;
+    ArrayList<String> endTimes;
+    
     ArrayList<String> agendaDay;
     ArrayList<String> agendaText;
 
@@ -32,8 +34,10 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 		this.agendaList = agendaList;
 		
 		startTimes = new ArrayList<String>();
+		endTimes = new ArrayList<String>();
 		agendaDay = new ArrayList<String>();
 		agendaText = new ArrayList<String>();
+	
 		
 		System.out.println("No of events found :: " + agendaList.size());
 		createListforFields();
@@ -52,10 +56,13 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 		System.out.println("In agenda fields create lists;");
 		for( Event e : agendaList ) {
 			Calendar startDate = e.getStartDate();
-			String starDateString = new SimpleDateFormat("dd/MM/yyyy").format(startDate.getTime());
-			startTimes.add(starDateString);
-			String agendDayString = new SimpleDateFormat("EEEE").format(startDate.getTime());
-			agendaDay.add(agendDayString);
+			String startDateString = new SimpleDateFormat("dd MMM HH:mm").format(startDate.getTime());
+			startTimes.add(startDateString);
+			Calendar endDate = e.getEndDate();
+			String endDateString = new SimpleDateFormat("dd MMM HH:mm").format(endDate.getTime());
+			endTimes.add(endDateString);
+			String agendaDayString = new SimpleDateFormat("EEEE").format(startDate.getTime());
+			agendaDay.add(agendaDayString);
 			agendaText.add(e.getDescription());
 		}
 		System.out.println("Agenda fields data filled up");
@@ -80,38 +87,34 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	    TextView tv2;
 	    TextView tv3;
 	    LinearLayout ll;
+	    
 	    if (convertView == null) {
 	        tv1 = new TextView(context);
-	        tv1.setTextSize(10);
-	        //tv1.setTextColor(Color.WHITE);
+	        tv1.setTextSize(8);
 	        tv1.setGravity(Gravity.LEFT);
 	        tv1.setPadding(0, 5, 10, 5);
-//	        //tv1.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-//	                                                          LinearLayout.LayoutParams.FILL_PARENT,
-//	                                                          (float) 3.0));
 
 	        tv2 = new TextView(context);
-	        tv2.setTextSize(10);
-	        //tv2.setTextColor(Color.WHITE);  
-	        tv2.setGravity(Gravity.LEFT);
+	        tv2.setTextSize(8);
+  	        tv2.setGravity(Gravity.LEFT);
 	        tv2.setPadding(10, 5, 10, 5);
-//	        //tv2.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT,
-//	                                                              LinearLayout.LayoutParams.FILL_PARENT,
-//	                                                              (float) 4.0));
 
 	        tv3 = new TextView(context);
-	        tv3.setTextSize(10);
-	        //tv2.setTextColor(Color.WHITE);  
-	        tv3.setGravity(Gravity.LEFT);
+	        tv3.setTextSize(8);
+  	        tv3.setGravity(Gravity.LEFT);
 	        tv1.setPadding(10, 5, 0, 5);
 
 	        ll = new LinearLayout(context);
 	        ll.setOrientation(LinearLayout.HORIZONTAL);
-	        //ll.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+	        System.out.println("Event color " + agendaList.get(position).getColor());
+	        ll.setBackgroundColor(agendaList.get(position).getColor());
+	       
 	        ll.setPadding(5, 5, 5, 10);
 
 	        tv1.setText(String.valueOf(agendaDay.get(position)));
-	        tv2.setText(String.valueOf(startTimes.get(position)));
+	        String duration = new String(startTimes.get(position) + " - " + endTimes.get(position));
+	        System.out.println("Text view 2 :::" + duration);
+	        tv2.setText(String.valueOf(duration));
 	        tv3.setText(String.valueOf(agendaText.get(position)));
 	        ll.addView(tv1);
 	        ll.addView(tv2);
