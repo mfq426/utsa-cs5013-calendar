@@ -5,6 +5,7 @@ import java.util.Iterator;
 
 import android.os.Bundle;
 import android.app.Activity;
+import android.content.Context;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
@@ -12,6 +13,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +24,7 @@ public class ModifyCategoryActivity extends Activity {
 	private static final String INFO = "No category to delete";
 	private static final String DELETE = "delete";
 	private static final String RETURN = "return";
+	private static final String PROMPT2 = "please select category";
 	private String categoryName;
 
 	@Override
@@ -82,8 +85,12 @@ public class ModifyCategoryActivity extends Activity {
 				
 				@Override
 				public void onClick(View v) {
-					manager.deleteCategory(categoryName);
-					finish();
+					if(categoryName == null || categoryName.isEmpty()) {
+						popup(PROMPT2);
+					} else {
+						manager.deleteCategory(categoryName);
+						finish();
+					}
 				}
 			});
 			params3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
@@ -133,6 +140,14 @@ public class ModifyCategoryActivity extends Activity {
 			layout.addView(tv, params1);
 			layout.addView(button, params2);
 		}
+	}
+	
+	private void popup(CharSequence text) {
+		Context context = getApplicationContext();
+		int duration = Toast.LENGTH_SHORT;
+
+		Toast toast = Toast.makeText(context, text, duration);
+		toast.show();
 	}
 
 	@Override
