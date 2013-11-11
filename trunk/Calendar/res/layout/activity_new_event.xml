@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id = '@+id/relative_layout'
+    android:id="@+id/relative_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -13,7 +13,8 @@
         android:id="@+id/from"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/from" />
+        android:text="@string/from"
+        android:textColor="#FFFF0000"/>
 
     <TextView
         android:id="@+id/from_date"
@@ -41,7 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/from_date"
-        android:text="@string/to" />
+        android:text="@string/to"
+        android:textColor="#FFFF0000" />
 
     <TextView
         android:id="@+id/to_date"
@@ -69,7 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/to_date"
-        android:text="@string/event_description" />
+        android:layout_marginTop="5dp"
+        android:text="@string/event_description"
+        android:textColor="#FFFF0000" />
 
     <EditText
         android:id="@+id/what"
@@ -78,33 +82,47 @@
         android:layout_below="@id/event_description"
         android:hint="@string/what" />
 
-    <CheckBox
-        android:id="@+id/periodical"
+    <TextView
+        android:id="@+id/optional"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/what"
+        android:layout_marginTop="5dp"
+        android:text="@string/optional" />
+
+    <CheckBox
+        android:id="@+id/periodical"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optional"
         android:onClick="onCheckboxClicked"
         android:text="@string/periodical" />
-    
+
     <EditText
         android:id="@+id/times"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/what"
+        android:layout_below="@id/optional"
         android:layout_toRightOf="@id/periodical"
-        android:hint="@string/number"/>
-    
-    <TextView 
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignBaseline="@id/periodical"
+        android:hint="@string/number" />
+
+    <TextView
         android:id="@+id/week"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/what"
+        android:layout_below="@id/optional"
         android:layout_toRightOf="@id/times"
-        android:text="@string/weeks"/>
-    
+        android:layout_alignBaseline="@id/periodical"
+        android:text="@string/weeks" />
 
     <TextView
         android:id="@+id/category"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -113,27 +131,28 @@
 
     <Spinner
         android:id="@+id/category_spinner"
-        android:layout_width="126dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/times"
+        android:layout_alignBaseline="@id/category"
         android:layout_toRightOf="@id/category" />
-    
+
     <Button
         android:id="@+id/create"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
-        android:text="@string/create_event"
-        android:onClick="createEvent" />
-    
+        android:layout_alignParentLeft="true"
+        android:onClick="createEvent"
+        android:text="@string/create_event" />
+
     <Button
         android:id="@+id/cancel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:text="@string/cancel"
-        android:onClick="cancel" />
+        android:layout_alignParentRight="true"
+        android:onClick="cancel"
+        android:text="@string/cancel" />
 
 </RelativeLayout>
