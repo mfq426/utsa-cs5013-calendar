@@ -18,8 +18,13 @@ public class CategoryManager implements Serializable{
 		this.storageHandler = storageHandler; 
 		//add default category
 		ArrayList<Category>initialCategories = readAllCategory();
+		//ArrayList<Category>initialCategories = readCategory("default");
+		System.out.println("Initial category table size : " + initialCategories.size());
 		if(initialCategories.isEmpty()) {
 			addCategory(new Category(0xFFFF, "default", "default"));
+		}
+		for( Category c : initialCategories ) {
+			System.out.println("Category name ::: " + c.getName());
 		}
 	}
 	
@@ -55,8 +60,7 @@ public class CategoryManager implements Serializable{
 		 
 		// Deleting Row
 		db.delete(storageHandler.getCategoryTableName(), 
-	            storageHandler.getCategoryType() + "=" + c.getName(), 
-	            null);
+	            storageHandler.getCategoryType() + "= ? ", new String[] { c.getName() });
 		db.close(); // Closing database connection	
 			
 	
@@ -71,10 +75,10 @@ public class CategoryManager implements Serializable{
 		
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		 
-		// Deleting Row
+
+		
 		db.delete(storageHandler.getCategoryTableName(), 
-	            storageHandler.getCategoryType() + "= " + name, 
-	            null);
+	            storageHandler.getCategoryType() + "= ? ", new String[] { name });
 		db.close(); // Closing database connection	
 			
 	
@@ -90,9 +94,9 @@ public class CategoryManager implements Serializable{
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		 
 		// Deleting Row
+		
 		db.delete(storageHandler.getCategoryTableName(), 
-	            storageHandler.getCategoryColor() + " = " + color, 
-	            null);
+	            storageHandler.getCategoryType() + "= ? ", new String[] { String.valueOf(color) });
 		db.close(); // Closing database connection	
 			
 	
