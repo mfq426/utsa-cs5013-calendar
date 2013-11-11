@@ -30,9 +30,9 @@ import android.widget.Toast;
 
 public class DailyViewActivity extends CalendarActivity {
 
-	private ArrayAdapter<DailyViewModel> mAdapter = null;
-	TextView previous = null;
-	int preVposition = 0;
+	private InteractiveArrayAdapter mAdapter = null;
+	View previous = null;
+	int preVposition = -1;
 	private ListView mListView;
 	private TextView dayViewHeader;
 	private Calendar startDate;
@@ -49,8 +49,8 @@ public class DailyViewActivity extends CalendarActivity {
 
 		addListenerOnButton(mListView);
 		selectedDate = Calendar.getInstance();
-
-		// mAdapter = new InteractiveArrayAdapter(this, getModel());
+		
+		
 		// mListView.setAdapter(mAdapter);
 	}
 
@@ -85,6 +85,7 @@ public class DailyViewActivity extends CalendarActivity {
 			int hourOfDay = startDateOfEvent.get(Calendar.HOUR_OF_DAY);
 			DailyViewModel tempDailyModel = modelList.get(hourOfDay);
 			tempDailyModel.addEvent(event);
+			tempDailyModel.addEvent(event);
 		}
 		mAdapter = new InteractiveArrayAdapter(this, modelList);
 		mListView.setAdapter(mAdapter);
@@ -104,7 +105,7 @@ public class DailyViewActivity extends CalendarActivity {
 				selectedDate.add(Calendar.DATE, 1);
 
 				Intent intent = getIntent();
-				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
 				overridePendingTransition(R.anim.animation_slide_in_left, R.anim.animation_slide_out_right);
 				
@@ -121,7 +122,7 @@ public class DailyViewActivity extends CalendarActivity {
 			public void onClick(View pView) {
 				selectedDate.add(Calendar.DATE, -1);
 				Intent intent = getIntent();
-				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
 				overridePendingTransition(R.anim.animation_slide_in_right,R.anim.animation_slide_out_left);
 			}
@@ -136,29 +137,44 @@ public class DailyViewActivity extends CalendarActivity {
 				DailyViewModel item = (DailyViewModel) mAdapter.getItem(position);
 				if (item.getEvents().isEmpty()) {
 					item.setCreateLabel(" + New Event");
+					Event dummyEvent = new Event(-100, null, null, "", " + New Event", 0, 0);
+					item.addEvent(dummyEvent);
 				}
-
+				
 				final ViewHolder holder = (ViewHolder) v.getTag();
-				holder.text2.setBackgroundResource(R.drawable.list_selected);
+				holder.grid.setBackgroundResource(R.drawable.list_selected);
 				if (preVposition == position) {
-					Intent intent = new Intent(DailyViewActivity.this, NewEventActivity.class);
+					
+					if (!item.getEvents().isEmpty()) {
+						//item.setCreateLabel(" + New Event");
+					}
+				//	Intent intent = new Intent(DailyViewActivity.this, NewEventActivity.class);
 					// pass the calling activity to my NewEventActivity;
 					// intent.putExtra(NewEventActivity.CALLING_ACTIVITY,
 					// NewEventActivity.DAILY_VIEW_ACTIVITY);
-					startActivity(intent);
+					//startActivity(intent);
 
 				} else if (previous != null) {
 					previous.setBackgroundResource(getResources().getColor(android.R.color.transparent));
-					item = (DailyViewModel) mAdapter.getItem(preVposition);
-					item.setCreateLabel("");
-					previous = holder.text2;
+					
+					DailyViewModel itemOld = (DailyViewModel) mAdapter.getItem(preVposition);
+					itemOld.removeEvents();
+					
+					previous = holder.grid;
 				} else {
-					previous = holder.text2;
+					previous = holder.grid;
 				}
 
 				preVposition = position;
 
 				mAdapter.notifyDataSetChanged();
+				List<ArrayAdapter<Event>> adapterList = mAdapter.getAdapterList();
+				
+				for (ArrayAdapter<Event> arrayAdapter : adapterList) {
+					
+					arrayAdapter.notifyDataSetChanged();
+				}
+				
 			}
 		});
 
@@ -185,5 +201,7 @@ public class DailyViewActivity extends CalendarActivity {
 		
 
 	}
+	
+	
 
 }
