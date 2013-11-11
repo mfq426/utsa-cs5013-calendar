@@ -38,12 +38,16 @@ public class ModifyCategoryActivity extends Activity {
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.delete_category_view);
 		ArrayList<String> options = new ArrayList<String>();
 		Category c;
+		String s;
 		
 		if(list.size() > 0) {
 			Iterator<Category> itr = list.iterator();
 			while(itr.hasNext()) {
 				c = itr.next();
-				options.add(c.getName());
+				s = c.getName();
+				if(!(s.equalsIgnoreCase("default"))) {
+					options.add(s);
+				}
 			}
 			
 			RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
