@@ -9,21 +9,19 @@
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.06"
         android:fadingEdgeLength="2dp"
         android:padding="@dimen/list_cell_padding"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textSize="08dp"
         android:textStyle="normal" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="92dp"
+     <GridView
+        android:id="@+id/dailyEventlist"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="0.82"
-        android:padding="@dimen/list_cell_padding"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        
-        android:textSize="08dp" />
+       />
+
+   
+    
 
 </LinearLayout>
