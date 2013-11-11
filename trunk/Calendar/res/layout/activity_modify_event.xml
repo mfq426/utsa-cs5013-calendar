@@ -13,7 +13,8 @@
         android:id="@+id/from_m"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/from" />
+        android:text="@string/from"
+        android:textColor="#FFFF0000"/>
 
     <TextView
         android:id="@+id/from_date_m"
@@ -41,7 +42,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/from_date_m"
-        android:text="@string/to" />
+        android:text="@string/to"
+        android:textColor="#FFFF0000" />
 
     <TextView
         android:id="@+id/to_date_m"
@@ -69,7 +71,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/to_date_m"
-        android:text="@string/event_description" />
+        android:layout_marginTop="5dp"
+        android:text="@string/event_description"
+        android:textColor="#FFFF0000" />
 
     <EditText
         android:id="@+id/what_m"
@@ -78,24 +82,47 @@
         android:layout_below="@id/event_description_m"
         android:hint="@string/what" />
 
-    <CheckBox
-        android:id="@+id/periodical_m"
+    <TextView
+        android:id="@+id/optional_m"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/what_m"
+        android:layout_marginTop="5dp"
+        android:text="@string/optional" />
+
+    <CheckBox
+        android:id="@+id/periodical_m"
+        android:layout_marginTop="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optional_m"
         android:onClick="onCheckboxClicked"
         android:text="@string/periodical" />
-    
+
     <EditText
         android:id="@+id/times_m"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/what_m"
+        android:layout_below="@id/optional_m"
         android:layout_toRightOf="@id/periodical_m"
-        android:hint="@string/number"/>
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_alignBaseline="@id/periodical_m"
+        android:hint="@string/number" />
+
+    <TextView
+        android:id="@+id/week_m"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/optional_m"
+        android:layout_toRightOf="@id/times_m"
+        android:layout_alignBaseline="@id/periodical_m"
+        android:text="@string/weeks" />
 
     <TextView
         android:id="@+id/category_m"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -104,9 +131,10 @@
 
     <Spinner
         android:id="@+id/category_spinner_m"
-        android:layout_width="126dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/times_m"
+        android:layout_alignBaseline="@id/category_m"
         android:layout_toRightOf="@id/category_m" />
     
     <Button
