@@ -13,8 +13,6 @@ public class MainActivity extends Activity {
 	public static final int MONTHLY_VIEW_MODE = 2;
 	public static final int AGENDA_VIEW_MODE = 3;
 	
-	public static final int NEW_EVENT_VIEW = 100;
-	
 	private SharedPreferences mPrefs;
 	private int mCurViewMode;
 	private CategoryManager categoryManager;
@@ -55,9 +53,6 @@ public class MainActivity extends Activity {
 				break;
 			case AGENDA_VIEW_MODE:
 				firstView = new Intent(this, AgendaViewActivity.class);
-				break;
-			case NEW_EVENT_VIEW:
-				firstView = new Intent(this, NewEventActivity.class);
 				break;
 			default:
 				System.out.println("Error");
