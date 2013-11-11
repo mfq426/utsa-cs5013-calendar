@@ -18,7 +18,7 @@ public class CategoryManager implements Serializable{
 		this.storageHandler = storageHandler; 
 		//add default category
 		ArrayList<Category>initialCategories = readAllCategory();
-		if(!initialCategories.isEmpty()) {
+		if(initialCategories.isEmpty()) {
 			addCategory(new Category(0xFFFF, "default", "default"));
 		}
 	}
@@ -55,7 +55,7 @@ public class CategoryManager implements Serializable{
 		 
 		// Deleting Row
 		db.delete(storageHandler.getCategoryTableName(), 
-	            storageHandler.getCategoryType() + "= " + c.getName(), 
+	            storageHandler.getCategoryType() + "=" + c.getName(), 
 	            null);
 		db.close(); // Closing database connection	
 			
@@ -91,7 +91,7 @@ public class CategoryManager implements Serializable{
 		 
 		// Deleting Row
 		db.delete(storageHandler.getCategoryTableName(), 
-	            storageHandler.getCategoryColor() + "= " + color, 
+	            storageHandler.getCategoryColor() + " = " + color, 
 	            null);
 		db.close(); // Closing database connection	
 			

@@ -259,6 +259,53 @@ public class EventManager{
 		
 	}
 	
+	/**
+	 * 
+	 * @param eventId
+	 * @return event object if there is a event with the eventId otherwise returns null
+	 */
+	
+	public Event getEventById( int eventId ) {
+		
+
+        String selectQuery = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsKeyId() + " = " + eventId;
+        
+        SQLiteDatabase db = storageHandler.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+        
+     // Read all entry for category table
+        List<Category> categoryList = categoryManager.readAllCategory();
+        Event event = null;
+        if (cursor.moveToFirst()) {
+            do {
+                //Event contact = new Event();
+            	
+            	Calendar startDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
+            	Calendar endDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	            	
+                event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
+            	
+                // Set the category color
+                for (Category ct : categoryList) {
+                    
+        	    	if(ct.getName().equals(event.getCategoryID())){
+        	    		event.setColor(ct.getColor());
+        	    	}
+        	    		    	
+        	    }
+                
+            	//System.out.println(event.toString());
+            } while (cursor.moveToNext());
+        }
+        
+        
+        return event;
+		
+		
+	}
+	
 	
 	
 }
