@@ -49,9 +49,13 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		Iterator<Category> itr = list.iterator();
 		ArrayList<String> options = new ArrayList<String>();
 		Category c;
+		String s;
 		while(itr.hasNext()) {
 			c = itr.next();
-			options.add(c.getName());
+			s = c.getName();
+			if(!(s.equalsIgnoreCase("default"))) {
+				options.add(s);
+			}
 		}
 		
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options);
