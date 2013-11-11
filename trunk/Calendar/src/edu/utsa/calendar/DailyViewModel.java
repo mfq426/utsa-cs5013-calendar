@@ -31,4 +31,8 @@ public class DailyViewModel {
 	public void setCreateLabel(String pCreateLabel) {
 		sCreateLabel = pCreateLabel;
 	}
+	
+	public void removeEvents(){
+		mEvents.clear();
+	}
 }
