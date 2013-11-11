@@ -25,7 +25,7 @@ public class NewCategoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_category);
 		// Show the Up button in the action bar.
-		setupActionBar();
+		//setupActionBar();
 	}
 
 	/**
@@ -44,7 +44,7 @@ public class NewCategoryActivity extends Activity {
 		return true;
 	}
 
-	@Override
+	/*@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
 		case android.R.id.home:
@@ -59,7 +59,7 @@ public class NewCategoryActivity extends Activity {
 			return true;
 		}
 		return super.onOptionsItemSelected(item);
-	}
+	}*/
 	
 	private void getData() {
 		EditText editText = (EditText)findViewById(R.id.name_text);
