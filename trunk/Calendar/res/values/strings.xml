@@ -25,9 +25,10 @@
     <string name="to">To</string>
     <string name="event_description">Event Description</string>
     <string name="what">What</string>
-    <string name="periodical">Weekly Repeating Event?</string>
+    <string name="periodical">weekly repeating event?</string>
     <string name="weeks">Weeks</string>
-    <string name="category">Category(Optional)</string>
+    <string name="optional">Optional</string>
+    <string name="category">Category</string>
     <string name="or">OR</string>
     <string name="new_category">New Category</string>
     <string name="number">5</string>
