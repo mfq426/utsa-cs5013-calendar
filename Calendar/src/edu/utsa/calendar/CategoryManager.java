@@ -15,7 +15,12 @@ public class CategoryManager implements Serializable{
 	
 	public CategoryManager(DatabaseHelper storageHandler) {
 		super();
-		this.storageHandler = storageHandler;
+		this.storageHandler = storageHandler; 
+		//add default category
+		ArrayList<Category>initialCategories = readAllCategory();
+		if(!initialCategories.isEmpty()) {
+			addCategory(new Category(0xFFFF, "default", "default"));
+		}
 	}
 	
 	/**
