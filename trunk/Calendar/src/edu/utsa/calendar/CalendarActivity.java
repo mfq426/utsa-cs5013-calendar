@@ -21,7 +21,8 @@ public class CalendarActivity extends Activity{
     	        "Monthly View",
     	        "Agenda View",
     	        "Create Event",
-    	        "Create Category"
+    	        "Create Category",
+    	        "Delete Category"
     	    };
    
     	ArrayAdapter<String> adapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_spinner_dropdown_item, actions);
@@ -73,8 +74,10 @@ public class CalendarActivity extends Activity{
                 }
                 else if(itemPosition==6){
                 	Intent intent = new Intent(CalendarActivity.this, NewCategoryActivity.class);
-                	
-                	
+                	startActivity(intent);
+                }
+                else if(itemPosition==7) {
+                	Intent intent = new Intent(CalendarActivity.this, ModifyCategoryActivity.class);
                 	startActivity(intent);
                 }
                 
