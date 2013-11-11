@@ -40,7 +40,7 @@ public class ModifyCategoryActivity extends Activity {
 		Category c;
 		String s;
 		
-		if(list.size() > 0) {
+		if(list.size() > 1) {
 			Iterator<Category> itr = list.iterator();
 			while(itr.hasNext()) {
 				c = itr.next();
