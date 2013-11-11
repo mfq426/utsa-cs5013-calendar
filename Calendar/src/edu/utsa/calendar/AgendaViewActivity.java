@@ -3,12 +3,22 @@ package edu.utsa.calendar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
+import edu.utsa.calendar.InteractiveArrayAdapter.ViewHolder;
+
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.TextView;
 
 public class AgendaViewActivity extends Activity {
@@ -99,8 +109,6 @@ public class AgendaViewActivity extends Activity {
 		************************end dummy data ***************************/
 		 
 	    this.startDate = Calendar.getInstance();
-	    // TODO: remove the following set of stardate : it is just for testing
-//	    this.startDate.set(2013, 10, 24, 11, 20, 0);
 				
 		
 		this.agendaViewHeader = (TextView) findViewById(R.id.agendaViewHeader);
@@ -109,18 +117,16 @@ public class AgendaViewActivity extends Activity {
 
 		
 		
-		
-		this.agendaViewHeader.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-//				System.out.println("<<<< IN onClick :: AgendaViewHeader >>>>");
-				
-				setStartDate(getEndDate());
-				onResume();
-				
-			}
-		});
+		addListenerOnButton(agendaViewHeader);
+//		this.agendaViewHeader.setOnClickListener(new View.OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {				
+//				setStartDate(getEndDate());
+//				onResume();
+//				
+//			}
+//		});
 		
 	}
 	
@@ -131,7 +137,13 @@ public class AgendaViewActivity extends Activity {
 		
 		super.onResume();
 		
-		endDate = Calendar.getInstance();
+		populateModels();
+		
+	}
+
+    public void populateModels() {
+    	
+    	endDate = Calendar.getInstance();
 		endDate.setTime(startDate.getTime());
 		
 		endDate.add(Calendar.DATE, 10 );  // add 10 days with start date
@@ -139,17 +151,52 @@ public class AgendaViewActivity extends Activity {
 	    events =(ArrayList<Event>) ((GlobalVariables) this.getApplication()).getEventManager().readEvents(startDate,endDate);
 		System.out.println("No of events found in agenda view activity " + events.size());
 		
-		//this.agendaViewHeader = (TextView) findViewById(R.id.agendaViewHeader);
+
 		this.startDateString = new SimpleDateFormat("dd/MM/yyyy").format(startDate.getTime());
 		this.endDateString = new SimpleDateFormat("dd/MM/yyyy").format(endDate.getTime());
 		
-		agendaViewHeader.setText("Agenda from " + startDateString + " to " + endDateString );
-	    //this.agendaGridView = (GridView) findViewById(R.id.gridAgendaView);
-		//agendaGridView.setPadding(8, 8, 8, 8);
+		agendaViewHeader.setText("From " + startDateString + " to " + endDateString );
 		agendaGridView.setAdapter(new CustomAgendaGridAdaptor( AgendaViewActivity.this, events));
+    
+    }
+
+    
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+	public void addListenerOnButton(TextView textView) {
+
+		ImageButton imageButtonNext = (ImageButton) findViewById(R.id.nextButton);
+
+		imageButtonNext.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				setStartDate(getEndDate());
+				onResume();				
+			}
+
+		});
+
+		ImageButton imageButtonPrev = (ImageButton) findViewById(R.id.prevButton);
+
+		imageButtonPrev.setOnClickListener(new OnClickListener() {
+
+			@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
+			@Override
+			public void onClick(View v) {
+				Calendar newStartDate = Calendar.getInstance();
+				newStartDate.setTime(getStartDate().getTime());
+				newStartDate.add(Calendar.DATE, -10);
+				setStartDate(newStartDate);
+				onResume();
+				
+				
+				
+			}
+
+		});
+
+		
 	}
-
-
 
 	public Calendar getStartDate() {
 		return startDate;
