@@ -376,12 +376,7 @@ public class WeeklyViewActivity extends CalendarActivity {
             		startActivity(intent);
             	}
             	
-            	
-            	//Intent intent = new Intent(WeeklyViewActivity.this, NewEventActivity.class);
-            	// pass the calling activity to my NewEventActivity;
-            	//intent.putExtra(NewEventActivity.CALLING_ACTIVITY, NewEventActivity.WEEKLY_VIEW_ACTIVITY);
-                //startActivity(intent);
-            	
+            	  	
             }
         });
     	  	

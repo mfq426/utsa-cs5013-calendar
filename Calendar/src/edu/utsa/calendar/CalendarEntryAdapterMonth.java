@@ -1,6 +1,7 @@
 package edu.utsa.calendar;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,6 +68,20 @@ public class CalendarEntryAdapterMonth extends BaseAdapter{
         textView = (TextView) gridView
                 .findViewById(R.id.textViewGridEntryMonth);
         textView.setText(text[position]);
+        
+        
+        // set colors for weekends and also time header and week days header
+        if(position<7){
+        	gridView.setBackgroundColor(Color.rgb(150, 192, 224));
+        }
+        else if((position%7==0)||(position%7==6)){
+        	gridView.setBackgroundColor(Color.rgb(198, 223, 232));
+        	
+        }
+         
+        
+        // set circle of the work days
+        
         if(workIndicator[position].equals("1")){
         	textView.setBackgroundResource(R.drawable.circle);
         }

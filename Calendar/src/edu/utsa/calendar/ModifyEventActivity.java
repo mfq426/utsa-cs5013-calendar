@@ -222,7 +222,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	}
 	
 	private boolean getData() {
-		TextView from = (TextView)findViewById(R.id.from_date);
+		TextView from = (TextView)findViewById(R.id.from_date_m);
 		String tmp = from.getText().toString();
 		if (tmp == null || tmp.isEmpty())
 			return false;
@@ -232,7 +232,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		fromMonth = Integer.parseInt(s[0]) - 1;
 		fromDay = Integer.parseInt(s[1]);
 		
-		TextView f_time = (TextView)findViewById(R.id.from_time);
+		TextView f_time = (TextView)findViewById(R.id.from_time_m);
 		tmp = f_time.getText().toString();
 		if(tmp == null || tmp.isEmpty())
 			return false;
@@ -247,7 +247,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 			fromMinute = Integer.parseInt(time[1]);
 		}
 		
-		TextView to = (TextView)findViewById(R.id.to_date);
+		TextView to = (TextView)findViewById(R.id.to_date_m);
 		tmp = to.getText().toString();
 		if (tmp == null || tmp.isEmpty())
 			return false;
@@ -256,7 +256,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		toMonth = Integer.parseInt(s[0]) - 1;
 		toDay = Integer.parseInt(s[1]);
 		
-		TextView t_time = (TextView)findViewById(R.id.to_time);
+		TextView t_time = (TextView)findViewById(R.id.to_time_m);
 		tmp = t_time.getText().toString();
 		if(tmp == null || tmp.isEmpty())
 			return false;
@@ -271,14 +271,14 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 			toMinute = Integer.parseInt(time[1]);
 		}
 		
-		EditText editText = (EditText)findViewById(R.id.what);
+		EditText editText = (EditText)findViewById(R.id.what_m);
 		tmp = editText.getText().toString();
 		if(tmp == null || tmp.isEmpty())
 			return false;
 		description = tmp;
 		
 		if(checked) {
-			editText = (EditText)findViewById(R.id.times);
+			editText = (EditText)findViewById(R.id.times_m);
 			tmp = editText.getText().toString();
 			if(tmp == null || tmp.isEmpty())
 				return false;
@@ -376,9 +376,9 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 				} else {
 					popup("event time conflict");
 				}
+			} else{
+				popup("invalid user input");
 			}
-			
-			popup("invalid user input");
 		} else {
 			popup("incomplete user input");
 		}
@@ -388,6 +388,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		for(int i=0; i<=total-1; i++) {
 			manager.deleteEvent(oldfrom[i], oldto[i]);
 		}
+		finish();
 	}
 	
 
