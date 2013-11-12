@@ -49,7 +49,7 @@ public class DailyViewActivity extends CalendarActivity {
 
 		addListenerOnButton(mListView);
 		selectedDate = Calendar.getInstance();
-		getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar6));
+		
 		// mListView.setAdapter(mAdapter);
 	}
 

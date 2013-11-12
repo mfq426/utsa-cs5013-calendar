@@ -200,106 +200,16 @@ public class EventManager{
 	}
 	
 	/**
-	 * Updates event description of the event with eventId
+	 * Updates event with Id
 	 * @param eventId
 	 * @param event
 	 */
-	public void updateEventDescription( int eventId, Event event ) {
+	public void updateEvent( int eventId, Event event ) {
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		
 		String strFilter = "_id=" + eventId;
 		ContentValues args = new ContentValues();
 		args.put(storageHandler.getEventsDescription(), event.getDescription());
-		db.update(storageHandler.getEventTableName(), args, strFilter, null);
-		
-		db.close();
-		
-		
-	}
-	
-	/**
-	 * Updates event start date of the event with eventId
-	 * @param eventId
-	 * @param event
-	 */
-	public void updateEventStartDate( int eventId, Event event ) {
-		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		
-		String strFilter = "_id=" + eventId;
-		ContentValues args = new ContentValues();
-		args.put(storageHandler.getEventsStartTime(), event.getStartDate().getTimeInMillis());
-		db.update(storageHandler.getEventTableName(), args, strFilter, null);
-		
-		db.close();
-		
-		
-	}
-	
-	/**
-	 * Updates event end date
-	 * @param eventId
-	 * @param event
-	 */
-	public void updateEventEndDate( int eventId, Event event ) {
-		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		
-		String strFilter = "_id=" + eventId;
-		ContentValues args = new ContentValues();
-		args.put(storageHandler.getEventsEndTime(), event.getEndDate().getTimeInMillis());
-		db.update(storageHandler.getEventTableName(), args, strFilter, null);
-		
-		db.close();
-		
-		
-	}
-	
-	/**
-	 * Updates event category
-	 * @param eventId
-	 * @param event
-	 */
-	public void updateEventCategory( int eventId, Event event ) {
-		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		
-		String strFilter = "_id=" + eventId;
-		ContentValues args = new ContentValues();
-		args.put(storageHandler.getEVENTS_CATEGORY(), event.getCategoryID());
-		db.update(storageHandler.getEventTableName(), args, strFilter, null);
-		
-		db.close();
-		
-		
-	}
-	
-	/**
-	 * Updates event total occurance
-	 * @param eventId
-	 * @param event
-	 */
-	public void updateEventTotalOccurance( int eventId, Event event ) {
-		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		
-		String strFilter = "_id=" + eventId;
-		ContentValues args = new ContentValues();
-		args.put(storageHandler.getEVENTS_TOTAL_OCCURANCE(), event.getTotalOccurance());
-		db.update(storageHandler.getEventTableName(), args, strFilter, null);
-		
-		db.close();
-		
-		
-	}
-	
-	/**
-	 * Updates event occurance index
-	 * @param eventId
-	 * @param event
-	 */
-	public void updateEventOccuranceIndex( int eventId, Event event ) {
-		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		
-		String strFilter = "_id=" + eventId;
-		ContentValues args = new ContentValues();
-		args.put(storageHandler.getEVENTS_OCCURANCE_INDEX(), event.getOccuranceIndex());
 		db.update(storageHandler.getEventTableName(), args, strFilter, null);
 		
 		db.close();
