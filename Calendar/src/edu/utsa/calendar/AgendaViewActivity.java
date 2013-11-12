@@ -41,76 +41,8 @@ public class AgendaViewActivity extends CalendarActivity {
 		
 		setContentView(R.layout.activity_agenda_view);
 		
-		
-		/*******************Delete this: only for adding dummy data ********
- // delete this item, only for testing
-		
-		// Entry 1
-				Calendar startDate = Calendar.getInstance();
-				startDate.set(2013, 11, 8, 11, 20, 0);
-				
-				Calendar endDate = Calendar.getInstance();
-				endDate.set(2013, 11, 8, 12, 20, 0);
-				
-		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "walking with friends");
-				
-		    	
-		    	// Entry 1
-				startDate = Calendar.getInstance();
-				startDate.set(2013, 11, 8, 11, 20, 0);
-				
-				endDate = Calendar.getInstance();
-				endDate.set(2013, 11, 8, 12, 20, 0);
-				
-		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "Dinner");
-				
-		    	
-		    	// Entry 1
-				startDate = Calendar.getInstance();
-				startDate.set(2013, 10, 25, 11, 20, 0);
-				
-				endDate = Calendar.getInstance();
-				endDate.set(2013, 10, 25, 12, 20, 0);
-				
-		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "Meeing with Dr. Ruan");
-				
-		    	
-		    	// Entry 1
-				startDate = Calendar.getInstance();
-				startDate.set(2013, 11, 19, 23, 00, 0);
-				
-				endDate = Calendar.getInstance();
-				endDate.set(2013, 11, 19, 23, 5, 0);
-				
-		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "Bioinformatics deadline");
-				
-		    	
-		    	// Entry 1
-				startDate = Calendar.getInstance();
-				endDate.set(2013, 12, 17, 17, 00, 0);
-				
-				endDate = Calendar.getInstance();
-				endDate.set(2013, 12, 17, 19, 20, 0);
-				
-		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "Soft Engg Exam");
-				
-		    	
-		    	// Entry 1
-				startDate = Calendar.getInstance();
-				startDate.set(2013, 10, 24, 11, 20, 0);
-				
-				endDate = Calendar.getInstance();
-				endDate.set(2013, 10, 24, 12, 20, 0);
-				
-		    	((GlobalVariables) this.getApplication()).getEventManager().createEvent(startDate, endDate, 0, "BIBM deadline");
-				
-		
-		
-		************************end dummy data ***************************/
-		 
 	    this.startDate = Calendar.getInstance();
 				
-		
 		this.agendaViewHeader = (TextView) findViewById(R.id.agendaViewHeader);
 	    this.agendaGridView = (GridView) findViewById(R.id.gridAgendaView);
 		agendaGridView.setPadding(8, 8, 8, 8);
@@ -118,15 +50,6 @@ public class AgendaViewActivity extends CalendarActivity {
 		
 		
 		addListenerOnButton(agendaViewHeader);
-//		this.agendaViewHeader.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View v) {				
-//				setStartDate(getEndDate());
-//				onResume();
-//				
-//			}
-//		});
 		
 	}
 	
