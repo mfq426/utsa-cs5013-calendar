@@ -69,7 +69,7 @@ public class DailyViewActivity extends CalendarActivity {
 
 		String header = sdf.format(selectedDate.getTime());
 		dayViewHeader.setText(header);
-		List<Event> events = ((GlobalVariables) this.getApplication()).getEventManager().readEvents(startDate, endDate);
+		List<Event> events = Manager.getInstance().getEventManager().readEvents(startDate, endDate);
 		List<DailyViewModel> modelList = new ArrayList<DailyViewModel>();
 		for (String hour : CalendarData.s12Hours) {
 

@@ -31,9 +31,10 @@ public class MainActivity extends Activity {
 		categoryManager = new CategoryManager(databaseHelper);
 		eventManager = new EventManager(databaseHelper,categoryManager);
 		
+		
 		// Set into the global variables
-		((GlobalVariables) this.getApplication()).setEventManager(eventManager);
-		((GlobalVariables) this.getApplication()).setCategoryManager(categoryManager);
+		Manager.getInstance().setEventManager(eventManager);
+		Manager.getInstance().setCategoryManager(categoryManager);
 		
 		
 		// go to the last view user stayed

@@ -44,7 +44,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
 		
 		// get category data from database
-		CategoryManager manager = ((GlobalVariables) this.getApplication()).getCategoryManager();
+		CategoryManager manager = Manager.getInstance().getCategoryManager();
 		ArrayList<Category> list = manager.readAllCategory();
 		Iterator<Category> itr = list.iterator();
 		ArrayList<String> options = new ArrayList<String>();
@@ -210,7 +210,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 				Calendar[] from = new Calendar[occurance];
 				Calendar[] to = new Calendar[occurance];
 				
-				EventManager manager = ((GlobalVariables) this.getApplication()).getEventManager();
+				EventManager manager = Manager.getInstance().getEventManager();
 				List<Event> list = null;
 				boolean flag = true;
 				

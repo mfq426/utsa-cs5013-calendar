@@ -160,7 +160,7 @@ public class WeeklyViewActivity extends CalendarActivity {
 	    
 	    
 	    	  
-	    List<Event> events = ((GlobalVariables) this.getApplication()).getEventManager().readEvents(startDate,endDate); 
+	    List<Event> events = Manager.getInstance().getEventManager().readEvents(startDate,endDate); 
 	    
 	    for (Event ev : events) {
             
