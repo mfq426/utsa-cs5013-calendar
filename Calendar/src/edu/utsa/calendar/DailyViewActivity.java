@@ -49,8 +49,7 @@ public class DailyViewActivity extends CalendarActivity {
 
 		addListenerOnButton(mListView);
 		selectedDate = Calendar.getInstance();
-		
-		
+
 		// mListView.setAdapter(mAdapter);
 	}
 
@@ -85,7 +84,6 @@ public class DailyViewActivity extends CalendarActivity {
 			int hourOfDay = startDateOfEvent.get(Calendar.HOUR_OF_DAY);
 			DailyViewModel tempDailyModel = modelList.get(hourOfDay);
 			tempDailyModel.addEvent(event);
-			tempDailyModel.addEvent(event);
 		}
 		mAdapter = new InteractiveArrayAdapter(this, modelList);
 		mListView.setAdapter(mAdapter);
@@ -108,7 +106,7 @@ public class DailyViewActivity extends CalendarActivity {
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
 				overridePendingTransition(R.anim.animation_slide_in_left, R.anim.animation_slide_out_right);
-				
+
 			}
 
 		});
@@ -124,7 +122,7 @@ public class DailyViewActivity extends CalendarActivity {
 				Intent intent = getIntent();
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
-				overridePendingTransition(R.anim.animation_slide_in_right,R.anim.animation_slide_out_left);
+				overridePendingTransition(R.anim.animation_slide_in_right, R.anim.animation_slide_out_left);
 			}
 
 		});
@@ -140,26 +138,27 @@ public class DailyViewActivity extends CalendarActivity {
 					Event dummyEvent = new Event(-100, null, null, "", " + New Event", 0, 0);
 					item.addEvent(dummyEvent);
 				}
-				
+
 				final ViewHolder holder = (ViewHolder) v.getTag();
 				holder.grid.setBackgroundResource(R.drawable.list_selected);
 				if (preVposition == position) {
-					
+
 					if (!item.getEvents().isEmpty()) {
-						//item.setCreateLabel(" + New Event");
+						// item.setCreateLabel(" + New Event");
 					}
-				//	Intent intent = new Intent(DailyViewActivity.this, NewEventActivity.class);
+					// Intent intent = new Intent(DailyViewActivity.this,
+					// NewEventActivity.class);
 					// pass the calling activity to my NewEventActivity;
 					// intent.putExtra(NewEventActivity.CALLING_ACTIVITY,
 					// NewEventActivity.DAILY_VIEW_ACTIVITY);
-					//startActivity(intent);
+					// startActivity(intent);
 
 				} else if (previous != null) {
 					previous.setBackgroundResource(getResources().getColor(android.R.color.transparent));
-					
+
 					DailyViewModel itemOld = (DailyViewModel) mAdapter.getItem(preVposition);
 					itemOld.removeEvents();
-					
+
 					previous = holder.grid;
 				} else {
 					previous = holder.grid;
@@ -169,39 +168,34 @@ public class DailyViewActivity extends CalendarActivity {
 
 				mAdapter.notifyDataSetChanged();
 				List<ArrayAdapter<Event>> adapterList = mAdapter.getAdapterList();
-				
+
 				for (ArrayAdapter<Event> arrayAdapter : adapterList) {
-					
+
 					arrayAdapter.notifyDataSetChanged();
 				}
-				
+
 			}
 		});
 
 	}
-	
-	
 
 	@Override
 	protected void onResume() {
 		super.onResume();
 		Bundle bundle = getIntent().getExtras();
-		if(bundle!=null){
-		Long time = bundle.getLong("selectedDay");
-		if (time != null && time > 0) {
-			selectedDate = Calendar.getInstance();
-			selectedDate.setTimeInMillis(time);
-			time = Long.valueOf(0);
-			getIntent().putExtra("selectedDay", time);
-			
+		if (bundle != null) {
+			Long time = bundle.getLong("selectedDay");
+			if (time != null && time > 0) {
+				selectedDate = Calendar.getInstance();
+				selectedDate.setTimeInMillis(time);
+				time = Long.valueOf(0);
+				getIntent().putExtra("selectedDay", time);
 
-		}
+			}
 		}
 		populateModel();
-		
-
+		preVposition = -1;
+		previous = null;
 	}
-	
-	
 
 }
