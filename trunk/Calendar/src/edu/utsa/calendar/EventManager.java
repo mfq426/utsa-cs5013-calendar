@@ -45,23 +45,23 @@ public class EventManager{
         // Read all entry for category table
         List<Category> categoryList = categoryManager.readAllCategory();        
         
-        // Select All Query
-        String selectQuery = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " BETWEEN " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
+        // Select all events with start time between sDate and eDate 
+        String selectQueryStartTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " BETWEEN " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
  
         SQLiteDatabase db = storageHandler.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor cursorStartTime = db.rawQuery(selectQueryStartTime, null);
  
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (cursorStartTime.moveToFirst()) {
             do {
                 //Event contact = new Event();
             	
             	Calendar startDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
+            	startDate.setTimeInMillis(Long.valueOf(cursorStartTime.getString(2)).longValue());
             	Calendar endDate = Calendar.getInstance();
-            	endDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	endDate.setTimeInMillis(Long.valueOf(cursorStartTime.getString(3)).longValue());
             	            	
-                Event event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
+                Event event = new Event( Integer.parseInt(cursorStartTime.getString(0)), startDate, endDate, cursorStartTime.getString(4),cursorStartTime.getString(1),Integer.parseInt(cursorStartTime.getString(5)),Integer.parseInt(cursorStartTime.getString(6)));
             	
                 // Set the category color
                 for (Category ct : categoryList) {
@@ -75,9 +75,42 @@ public class EventManager{
             	// Adding contact to list
                 eventList.add(event);
                 //System.out.println(event.toString());
-            } while (cursor.moveToNext());
+            } while (cursorStartTime.moveToNext());
         }
  
+        
+        // Select all events with end time between sDate and eDate 
+        String selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsEndTime()+ " BETWEEN " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
+ 
+        Cursor cursorEndTime = db.rawQuery(selectQueryEndTime, null);
+ 
+        // looping through all rows and adding to list
+        if (cursorEndTime.moveToFirst()) {
+            do {
+                //Event contact = new Event();
+            	
+            	Calendar startDate = Calendar.getInstance();
+            	startDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(2)).longValue());
+            	Calendar endDate = Calendar.getInstance();
+            	endDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(3)).longValue());
+            	            	
+                Event event = new Event( Integer.parseInt(cursorEndTime.getString(0)), startDate, endDate, cursorEndTime.getString(4),cursorEndTime.getString(1),Integer.parseInt(cursorEndTime.getString(5)),Integer.parseInt(cursorEndTime.getString(6)));
+            	
+                // Set the category color
+                for (Category ct : categoryList) {
+                    
+        	    	if(ct.getName().equals(event.getCategoryID())){
+        	    		event.setColor(ct.getColor());
+        	    	}
+        	    		    	
+        	    }
+                
+            	// Adding contact to list
+                eventList.add(event);
+                //System.out.println(event.toString());
+            } while (cursorEndTime.moveToNext());
+        }
+        
         // return contact list
         return eventList;
     }
@@ -146,7 +179,7 @@ public class EventManager{
 		 
 		// Deleting events
 		db.delete(storageHandler.getEventTableName(), 
-	            storageHandler.getEventsStartTime() + "= ? AND"+ storageHandler.getEventsEndTime()+ " = ?", new String[] { String.valueOf(startDate.getTimeInMillis()),String.valueOf(endDate.getTimeInMillis())});
+	            storageHandler.getEventsStartTime() + "= ? AND "+ storageHandler.getEventsEndTime()+ " = ?", new String[] { String.valueOf(startDate.getTimeInMillis()),String.valueOf(endDate.getTimeInMillis())});
 		db.close();
 				
 	}
@@ -283,7 +316,7 @@ public class EventManager{
             	Calendar startDate = Calendar.getInstance();
             	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
             	Calendar endDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
+            	endDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
             	            	
                 event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
             	

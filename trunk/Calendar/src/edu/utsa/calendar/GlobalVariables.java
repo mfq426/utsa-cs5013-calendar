@@ -7,9 +7,17 @@ public class GlobalVariables extends Application{
 	private EventManager eventManager;
 	private CategoryManager categoryManager;
 	
-	public GlobalVariables() {
-		
-	}
+	private static GlobalVariables me;
+
+    @Override
+    public void onCreate() {        
+        super.onCreate();
+        me = this ;
+
+    }
+    public static GlobalVariables getInstance() {
+         return me;
+    }
 	
 	public EventManager getEventManager() {
 		return eventManager;

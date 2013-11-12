@@ -54,7 +54,7 @@ public class CalendarEntryAdapterWeek extends BaseAdapter {
             // get layout from grid_item.xml ( Defined Below )
 
             gridView = inflater.inflate( R.layout.grid_entry_week , null);
- 
+            
             //textView.setBackgroundColor(Color.parseColor("#d3d3d3"));
  
              
@@ -65,12 +65,24 @@ public class CalendarEntryAdapterWeek extends BaseAdapter {
         // set value into textview
         textView = (TextView) gridView
                 .findViewById(R.id.textViewGridEntryWeek);
+        // set the text
         textView.setText(text[position]);
-        if(color[position]!=-1){
-        	System.out.println(color[position]);
+        // set the background color only if it is not the default color
+        if(color[position]!=Color.WHITE){
         	textView.setBackgroundColor(color[position]);
-        	
         }
+        // set colors for weekends and also time header and week days header
+        if(position%8==0){
+        	gridView.setBackgroundColor(Color.rgb(136, 217, 183));
+        }
+        else if(position<8){
+        	gridView.setBackgroundColor(Color.rgb(150, 192, 224));
+        }
+        else if((position%8==1)||(position%8==7)){
+        	gridView.setBackgroundColor(Color.rgb(198, 223, 232));
+        }
+        
+    
         return gridView;
 	}
 	

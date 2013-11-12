@@ -9,11 +9,12 @@
     <string name="title_activity_monthly_view">MonthlyViewActivity</string>
     <string name="title_activity_agenda_view">Agenda List</string>
     <string name="title_activity_agenda_details">Agenda Details</string>
+    <string name="title_activity_calendar">Calendar Activity</string>
     <string name="buttonNextWeekText">Next Week</string>
     <string name="buttonPreviousWeekText">Previous Week</string>
     <string name="description">Previous Week</string>
 
-    <color name="gray">#d3d3d3</color>
+    <color name="gray">#d1d1d1</color>
     <color name="test">#F8F2E4</color>
     <color name="day">#fff7f9</color>
     <color name="list_focused">#36C170</color>
