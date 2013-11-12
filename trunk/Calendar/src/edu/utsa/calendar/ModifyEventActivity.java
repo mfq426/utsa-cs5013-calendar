@@ -71,24 +71,23 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		oldfrom[index-1] = e.getStartDate();
 		oldto[index-1] = e.getEndDate();
 		
-		Calendar tmp1 = e.getStartDate();
-		Calendar tmp2 = e.getEndDate();
 		for(int i=index-2; i>=0; i--) {
-			tmp1.add(Calendar.DAY_OF_MONTH, -7);
-			oldfrom[i] = tmp1;
-			tmp2.add(Calendar.DAY_OF_MONTH, -7);
-			oldto[i] = tmp2;
+			oldfrom[i] = Calendar.getInstance();
+			oldfrom[i].set(fromYear, fromMonth-1, fromDay, fromHour, fromMinute, 0);
+			oldfrom[i].add(Calendar.DAY_OF_MONTH, -7*(index-1-i));
+			oldto[i] = Calendar.getInstance();
+			oldto[i].set(toYear, toMonth-1, toDay, toHour, toMinute, 0);
+			oldto[i].add(Calendar.DAY_OF_MONTH, -7*(index-1-i));
 		}
 		
-		tmp1 = e.getStartDate();
-		tmp2 = e.getEndDate();
 		for(int i=index; i<=total-1; i++) {
-			tmp1.add(Calendar.DAY_OF_MONTH, 7);
-			oldfrom[i] = tmp1;
-			tmp2.add(Calendar.DAY_OF_MONTH, 7);
-			oldto[i] = tmp2;
+			oldfrom[i] = Calendar.getInstance();
+			oldfrom[i].set(fromYear, fromMonth-1, fromDay, fromHour, fromMinute, 0);
+			oldfrom[i].add(Calendar.DAY_OF_MONTH, 7*(i-(index-1)));
+			oldto[i] = Calendar.getInstance();
+			oldto[i].set(toYear, toMonth-1, toDay, toHour, toMinute, 0);
+			oldto[i].add(Calendar.DAY_OF_MONTH, 7*(i-(index-1)));
 		}		
-		
 	}
 	
 	private String constructTime(int hourOfDay, int minute) {
@@ -387,6 +386,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	public void removeEvent(View v) {
 		for(int i=0; i<=total-1; i++) {
 			manager.deleteEvent(oldfrom[i], oldto[i]);
+			System.out.println(oldfrom[i].getTime().toString());
+			System.out.println(oldto[i].getTime().toString());
 		}
 		finish();
 	}
