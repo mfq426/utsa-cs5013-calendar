@@ -3,7 +3,6 @@ package edu.utsa.calendar;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +16,6 @@ import android.widget.TextView;
 public class CustomAgendaGridAdaptor extends BaseAdapter {
 	Context context;
 	
-	//ArrayList<Event> items =new ArrayList<Event>();
-	//TODO: Replace three lists below with one event object list
-	// dummy lists
 	ArrayList<Event> agendaList;
     ArrayList<String> startTimes;
     ArrayList<String> endTimes;
@@ -77,7 +73,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 
 	@Override
 	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
+		
 		return 0;
 	}
 
@@ -131,13 +127,11 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	        tv3.setText(String.valueOf(agendaText.get(position)));
 	    }
 		
-/* agenda details is not needed now **/		
+
 			ll.setOnClickListener(new View.OnClickListener() {
 							
 				@Override
 				public void onClick(View v) {
-//					String detailsData = new String(agendaText.get(position));
-//					System.out.println("<<<< IN onClick :: AgendaView >>>>");
 					Intent intent = new Intent(context, ModifyEventActivity.class);
 					intent.putExtra("event_id", agendaList.get(position).getID());
 					context.startActivity(intent);
