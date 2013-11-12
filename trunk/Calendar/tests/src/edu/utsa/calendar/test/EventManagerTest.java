@@ -62,6 +62,56 @@ public class EventManagerTest extends AndroidTestCase {
 		
 	}
 	
+	public void testGetEventById() throws Exception {
+		Calendar startDate = Calendar.getInstance();
+		Calendar endDate = Calendar.getInstance();
+		startDate.set(Calendar.HOUR_OF_DAY, 7);
+		startDate.set(Calendar.MINUTE, 30);
+		
+		endDate.set(Calendar.HOUR_OF_DAY, 7);
+		endDate.set(Calendar.MINUTE, 50);
+		Event event = new Event(startDate,endDate,"12"," Class", 1,1);
+		mEventManager.createEvent(event);
+		List<Event> readEvents = mEventManager.readEvents(startDate, endDate);
+		id = readEvents.get(1).getID();
+		Event event = mEventManager.getEventById(id);
+		assertEquals(id, event.getID());
+		
+	}
+	
+	public void testReadEvent() throws Exception {
+		
+		Calendar startDate = Calendar.getInstance();
+		Calendar endDate = Calendar.getInstance();
+		startDate.set(Calendar.HOUR_OF_DAY, 7);
+		startDate.set(Calendar.MINUTE, 30);
+		
+		endDate.set(Calendar.HOUR_OF_DAY, 7);
+		endDate.set(Calendar.MINUTE, 50);
+		Event event = new Event(startDate,endDate,"12"," Class", 1,1);
+		mEventManager.createEvent(event);
+		
+		startDate.set(Calendar.HOUR_OF_DAY, 7);
+		startDate.set(Calendar.MINUTE, 10);
+		
+		endDate.set(Calendar.HOUR_OF_DAY, 8);
+		endDate.set(Calendar.MINUTE, 50);
+		event = new Event(startDate,endDate,"10"," Meeting ", 1,1);
+		mEventManager.createEvent(event);
+		
+		startDate.set(Calendar.HOUR_OF_DAY, 7);
+		startDate.set(Calendar.MINUTE, 30);
+		
+		endDate.set(Calendar.HOUR_OF_DAY, 7);
+		endDate.set(Calendar.MINUTE, 50);
+		
+		List<Event> events = mEventManager.readEvents(startDate, endDate);
+		
+		assertEquals(2, events.size());
+		
+	}
+	
+	
 
 
 	
