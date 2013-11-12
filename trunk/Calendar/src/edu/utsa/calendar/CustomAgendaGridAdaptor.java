@@ -142,12 +142,6 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 					intent.putExtra("event_id", agendaList.get(position).getID());
 					context.startActivity(intent);
 					
-					
-					
-//					Intent intent = new Intent( context , AgendaDetailsActivity.class);
-//					intent.putExtra("event_details", "AgendaDetails");
-//					context.startActivity(intent);
-					
 				}
 			});
 		
