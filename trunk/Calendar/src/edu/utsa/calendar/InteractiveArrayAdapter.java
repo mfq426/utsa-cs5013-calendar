@@ -3,6 +3,7 @@ package edu.utsa.calendar;
 import android.widget.ArrayAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import edu.utsa.calendar.R;
@@ -70,8 +71,9 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 			gView.setOnItemClickListener(new OnItemClickListener() {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-					Event gridEvent = adapter.getItem(position);
-					if (gridEvent != null) {
+
+					if (dailyViewModel.getEvents().size() >= position) {
+						Event gridEvent = adapter.getItem(position);
 						if (gridEvent.getID() == -100) {
 							Intent intent = new Intent(context, NewEventActivity.class);
 
@@ -84,17 +86,15 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 					} else {
 
 					}
-					
+
 					mInteractiveArrayAdapter.upDateChange();
-					
+
 				}
 			});
 			viewHolder.grid = gView;
 			view.setTag(viewHolder);
-			// viewHolder.checkbox.setTag(list.get(position));
 		} else {
 			view = convertView;
-			// ((ViewHolder) view.getTag()).checkbox.setTag(list.get(position));
 		}
 
 		ViewHolder holder = (ViewHolder) view.getTag();
@@ -103,9 +103,9 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 
 			holder.text1.setText(dailyViewModel.getTimeLebel());
 			List<Event> events = dailyViewModel.getEvents();
-			final ArrayAdapter<Event> adapter =getNewAdapter(dailyViewModel);
+			final ArrayAdapter<Event> adapter = getNewAdapter(dailyViewModel);
 			((GridView) holder.grid).setAdapter(adapter);
-			
+
 			if (events.size() > 0) {
 				// Event event = events.get(0);
 				// holder.text2.setText(event.getDescription());
@@ -117,21 +117,20 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 				 */
 			}
 		}
-		/*
-		 * if (position % 2 == 0) view.setBackgroundColor(0x30FF0000); else
-		 * view.setBackgroundColor(0x300000FF);
-		 */
 		return view;
 	}
 
 	private ArrayAdapter<Event> getNewAdapter(final DailyViewModel dailyViewModel) {
 		final ArrayAdapter<Event> adapter = new ArrayAdapter<Event>(this.context, R.layout.event_list_entry,
 				dailyViewModel.getEvents()) {
-			
+
 			@Override
-					public Event getItem(int pPosition) {
-						return dailyViewModel.getEvents().get(pPosition);
-					}
+			public Event getItem(int pPosition) {
+				if (dailyViewModel.getEvents().size() >= pPosition) {
+					return dailyViewModel.getEvents().get(pPosition);
+				} else
+					return null;
+			}
 
 			@Override
 			public View getView(int pPosition, View pConvertView, ViewGroup pParent) {
@@ -147,19 +146,23 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 				}
 				ViewHolderEvent localHolder = (ViewHolderEvent) localView.getTag();
 				localHolder.text.setText("");
-				/*if (dailyViewModel.getEvents().size() == 0) {
-					localHolder.text.setText(dailyViewModel.getCreateLabel());
-				}*/
+				/*
+				 * if (dailyViewModel.getEvents().size() == 0) {
+				 * localHolder.text.setText(dailyViewModel.getCreateLabel()); }
+				 */
 				Event item = getItem(pPosition);
-				if (item !=null) {
-					
+				if (item != null) {
+
 					localHolder.text.setText(item.getDescription());
 					if (item.getID() == -100) {
 
 					} else {
+						int sMinute = item.getStartDate().get(Calendar.MINUTE);
+						int eMinute = item.getEndDate().get(Calendar.MINUTE);
+						localHolder.text.setText(item.getDescription() + "  [ " + sMinute + " - " + eMinute + " ]");
 						localHolder.text.setBackgroundColor(item.getColor());
 					}
-				}else{
+				} else {
 					localHolder.text.setText("");
 				}
 				return localView;
@@ -167,19 +170,20 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 		};
 		return adapter;
 	}
-	
+
 	@Override
 	public DailyViewModel getItem(int pPosition) {
 		// TODO Auto-generated method stub
 		return list.get(pPosition);
 	}
-	
-	public void upDateChange(){
-        mInteractiveArrayAdapter.notifyDataSetChanged();
-		/*for (ArrayAdapter<Event> arrayAdapter : mAdapterList) {
 
-			arrayAdapter.notifyDataSetChanged();
-		}*/
+	public void upDateChange() {
+		mInteractiveArrayAdapter.notifyDataSetChanged();
+		/*
+		 * for (ArrayAdapter<Event> arrayAdapter : mAdapterList) {
+		 * 
+		 * arrayAdapter.notifyDataSetChanged(); }
+		 */
 	}
 
 }
