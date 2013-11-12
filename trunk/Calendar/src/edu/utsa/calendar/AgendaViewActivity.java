@@ -21,7 +21,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
-public class AgendaViewActivity extends Activity {
+public class AgendaViewActivity extends CalendarActivity {
 	
 	private String startDateString;
 	private String endDateString;
@@ -220,13 +220,5 @@ public class AgendaViewActivity extends Activity {
 		this.endDate = endDate;
 	}
 
-
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.agenda_view, menu);
-		return true;
-	}
 
 }

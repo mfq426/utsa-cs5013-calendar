@@ -55,7 +55,6 @@ public class CalendarActivity extends Activity{
                 	Intent intent = new Intent( CalendarActivity.this, DailyViewActivity.class);
      				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
                 	Calendar instance = Calendar.getInstance();
-                	instance.add(Calendar.DAY_OF_MONTH, -2);
                 	intent.putExtra("selectedDay", instance.getTimeInMillis());
      				startActivity(intent);
                 }
@@ -65,7 +64,7 @@ public class CalendarActivity extends Activity{
             		edit.commit();
                 
                 	Intent intent = new Intent(CalendarActivity.this, WeeklyViewActivity.class);
-     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
      				startActivity(intent);
      				
                 }
@@ -76,7 +75,7 @@ public class CalendarActivity extends Activity{
             		edit.commit();
                 	
                 	Intent intent = new Intent(CalendarActivity.this, MonthlyViewActivity.class);
-     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
      				startActivity(intent);
                 }
                 else if(itemPosition==4){
@@ -86,7 +85,7 @@ public class CalendarActivity extends Activity{
             		edit.commit();
                 	
                 	Intent intent = new Intent(CalendarActivity.this, AgendaViewActivity.class);
-     				//intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
+     				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT); 
      				startActivity(intent);
                 }
                 else if(itemPosition==5){

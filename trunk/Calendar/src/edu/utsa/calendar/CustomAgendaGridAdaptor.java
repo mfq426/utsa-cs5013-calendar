@@ -130,20 +130,26 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	        tv2.setText(String.valueOf(startTimes.get(position)));
 	        tv3.setText(String.valueOf(agendaText.get(position)));
 	    }
-	    
+		
 /* agenda details is not needed now **/		
-//			ll.setOnClickListener(new View.OnClickListener() {
-//							
-//				@Override
-//				public void onClick(View v) {
+			ll.setOnClickListener(new View.OnClickListener() {
+							
+				@Override
+				public void onClick(View v) {
 //					String detailsData = new String(agendaText.get(position));
-////					System.out.println("<<<< IN onClick :: AgendaView >>>>");
+//					System.out.println("<<<< IN onClick :: AgendaView >>>>");
+					Intent intent = new Intent(context, ModifyEventActivity.class);
+					intent.putExtra("event_id", agendaList.get(position).getID());
+					context.startActivity(intent);
+					
+					
+					
 //					Intent intent = new Intent( context , AgendaDetailsActivity.class);
 //					intent.putExtra("event_details", "AgendaDetails");
 //					context.startActivity(intent);
-//					
-//				}
-//			});
+					
+				}
+			});
 		
 	    return ll;
 	}
