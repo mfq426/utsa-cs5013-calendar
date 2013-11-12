@@ -3,17 +3,17 @@ package edu.utsa.calendar.test;
 import java.util.Calendar;
 import java.util.List;
 
-import edu.utsa.calendar.Category;
+import android.test.AndroidTestCase;
 import edu.utsa.calendar.CategoryManager;
 import edu.utsa.calendar.DatabaseHelper;
 import edu.utsa.calendar.Event;
 import edu.utsa.calendar.EventManager;
-import android.test.AndroidTestCase;
 
 public class EventManagerTest extends AndroidTestCase {
 	private DatabaseHelper mDatabaseHelper = null;
 	private CategoryManager mCategoryManager = null;
 	private EventManager mEventManager = null;
+	
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
@@ -31,86 +31,128 @@ public class EventManagerTest extends AndroidTestCase {
 	}
 
 	public void testCreateEvent() throws Exception {
-		Calendar startDate = Calendar.getInstance();
-		Calendar endDate = Calendar.getInstance();
-		startDate.set(Calendar.HOUR_OF_DAY, 7);
-		startDate.set(Calendar.MINUTE, 30);
 		
-		endDate.set(Calendar.HOUR_OF_DAY, 7);
-		endDate.set(Calendar.MINUTE, 50);
-		Event event = new Event(startDate,endDate,"12"," Class", 1,1);
+		Calendar startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, 3);
+		
+		Calendar endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, 5);
+		
+		Event event = new Event(startDate,endDate,"Meeting","Meeting with prof", 1,1);
 		mEventManager.createEvent(event);
+		
+		
+		startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, -3);
+		
+		endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, -1);
+		
+		event = new Event(startDate,endDate,"Sports","Soccer with friends", 1,1);
+		mEventManager.createEvent(event);
+		
+		
+		startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, 6);
+		
+		endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, 8);
+		
+		event = new Event(startDate,endDate,"Dinner","Dinner with colleague", 1,1);
+		mEventManager.createEvent(event);
+		
+		startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, 10);
+		
+		endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, 15);
+		
+		event = new Event(startDate,endDate,"Meeting","Meeting with colleague", 1,1);
+		mEventManager.createEvent(event);
+		
+		
+		startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, -30);
+		
+		endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, 30);
+		
 		List<Event> readEvents = mEventManager.readEvents(startDate, endDate);
 		
-		assertEquals(1,readEvents.size());
-		assertEquals("Class",readEvents.get(0).getDescription());
+		assertEquals(4,readEvents.size());
+		assertEquals(1,readEvents.get(0).getOccuranceIndex());
+		assertEquals(1,readEvents.get(0).getTotalOccurance());
+	
 	}
 	
-	public void testDeleteEvent() throws Exception {
-		Calendar startDate = Calendar.getInstance();
-		Calendar endDate = Calendar.getInstance();
-		startDate.set(Calendar.HOUR_OF_DAY, 7);
-		startDate.set(Calendar.MINUTE, 30);
-		
-		endDate.set(Calendar.HOUR_OF_DAY, 7);
-		endDate.set(Calendar.MINUTE, 50);
-		
-		mEventManager.deleteEvent(startDate, endDate);
-		List<Event> readEvents = mEventManager.readEvents(startDate, endDate);
-		
-		assertEquals(0,readEvents.size());
-		
-	}
 	
-	public void testGetEventById() throws Exception {
-		Calendar startDate = Calendar.getInstance();
-		Calendar endDate = Calendar.getInstance();
-		startDate.set(Calendar.HOUR_OF_DAY, 7);
-		startDate.set(Calendar.MINUTE, 30);
-		
-		endDate.set(Calendar.HOUR_OF_DAY, 7);
-		endDate.set(Calendar.MINUTE, 50);
-		Event event = new Event(startDate,endDate,"12"," Class", 1,1);
-		mEventManager.createEvent(event);
-		List<Event> readEvents = mEventManager.readEvents(startDate, endDate);
-		id = readEvents.get(1).getID();
-		Event event = mEventManager.getEventById(id);
-		assertEquals(id, event.getID());
-		
-	}
 	
-	public void testReadEvent() throws Exception {
+public void testReadEvent() throws Exception {
+		
 		
 		Calendar startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, -2);
+		
 		Calendar endDate = Calendar.getInstance();
-		startDate.set(Calendar.HOUR_OF_DAY, 7);
-		startDate.set(Calendar.MINUTE, 30);
+		endDate.add(Calendar.DAY_OF_MONTH, 7);
 		
-		endDate.set(Calendar.HOUR_OF_DAY, 7);
-		endDate.set(Calendar.MINUTE, 50);
-		Event event = new Event(startDate,endDate,"12"," Class", 1,1);
-		mEventManager.createEvent(event);
-		
-		startDate.set(Calendar.HOUR_OF_DAY, 7);
-		startDate.set(Calendar.MINUTE, 10);
-		
-		endDate.set(Calendar.HOUR_OF_DAY, 8);
-		endDate.set(Calendar.MINUTE, 50);
-		event = new Event(startDate,endDate,"10"," Meeting ", 1,1);
-		mEventManager.createEvent(event);
-		
-		startDate.set(Calendar.HOUR_OF_DAY, 7);
-		startDate.set(Calendar.MINUTE, 30);
-		
-		endDate.set(Calendar.HOUR_OF_DAY, 7);
-		endDate.set(Calendar.MINUTE, 50);
 		
 		List<Event> events = mEventManager.readEvents(startDate, endDate);
 		
-		assertEquals(2, events.size());
+		assertEquals(3, events.size());
 		
 	}
 	
+	
+	public void testGetEventById() throws Exception {
+		
+		Calendar startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, 3);
+		
+		Calendar endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, 5);
+		
+		List<Event> events = mEventManager.readEvents(startDate, endDate);
+		
+		int id = events.get(0).getID();
+		
+		Event event = mEventManager.getEventById(id);
+		
+		assertEquals(id, event.getID());
+		assertEquals(events.get(0).getStartDate(),event.getStartDate() );
+		assertEquals(events.get(0).getEndDate(),event.getEndDate() );
+		assertEquals(events.get(0).getDescription(),event.getDescription() );
+		assertEquals(events.get(0).getCategoryID(),event.getCategoryID() );
+		assertEquals(events.get(0).getColor(),event.getColor() );
+		assertEquals(events.get(0).getOccuranceIndex(),event.getOccuranceIndex() );
+		assertEquals(events.get(0).getTotalOccurance(),event.getTotalOccurance() );
+	
+	}
+	
+	
+	public void testXDeleteEvent() throws Exception {
+		
+		
+
+		Calendar startDate = Calendar.getInstance();
+		startDate.add(Calendar.DAY_OF_MONTH, -50);
+		
+		Calendar endDate = Calendar.getInstance();
+		endDate.add(Calendar.DAY_OF_MONTH, 50);
+		
+		List<Event> events = mEventManager.readEvents(startDate, endDate);
+		
+		for(Event e :events){
+			
+			mEventManager.deleteEvent(e.getStartDate(), e.getEndDate());
+			
+		}
+		
+		events = mEventManager.readEvents(startDate, endDate);
+		assertEquals(0,events.size());
+		
+		
+	}
 	
 
 

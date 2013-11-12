@@ -111,7 +111,7 @@ public class CalendarActivity extends Activity{
  
         /** Setting dropdown items and item navigation listener for the actionbar */
         getActionBar().setListNavigationCallbacks(adapter, navigationListener);
-    	
+        getActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.actionbar6));
     	//getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
