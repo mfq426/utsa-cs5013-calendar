@@ -7,8 +7,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
 	
-	private final static int DATABASE_VERSION = 7;
-	private final static String DATABASE_NAME = "CalenderDB";
+	private final static int DATABASE_VERSION = 8;
+	public final static String DATABASE_NAME = "CalenderDB";
     private final String EVENT_TABLE_NAME = "Event";
    
     // Event Table Columns names
@@ -27,8 +27,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private final String CATEGORY_TYPE = "type";
     private final String CATEGORY_DESCRIPTION = "details";
 
-    DatabaseHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public DatabaseHelper(Context context, String pDataBaseName) {
+        super(context, pDataBaseName, null, DATABASE_VERSION);
     }
     
     /**
@@ -136,9 +136,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public String getCategoryDescription() {
 		return CATEGORY_DESCRIPTION;
 	}
-	
-	
-	
 	
 
 }

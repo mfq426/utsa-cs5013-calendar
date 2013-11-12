@@ -13,7 +13,7 @@ public class CategoryManagerTest extends AndroidTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		mDatabaseHelper = new DatabaseHelper(getContext());
+		mDatabaseHelper = new DatabaseHelper(getContext(),"CalendarDBTest");
 		mCategoryManager = new CategoryManager(mDatabaseHelper);
 	}
 
