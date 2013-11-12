@@ -41,6 +41,31 @@ public class CategoryManagerTest extends AndroidTestCase {
 		assertEquals(0,categoryList.size());
 		
 	}
+	
+	public void testUpdateCategoryName() throws Exception {
+		Category category = new Category(1,12345, "sports", "Sports");
+		mCategoryManager.addCategory(category);
+		Category updatedCategory = new Category(1,12345, "IndoorSports", "IndoorSports");
+		mCategoryManager.updateCategoryName(1, updatedCategory);
+		List<Category> categoryList = mCategoryManager.readCategory("sports");
+		assertEquals(0,categoryList.size());
+		categoryList = mCategoryManager.readCategory("IndoorSports");
+		assertEquals(1,categoryList.size());
+	}
+	
+	public void testReadAllCategory() throws Exception {
+		Category category = new Category(1,12345, "sports", "Sports");
+		mCategoryManager.addCategory(category);
+		category = new Category(2,23456, "meeting", "Meeting");
+		mCategoryManager.addCategory(category);
+		category = new Category(2,23456, "travel", "Travel");
+		mCategoryManager.addCategory(category);
+		
+		List<Category> categoryList = mCategoryManager.readAllCategory();
+		
+		assertEquals(3,categoryList.size());
+	}
+	
 
 	
 }
