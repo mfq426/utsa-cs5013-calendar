@@ -62,38 +62,8 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 
 			gView.setNumColumns(3);
 
-			final DailyViewModel dailyViewModel = list.get(position);
-			final ArrayAdapter<Event> adapter = new ArrayAdapter<Event>(this.context, R.layout.event_list_entry,
-					dailyViewModel.getEvents()) {
-
-				@Override
-				public View getView(int pPosition, View pConvertView, ViewGroup pParent) {
-					View localView = null;
-					if (pConvertView == null) {
-						LayoutInflater inflator = context.getLayoutInflater();
-						localView = inflator.inflate(R.layout.event_list_entry, null);
-						ViewHolderEvent viewHolder = new ViewHolderEvent();
-						viewHolder.text = (TextView) localView.findViewById(R.id.textViewEvent);
-						localView.setTag(viewHolder);
-					} else {
-						localView = pConvertView;
-					}
-					ViewHolderEvent localHolder = (ViewHolderEvent) localView.getTag();
-					if (dailyViewModel.getEvents().size() == 0) {
-						localHolder.text.setText(dailyViewModel.getCreateLabel());
-					}
-					if (dailyViewModel.getEvents().size() >= pPosition) {
-						Event item = getItem(pPosition);
-						localHolder.text.setText(item.getDescription());
-						if (item.getID() == -100) {
-
-						} else {
-							localHolder.text.setBackgroundColor(item.getColor());
-						}
-					}
-					return localView;
-				}
-			};
+			final DailyViewModel dailyViewModel = getItem(position);
+			final ArrayAdapter<Event> adapter = getNewAdapter(dailyViewModel);
 			mAdapterList.add(adapter);
 			gView.setAdapter(adapter);
 
@@ -129,11 +99,13 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 
 		ViewHolder holder = (ViewHolder) view.getTag();
 		if (list.size() >= position) {
-			DailyViewModel dailyViewModel = list.get(position);
+			DailyViewModel dailyViewModel = getItem(position);
 
 			holder.text1.setText(dailyViewModel.getTimeLebel());
 			List<Event> events = dailyViewModel.getEvents();
-
+			final ArrayAdapter<Event> adapter =getNewAdapter(dailyViewModel);
+			((GridView) holder.grid).setAdapter(adapter);
+			
 			if (events.size() > 0) {
 				// Event event = events.get(0);
 				// holder.text2.setText(event.getDescription());
@@ -150,6 +122,56 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 		 * view.setBackgroundColor(0x300000FF);
 		 */
 		return view;
+	}
+
+	private ArrayAdapter<Event> getNewAdapter(final DailyViewModel dailyViewModel) {
+		final ArrayAdapter<Event> adapter = new ArrayAdapter<Event>(this.context, R.layout.event_list_entry,
+				dailyViewModel.getEvents()) {
+			
+			@Override
+					public Event getItem(int pPosition) {
+						return dailyViewModel.getEvents().get(pPosition);
+					}
+
+			@Override
+			public View getView(int pPosition, View pConvertView, ViewGroup pParent) {
+				View localView = null;
+				if (pConvertView == null) {
+					LayoutInflater inflator = context.getLayoutInflater();
+					localView = inflator.inflate(R.layout.event_list_entry, null);
+					ViewHolderEvent viewHolder = new ViewHolderEvent();
+					viewHolder.text = (TextView) localView.findViewById(R.id.textViewEvent);
+					localView.setTag(viewHolder);
+				} else {
+					localView = pConvertView;
+				}
+				ViewHolderEvent localHolder = (ViewHolderEvent) localView.getTag();
+				localHolder.text.setText("");
+				/*if (dailyViewModel.getEvents().size() == 0) {
+					localHolder.text.setText(dailyViewModel.getCreateLabel());
+				}*/
+				Event item = getItem(pPosition);
+				if (item !=null) {
+					
+					localHolder.text.setText(item.getDescription());
+					if (item.getID() == -100) {
+
+					} else {
+						localHolder.text.setBackgroundColor(item.getColor());
+					}
+				}else{
+					localHolder.text.setText("");
+				}
+				return localView;
+			}
+		};
+		return adapter;
+	}
+	
+	@Override
+	public DailyViewModel getItem(int pPosition) {
+		// TODO Auto-generated method stub
+		return list.get(pPosition);
 	}
 	
 	public void upDateChange(){
