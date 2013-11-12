@@ -129,7 +129,7 @@ public class MonthlyViewActivity extends CalendarActivity {
 			workDayIndicator.add("0");
 		}
 
-		List<Event> events = ((GlobalVariables) this.getApplication())
+		List<Event> events = Manager.getInstance()
 				.getEventManager().readEvents(startDate, endDate);
 
 		for (Event ev : events) {

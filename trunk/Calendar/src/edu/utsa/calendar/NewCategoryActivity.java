@@ -84,7 +84,7 @@ public class NewCategoryActivity extends Activity {
 	public void createCategory(View v) {
 		getData();
 		if(verifyData()) {
-			CategoryManager manager = ((GlobalVariables) this.getApplication()).getCategoryManager();
+			CategoryManager manager = Manager.getInstance().getCategoryManager();
 			ArrayList<Category> list = manager.readCategory(name);
 			if(list.size()>0) {
 				popup("category name is taken");

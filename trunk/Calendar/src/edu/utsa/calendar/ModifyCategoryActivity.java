@@ -32,7 +32,7 @@ public class ModifyCategoryActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_category);
 		
-		final CategoryManager manager = ((GlobalVariables) this.getApplication()).getCategoryManager();
+		final CategoryManager manager = Manager.getInstance().getCategoryManager();
 		ArrayList<Category> list = manager.readAllCategory();
 		
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.delete_category_view);

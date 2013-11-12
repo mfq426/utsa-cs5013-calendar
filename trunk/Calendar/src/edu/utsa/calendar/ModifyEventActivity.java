@@ -114,7 +114,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_modify_event);
 		
-		manager = ((GlobalVariables) this.getApplication()).getEventManager();
+		manager = Manager.getInstance().getEventManager();
 		
 		Intent intent = getIntent();
 		int event_id = intent.getIntExtra("event_id", -100);
@@ -149,7 +149,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		times.setText(String.valueOf(occurance));
 		
 		Spinner spinner = (Spinner)findViewById(R.id.category_spinner_m);
-		CategoryManager category_manager = ((GlobalVariables) this.getApplication()).getCategoryManager();
+		CategoryManager category_manager = Manager.getInstance().getCategoryManager();
 		ArrayList<Category> list = category_manager.readAllCategory();
 		Iterator<Category> itr = list.iterator();
 		ArrayList<String> options = new ArrayList<String>();
