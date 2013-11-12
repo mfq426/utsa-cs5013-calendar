@@ -25,7 +25,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		// First create the database
-		databaseHelper = new DatabaseHelper(this);
+		databaseHelper = new DatabaseHelper(this,DatabaseHelper.DATABASE_NAME);
 		
 		// Next create CategoryManager and EventManager
 		categoryManager = new CategoryManager(databaseHelper);

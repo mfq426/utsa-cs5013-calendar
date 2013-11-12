@@ -17,7 +17,7 @@ public class EventManagerTest extends AndroidTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		mDatabaseHelper = new DatabaseHelper(getContext());
+		mDatabaseHelper = new DatabaseHelper(getContext(),"CalendarDBTest");
 		mCategoryManager = new CategoryManager(mDatabaseHelper);
 		mEventManager = new EventManager(mDatabaseHelper, mCategoryManager);
 		
