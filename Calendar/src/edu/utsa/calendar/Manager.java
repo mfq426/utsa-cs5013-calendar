@@ -1,22 +1,23 @@
 package edu.utsa.calendar;
 
-import android.app.Application;
+import android.content.Context;
 
-public class GlobalVariables extends Application{
+
+public class Manager {
 
 	private EventManager eventManager;
 	private CategoryManager categoryManager;
-	
-	private static GlobalVariables me;
+	private static Manager manager = null;
 
-    @Override
-    public void onCreate() {        
-        super.onCreate();
-        me = this ;
-
+    private Manager() {
+    	    	
     }
-    public static GlobalVariables getInstance() {
-         return me;
+    public static Manager getInstance() {
+           if( manager == null ) {
+        	
+        	   manager = new Manager();
+           }
+           return manager;
     }
 	
 	public EventManager getEventManager() {
