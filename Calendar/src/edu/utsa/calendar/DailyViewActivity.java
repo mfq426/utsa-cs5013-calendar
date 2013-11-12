@@ -84,17 +84,19 @@ public class DailyViewActivity extends CalendarActivity {
 			int startHourOfDay = startDateOfEvent.get(Calendar.HOUR_OF_DAY);
 			int sday = startDateOfEvent.get(Calendar.DAY_OF_MONTH);
 			DailyViewModel tempDailyModel = modelList.get(startHourOfDay);
-			
+
 			tempDailyModel.addEvent(event);
-			Calendar endDateOfEvent = event.getStartDate();
+			Calendar endDateOfEvent = event.getEndDate();
 			int endHourOfDay = endDateOfEvent.get(Calendar.HOUR_OF_DAY);
 			int eday = startDateOfEvent.get(Calendar.DAY_OF_MONTH);
-			if(sday== eday && ( endHourOfDay > startHourOfDay) ){
-				tempDailyModel = modelList.get(endHourOfDay);
-				tempDailyModel.addEvent(event);
+			if (sday == eday && (endHourOfDay > startHourOfDay)) {
+				while (startHourOfDay <= endHourOfDay) {
+					startHourOfDay += 1;
+					tempDailyModel = modelList.get(startHourOfDay);
+					tempDailyModel.addEvent(event);
+				}
 			}
-			
-			
+
 		}
 		mAdapter = new InteractiveArrayAdapter(this, modelList);
 		mListView.setAdapter(mAdapter);
