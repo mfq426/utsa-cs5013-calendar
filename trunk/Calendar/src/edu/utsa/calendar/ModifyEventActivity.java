@@ -386,8 +386,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	public void removeEvent(View v) {
 		for(int i=0; i<=total-1; i++) {
 			manager.deleteEvent(oldfrom[i], oldto[i]);
-			System.out.println(oldfrom[i].getTime().toString());
-			System.out.println(oldto[i].getTime().toString());
+
 		}
 		finish();
 	}
