@@ -2,31 +2,45 @@ package edu.utsa.calendar;
 
 import java.util.Calendar;
 
+
 /**
+ * This is the entity class for event and store all the necessary information
+ * for event
  * 
- * @author Mejbah
- * Entity class for event
+ * @author Jamiul, Mostafa, Mejbah
+ * 
  */
 
 public class Event {
 	private int mID;
-	private java.util.Calendar mStartDate;//
-	private java.util.Calendar mEndDate;//
-	private String mCategoryID;//
-	private String mDescription;//
+	private java.util.Calendar mStartDate;
+	private java.util.Calendar mEndDate;
+	private String mCategoryID;
+	private String mDescription;
 	private int eColor;
-	private int totalOccurance;//
-	private int occuranceIndex;//
-	
-	public int getID() {
-		return mID;
-	}
+	private int totalOccurance;
+	private int occuranceIndex;
 
-	public void setID(int pID) {
-		mID = pID;
-	}
-
-	
+	/**
+	 * Constructor
+	 * 
+	 * @param mID
+	 *            event id
+	 * @param mStartDate
+	 *            event start date
+	 * @param mEndDate
+	 *            event end date
+	 * @param mCategoryID
+	 *            event category name
+	 * @param mDescription
+	 *            event description
+	 * @param totalOccurance
+	 *            for weekly repeating events, represents how many time it will
+	 *            occur
+	 * @param occuranceIndex
+	 *            for weekly repeating events, represents the index among the
+	 *            repeating events
+	 */
 	public Event(int mID, Calendar mStartDate, Calendar mEndDate,
 			String mCategoryID, String mDescription, int totalOccurance,
 			int occuranceIndex) {
@@ -38,12 +52,30 @@ public class Event {
 		this.mDescription = mDescription;
 		this.totalOccurance = totalOccurance;
 		this.occuranceIndex = occuranceIndex;
-		this.eColor = -1;
+		this.eColor = -1; // set the color of events to -1. It will populate
+							// when reading from the database
 	}
 
-	public Event( Calendar mStartDate, Calendar mEndDate,
-			String mCategoryID, String mDescription, int totalOccurance,
-			int occuranceIndex) {
+	/**
+	 * Constructor
+	 * 
+	 * @param mStartDate
+	 *            event start date
+	 * @param mEndDate
+	 *            event end date
+	 * @param mCategoryID
+	 *            event category name
+	 * @param mDescription
+	 *            event description
+	 * @param totalOccurance
+	 *            for weekly repeating events, represents how many time it will
+	 *            occur
+	 * @param occuranceIndex
+	 *            for weekly repeating events, represents the index among the
+	 *            repeating events
+	 */
+	public Event(Calendar mStartDate, Calendar mEndDate, String mCategoryID,
+			String mDescription, int totalOccurance, int occuranceIndex) {
 		super();
 		this.mStartDate = mStartDate;
 		this.mEndDate = mEndDate;
@@ -51,10 +83,10 @@ public class Event {
 		this.mDescription = mDescription;
 		this.totalOccurance = totalOccurance;
 		this.occuranceIndex = occuranceIndex;
-		this.eColor=-1;
+		this.eColor = -1;
 		this.mID = -1;
 	}
-	
+
 	public java.util.Calendar getStartDate() {
 		return mStartDate;
 	}
@@ -111,6 +143,12 @@ public class Event {
 		this.occuranceIndex = occuranceIndex;
 	}
 
-		
-}
+	public int getID() {
+		return mID;
+	}
 
+	public void setID(int pID) {
+		mID = pID;
+	}
+
+}
