@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +19,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * ModifyEventActivity provides the user the capability to update and remove the existing events
+ * @author Lu Liu
+ */
 public class ModifyEventActivity extends Activity implements OnItemSelectedListener{
 	
 	private int fromYear;
@@ -36,40 +39,49 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	private boolean checked=false;
 	private int occurance;
 	private String categoryName;
+	private final static String DEFAULT = "default";
+	private final static String EVENT_TIME_CONFLICT = "event time conflict";
+	private final static String INVALID_USER_INPUT = "invalid user input";
+	private final static String INCOMPLETE_USER_INPUT = "incomplete user input";
 	
-	private Calendar[] oldfrom;
-	private Calendar[] oldto;
-	private int index;
-	private int total;
+	// if the event is a weekly periodical event, we created it as multiple events for consecutive weeks
+	private Calendar[] oldfrom; // events start time
+	private Calendar[] oldto; // events end time
+	private int index; // the position of the event picked by user among the serial of events
+	private int total; // how many weeks the weekly periodical event lasts
 	private EventManager manager;
 	
-	private void setData(Event e) {
-		fromYear = e.getStartDate().get(Calendar.YEAR);
-		fromMonth = e.getStartDate().get(Calendar.MONTH) + 1;
-		fromDay = e.getStartDate().get(Calendar.DAY_OF_MONTH);
-		fromHour = e.getStartDate().get(Calendar.HOUR_OF_DAY);
-		fromMinute = e.getStartDate().get(Calendar.MINUTE);
+	/**
+	 * set attributes with event information
+	 * @param event picked by user
+	 */
+	private void setData(Event event) {
+		fromYear = event.getStartDate().get(Calendar.YEAR);
+		fromMonth = event.getStartDate().get(Calendar.MONTH) + 1;
+		fromDay = event.getStartDate().get(Calendar.DAY_OF_MONTH);
+		fromHour = event.getStartDate().get(Calendar.HOUR_OF_DAY);
+		fromMinute = event.getStartDate().get(Calendar.MINUTE);
 		
-		toYear = e.getEndDate().get(Calendar.YEAR);
-		toMonth = e.getEndDate().get(Calendar.MONTH) + 1;
-		toDay = e.getEndDate().get(Calendar.DAY_OF_MONTH);
-		toHour = e.getEndDate().get(Calendar.HOUR_OF_DAY);
-		toMinute = e.getEndDate().get(Calendar.MINUTE);
+		toYear = event.getEndDate().get(Calendar.YEAR);
+		toMonth = event.getEndDate().get(Calendar.MONTH) + 1;
+		toDay = event.getEndDate().get(Calendar.DAY_OF_MONTH);
+		toHour = event.getEndDate().get(Calendar.HOUR_OF_DAY);
+		toMinute = event.getEndDate().get(Calendar.MINUTE);
 		
-		description = e.getDescription();
-		occurance = e.getTotalOccurance();
+		description = event.getDescription();
+		occurance = event.getTotalOccurance();
 		total = occurance;
 		if(occurance > 1) {
 			checked = true;
 		}
-		index = e.getOccuranceIndex();
-		categoryName = e.getCategoryID();
+		index = event.getOccuranceIndex();
+		categoryName = event.getCategoryID();
 		
 		oldfrom = new Calendar[total];
 		oldto = new Calendar[total];
 		
-		oldfrom[index-1] = e.getStartDate();
-		oldto[index-1] = e.getEndDate();
+		oldfrom[index-1] = event.getStartDate();
+		oldto[index-1] = event.getEndDate();
 		
 		for(int i=index-2; i>=0; i--) {
 			oldfrom[i] = Calendar.getInstance();
@@ -90,6 +102,12 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		}		
 	}
 	
+	/**
+	 * construct user friendly time display
+	 * @param hourOfDay, which range from 0 to 24
+	 * @param minute
+	 * @return a string like 4:02AM 
+	 */
 	private String constructTime(int hourOfDay, int minute) {
 		String suffix;
 		if (hourOfDay < 12) {
@@ -120,7 +138,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		Event e = manager.getEventById(event_id);
 		
 		setData(e);
-		
+		// dynamically set the views
 		String s;
 		TextView from_date = (TextView)findViewById(R.id.from_date_m);
 		from_date.setText(fromMonth + "/" + fromDay + "/" + fromYear);
@@ -146,7 +164,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		
 		TextView times = (TextView)findViewById(R.id.times_m);
 		times.setText(String.valueOf(occurance));
-		
+		// construct spinner item array by getting all categories from database
 		Spinner spinner = (Spinner)findViewById(R.id.category_spinner_m);
 		CategoryManager category_manager = Manager.getInstance().getCategoryManager();
 		ArrayList<Category> list = category_manager.readAllCategory();
@@ -158,7 +176,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		while(itr.hasNext()) {
 			c = itr.next();
 			s = c.getName();
-			if(!(s.equalsIgnoreCase("default"))) {
+			// exclude from showing the default category
+			if(!(s.equalsIgnoreCase(DEFAULT))) {
 				options.add(s);
 				i++;
 				if(s.equals(categoryName)) {
@@ -166,7 +185,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 				}
 			}
 		}
-		
+		// add spinner item array to spinner dynamically
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
@@ -184,7 +203,11 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		return true;
 	}
 	
-	public void showFromDatePickerDialog(View v) {
+	/**
+	 * show date picker dialog to enable user to select event start date
+	 * @param event start date view 
+	 */
+	public void showFromDatePickerDialog(View view) {
 		DatePickerFragment date = new DatePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("date_view", R.id.from_date_m);
@@ -192,7 +215,11 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		date.show(getFragmentManager(), "fromDatePicker");
 	}
 
-	public void showFromTimePickerDialog(View v) {
+	/**
+	 * show time picker dialog to enable user to select event start time of day
+	 * @param event start time of day view
+	 */
+	public void showFromTimePickerDialog(View view) {
 		TimePickerFragment time = new TimePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("time_view", R.id.from_time_m);
@@ -200,7 +227,11 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		time.show(getFragmentManager(), "fromTimePicker");
 	}
 
-	public void showToDatePickerDialog(View v) {
+	/**
+	 * show date picker dialog to enable user to select event end date
+	 * @param event end date view
+	 */
+	public void showToDatePickerDialog(View view) {
 		DatePickerFragment date = new DatePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("date_view", R.id.to_date_m);
@@ -208,7 +239,11 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		date.show(getFragmentManager(), "toDatePicker");
 	}
 
-	public void showToTimePickerDialog(View v) {
+	/**
+	 * show time picker dialog to enable user to select event end time of day
+	 * @param event end time of day view
+	 */
+	public void showToTimePickerDialog(View view) {
 		TimePickerFragment time = new TimePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("time_view", R.id.to_time_m);
@@ -216,10 +251,18 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		time.show(getFragmentManager(), "toTimePicker");
 	}
 	
-	public void onCheckboxClicked(View v) {
-		checked = ((CheckBox) v).isChecked();
+	/**
+	 * handle the event when the checkbox is checked
+	 * @param weekly repeating checkbox
+	 */
+	public void onCheckboxClicked(View view) {
+		checked = ((CheckBox) view).isChecked();
 	}
 	
+	/**
+	 * collect user input from all view components
+	 * @return a boolean value, it is true if all required fields are filed; otherwise return false
+	 */
 	private boolean getData() {
 		TextView from = (TextView)findViewById(R.id.from_date_m);
 		String tmp = from.getText().toString();
@@ -291,6 +334,10 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		return true;
 	}
 	
+	/**
+	 * verify the user input data to make sure that event start time is earlier than end time and if it is weekly repeating event, the repeating times is positive value
+	 * @return a boolean value, if all the conditions meets; otherwise return false
+	 */
 	private boolean verifyData() {
 		Calendar fromDate, toDate;
 		
@@ -328,7 +375,11 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		return flag;
 	}
 
-	public void modifyEvent(View v) {
+	/**
+	 * update event accordingly
+	 * @param modify event button
+	 */
+	public void modifyEvent(View view) {
 		
 		if(getData()) {
 			if (verifyData()) {
@@ -363,9 +414,9 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 					}
 				}
 				
+				// resolve event time conflict
 				if(flag) {
-					removeEvent(v);
-					
+					removeEvent(view);
 					for(int i=0; i<occurance; i++) {
 						e = new Event(from[i], to[i], categoryName, description, occurance, i+1);
 						manager.createEvent(e);
@@ -373,25 +424,31 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 					
 					finish();
 				} else {
-					popup("event time conflict");
+					popup(EVENT_TIME_CONFLICT);
 				}
 			} else{
-				popup("invalid user input");
+				popup(INVALID_USER_INPUT);
 			}
 		} else {
-			popup("incomplete user input");
+			popup(INCOMPLETE_USER_INPUT);
 		}
 	}
 	
-	public void removeEvent(View v) {
+	/**
+	 * delete event
+	 * @param remove event button
+	 */
+	public void removeEvent(View view) {
 		for(int i=0; i<=total-1; i++) {
 			manager.deleteEvent(oldfrom[i], oldto[i]);
-
 		}
 		finish();
 	}
 	
-
+	/**
+	 * return to the last activity
+	 * @param return button
+	 */
 	public void cancel(View v) {
 		finish();
 	}
