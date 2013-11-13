@@ -2,6 +2,11 @@ package edu.utsa.calendar;
 
 import java.util.Calendar;
 
+/**
+ * 
+ * @author Mejbah
+ * Entity class for event
+ */
 
 public class Event {
 	private int mID;
