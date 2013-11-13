@@ -22,20 +22,33 @@ import android.widget.GridView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+
+/**
+ * <p>
+ * This is the main adapter class for Daily Activity View of Calendar. 
+ * For each model it create child adapter for multiple {@link Event} instances.
+ *  
+ * 
+ * @see ArrayAdapter
+ * @see BaseAdapter
+ * 
+ * @author <a href="mailto:mek442@my.utsa.edu">Nahid Mostafa</a>
+ */
 public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 
-	private final List<DailyViewModel> list;
-	private final Activity context;
+	private final List<DailyViewModel> mList;
+	private final Activity mContext;
 	private InteractiveArrayAdapter mInteractiveArrayAdapter;
 	private List<ArrayAdapter<Event>> mAdapterList = new ArrayList<ArrayAdapter<Event>>();
 
 	public InteractiveArrayAdapter(Activity context, List<DailyViewModel> list) {
 		super(context, R.layout.list_item, list);
-		this.context = context;
-		this.list = list;
+		this.mContext = context;
+		this.mList = list;
 		mInteractiveArrayAdapter = this;
 	}
-
+	// Static holder
 	static class ViewHolder {
 		protected TextView text1;
 		protected View grid;
@@ -55,7 +68,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View view = null;
 		if (convertView == null) {
-			LayoutInflater inflator = context.getLayoutInflater();
+			LayoutInflater inflator = mContext.getLayoutInflater();
 			view = inflator.inflate(R.layout.list_item, null);
 			final ViewHolder viewHolder = new ViewHolder();
 			viewHolder.text1 = (TextView) view.findViewById(R.id.textView1);
@@ -75,13 +88,13 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 					if (dailyViewModel.getEvents().size() >= position) {
 						Event gridEvent = adapter.getItem(position);
 						if (gridEvent.getID() == -100) {
-							Intent intent = new Intent(context, NewEventActivity.class);
+							Intent intent = new Intent(mContext, NewEventActivity.class);
 
-							context.startActivity(intent);
+							mContext.startActivity(intent);
 						} else {
-							Intent intent = new Intent(context, ModifyEventActivity.class);
+							Intent intent = new Intent(mContext, ModifyEventActivity.class);
 							intent.putExtra("event_id", gridEvent.getID());
-							context.startActivity(intent);
+							mContext.startActivity(intent);
 						}
 					} else {
 
@@ -98,7 +111,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 		}
 
 		ViewHolder holder = (ViewHolder) view.getTag();
-		if (list.size() >= position) {
+		if (mList.size() >= position) {
 			DailyViewModel dailyViewModel = getItem(position);
 
 			holder.text1.setText(dailyViewModel.getTimeLebel());
@@ -106,22 +119,14 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 			final ArrayAdapter<Event> adapter = getNewAdapter(dailyViewModel);
 			((GridView) holder.grid).setAdapter(adapter);
 
-			if (events.size() > 0) {
-				// Event event = events.get(0);
-				// holder.text2.setText(event.getDescription());
-			} else {
-				/*
-				 * TextView textview = new TextView(context);
-				 * textview.setText(dailyViewModel.getCreateLabel());
-				 * holder.grid = textview;
-				 */
-			}
+		
 		}
 		return view;
 	}
 
+	
 	private ArrayAdapter<Event> getNewAdapter(final DailyViewModel dailyViewModel) {
-		final ArrayAdapter<Event> adapter = new ArrayAdapter<Event>(this.context, R.layout.event_list_entry,
+		final ArrayAdapter<Event> adapter = new ArrayAdapter<Event>(this.mContext, R.layout.event_list_entry,
 				dailyViewModel.getEvents()) {
 
 			@Override
@@ -136,7 +141,7 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 			public View getView(int pPosition, View pConvertView, ViewGroup pParent) {
 				View localView = null;
 				if (pConvertView == null) {
-					LayoutInflater inflator = context.getLayoutInflater();
+					LayoutInflater inflator = mContext.getLayoutInflater();
 					localView = inflator.inflate(R.layout.event_list_entry, null);
 					ViewHolderEvent viewHolder = new ViewHolderEvent();
 					viewHolder.text = (TextView) localView.findViewById(R.id.textViewEvent);
@@ -144,18 +149,15 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 				} else {
 					localView = pConvertView;
 				}
+				// viewholder is used to improve performances
 				ViewHolderEvent localHolder = (ViewHolderEvent) localView.getTag();
 				localHolder.text.setText("");
-				/*
-				 * if (dailyViewModel.getEvents().size() == 0) {
-				 * localHolder.text.setText(dailyViewModel.getCreateLabel()); }
-				 */
 				Event item = getItem(pPosition);
 				if (item != null) {
 
 					localHolder.text.setText(item.getDescription());
 					if (item.getID() == -100) {
-
+						// dummy event, empty space on click provide facility to create new Event
 					} else {
 						int sMinute = item.getStartDate().get(Calendar.MINUTE);
 						int eMinute = item.getEndDate().get(Calendar.MINUTE);
@@ -173,17 +175,11 @@ public class InteractiveArrayAdapter extends ArrayAdapter<DailyViewModel> {
 
 	@Override
 	public DailyViewModel getItem(int pPosition) {
-		// TODO Auto-generated method stub
-		return list.get(pPosition);
+		return mList.get(pPosition);
 	}
 
 	public void upDateChange() {
 		mInteractiveArrayAdapter.notifyDataSetChanged();
-		/*
-		 * for (ArrayAdapter<Event> arrayAdapter : mAdapterList) {
-		 * 
-		 * arrayAdapter.notifyDataSetChanged(); }
-		 */
 	}
 
 }
