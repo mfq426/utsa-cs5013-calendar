@@ -7,7 +7,11 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-
+/**
+ * Manager class for the category. Manage database communication for category related actions
+ * @author Mejbah
+ *
+ */
 public class CategoryManager implements Serializable{
 
 	private DatabaseHelper storageHandler;
@@ -18,7 +22,7 @@ public class CategoryManager implements Serializable{
 		this.storageHandler = storageHandler; 
 		//add default category
 		ArrayList<Category>initialCategories = readAllCategory();
-		//ArrayList<Category>initialCategories = readCategory("default");
+		
 		System.out.println("Initial category table size : " + initialCategories.size());
 		if(initialCategories.isEmpty()) {
 			addCategory(new Category(0xFFFF, "default", "default"));
@@ -79,6 +83,7 @@ public class CategoryManager implements Serializable{
 		
 		db.delete(storageHandler.getCategoryTableName(), 
 	            storageHandler.getCategoryType() + "= ? ", new String[] { name });
+
 		db.close(); // Closing database connection	
 			
 	
@@ -176,14 +181,14 @@ public class CategoryManager implements Serializable{
 	/**
 	 * Updates category color
 	 * @param categoryId
-	 * @param c
+	 * @param category
 	 */
-	public void updateCategoryColor( int categoryId, Category c ) {
+	public void updateCategoryColor( int categoryId, Category category ) {
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		
 		String strFilter = "_id=" + categoryId;
 		ContentValues args = new ContentValues();
-		args.put(storageHandler.getCategoryColor(), c.getColor());
+		args.put(storageHandler.getCategoryColor(), category.getColor());
 		db.update(storageHandler.getCategoryTableName(), args, strFilter, null);
 		
 		db.close();
@@ -195,14 +200,14 @@ public class CategoryManager implements Serializable{
 	/**
 	 * Updates category name
 	 * @param categoryId
-	 * @param c
+	 * @param category : category object to update
 	 */
-	public void updateCategoryName( int categoryId, Category c ) {
+	public void updateCategoryName( int categoryId, Category category ) {
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
 		
 		String strFilter = "_id=" + categoryId;
 		ContentValues args = new ContentValues();
-		args.put(storageHandler.getCategoryType(), c.getName());
+		args.put(storageHandler.getCategoryType(), category.getName());
 		db.update(storageHandler.getCategoryTableName(), args, strFilter, null);
 		
 		db.close();
