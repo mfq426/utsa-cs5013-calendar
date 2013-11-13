@@ -1,6 +1,10 @@
 package edu.utsa.calendar;
 
-
+/**
+ * 
+ * @author Mejbah : entity class for event categories
+ *
+ */
 public class Category {
 	private int mID;
 	private String mName;
