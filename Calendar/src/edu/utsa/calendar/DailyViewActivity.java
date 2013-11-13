@@ -28,16 +28,30 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * <p>
+ * This is the Class for Daily Activity View of Calendar. All the functionality
+ * of Daily View are initiated by this class. {@code DailyViewActivity} extend
+ * menu creation behaviour from {@code CalendarActivity}
+ * 
+ * 
+ * @see CalendarActivity
+ * @see Activity
+ * 
+ * @author <a href="mailto:mek442@my.utsa.edu">Nahid Mostafa</a>
+ */
+
 public class DailyViewActivity extends CalendarActivity {
 
 	private InteractiveArrayAdapter mAdapter = null;
-	View previous = null;
-	int preVposition = -1;
+	private View mPrevious = null;
+
+	private int mPreVposition = -1;
 	private ListView mListView;
-	private TextView dayViewHeader;
-	private Calendar startDate;
-	private Calendar endDate;
-	private Calendar selectedDate;
+	private TextView mDayViewHeader;
+	private Calendar mStartDate;
+	private Calendar mEndDate;
+	private Calendar mSelectedDate;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -45,30 +59,45 @@ public class DailyViewActivity extends CalendarActivity {
 		setContentView(R.layout.activity_daily_view);
 
 		mListView = (ListView) findViewById(R.id.listView1);
-		dayViewHeader = (TextView) findViewById(R.id.dayViewHeader);
+		mDayViewHeader = (TextView) findViewById(R.id.dayViewHeader);
 
 		addListenerOnButton(mListView);
-		selectedDate = Calendar.getInstance();
-		
-		// mListView.setAdapter(mAdapter);
+		mSelectedDate = Calendar.getInstance();
+
 	}
 
+	
 	private void populateModel() {
 		SimpleDateFormat sdf = new SimpleDateFormat("EEE, MMM d, yyyy", java.util.Locale.getDefault());
-		if (startDate == null) {
-			startDate = Calendar.getInstance();
-			endDate = Calendar.getInstance();
+		
+		/*
+		 *  At the start of the activity set the start date to current date 
+		 *  initialize the start date as first hour of the day and end date is
+		 *  the last hour of the day
+		 */
+		
+		if (mStartDate == null) {
+			mStartDate = Calendar.getInstance();
+			mEndDate = Calendar.getInstance();
 		}
-		startDate.setTime(selectedDate.getTime());
-		startDate.set(Calendar.HOUR_OF_DAY, 0);
-		startDate.set(Calendar.MINUTE, 0);
-		endDate.setTime(selectedDate.getTime());
-		endDate.set(Calendar.HOUR_OF_DAY, 23);
-		endDate.set(Calendar.MINUTE, 59);
+		mStartDate.setTime(mSelectedDate.getTime());
+		mStartDate.set(Calendar.HOUR_OF_DAY, 0);
+		mStartDate.set(Calendar.MINUTE, 0);
+		mEndDate.setTime(mSelectedDate.getTime());
+		mEndDate.set(Calendar.HOUR_OF_DAY, 23);
+		mEndDate.set(Calendar.MINUTE, 59);
 
-		String header = sdf.format(selectedDate.getTime());
-		dayViewHeader.setText(header);
-		List<Event> events = Manager.getInstance().getEventManager().readEvents(startDate, endDate);
+		String header = sdf.format(mSelectedDate.getTime());
+		mDayViewHeader.setText(header);
+		
+		
+		/*
+		 * Query the database for all the event list within start date 
+		 * and end date
+		 *  
+		 */
+		
+		List<Event> events = Manager.getInstance().getEventManager().readEvents(mStartDate, mEndDate);
 		List<DailyViewModel> modelList = new ArrayList<DailyViewModel>();
 		for (String hour : CalendarData.s12Hours) {
 
@@ -89,6 +118,13 @@ public class DailyViewActivity extends CalendarActivity {
 			Calendar endDateOfEvent = event.getEndDate();
 			int endHourOfDay = endDateOfEvent.get(Calendar.HOUR_OF_DAY);
 			int eday = startDateOfEvent.get(Calendar.DAY_OF_MONTH);
+			
+
+			/*
+			 * Handle the repeating event . For example the event started at
+			 * 10:00 AM and will be end at 12.00 pm
+			 */
+
 			if (sday == eday && (endHourOfDay > startHourOfDay)) {
 				while (startHourOfDay <= endHourOfDay) {
 					startHourOfDay += 1;
@@ -98,6 +134,10 @@ public class DailyViewActivity extends CalendarActivity {
 			}
 
 		}
+		
+		/*
+		 * Initialized the adapter with model list
+		 */
 		mAdapter = new InteractiveArrayAdapter(this, modelList);
 		mListView.setAdapter(mAdapter);
 
@@ -112,9 +152,7 @@ public class DailyViewActivity extends CalendarActivity {
 
 			@Override
 			public void onClick(View pView) {
-				// DailyViewActivity.this.onResume();
-				selectedDate.add(Calendar.DATE, 1);
-
+				mSelectedDate.add(Calendar.DATE, 1);
 				Intent intent = getIntent();
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
@@ -131,7 +169,7 @@ public class DailyViewActivity extends CalendarActivity {
 			@TargetApi(Build.VERSION_CODES.JELLY_BEAN)
 			@Override
 			public void onClick(View pView) {
-				selectedDate.add(Calendar.DATE, -1);
+				mSelectedDate.add(Calendar.DATE, -1);
 				Intent intent = getIntent();
 				intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 				startActivity(intent);
@@ -144,42 +182,39 @@ public class DailyViewActivity extends CalendarActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> l, View v, final int position, long id) {
-				// TODO Auto-generated method stub
 				DailyViewModel item = (DailyViewModel) mAdapter.getItem(position);
+				
+				// empty space for creating event
+				
 				if (item.getEvents().isEmpty()) {
 					item.setCreateLabel(" + New Event");
 					Event dummyEvent = new Event(-100, null, null, "", " + New Event", 0, 0);
 					item.addEvent(dummyEvent);
 				}
 
+				// holder to improve performance
 				final ViewHolder holder = (ViewHolder) v.getTag();
 				holder.grid.setBackgroundResource(R.drawable.list_selected);
-				if (preVposition == position) {
+				if (mPreVposition == position) {
 
-					if (!item.getEvents().isEmpty()) {
-						// item.setCreateLabel(" + New Event");
-					}
-					// Intent intent = new Intent(DailyViewActivity.this,
-					// NewEventActivity.class);
-					// pass the calling activity to my NewEventActivity;
-					// intent.putExtra(NewEventActivity.CALLING_ACTIVITY,
-					// NewEventActivity.DAILY_VIEW_ACTIVITY);
-					// startActivity(intent);
+				} else if (mPrevious != null) {
+					mPrevious.setBackgroundResource(getResources().getColor(android.R.color.transparent));
 
-				} else if (previous != null) {
-					previous.setBackgroundResource(getResources().getColor(android.R.color.transparent));
-
-					DailyViewModel itemOld = (DailyViewModel) mAdapter.getItem(preVposition);
+					DailyViewModel itemOld = (DailyViewModel) mAdapter.getItem(mPreVposition);
 					itemOld.removeEvents();
 
-					previous = holder.grid;
+					mPrevious = holder.grid;
 				} else {
-					previous = holder.grid;
+					mPrevious = holder.grid;
 				}
 
-				preVposition = position;
+				mPreVposition = position;
 
 				mAdapter.notifyDataSetChanged();
+				
+				/* notify all the child adapter on change data of 
+				 * parent adapter
+				 */
 				List<ArrayAdapter<Event>> adapterList = mAdapter.getAdapterList();
 
 				for (ArrayAdapter<Event> arrayAdapter : adapterList) {
@@ -192,6 +227,11 @@ public class DailyViewActivity extends CalendarActivity {
 
 	}
 
+	/*
+	 * To under stand the android life activity life cycle
+	 * @see Activity {@link #onResume() * onResume} method
+	 * 
+	 */
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -199,16 +239,18 @@ public class DailyViewActivity extends CalendarActivity {
 		if (bundle != null) {
 			Long time = bundle.getLong("selectedDay");
 			if (time != null && time > 0) {
-				selectedDate = Calendar.getInstance();
-				selectedDate.setTimeInMillis(time);
+				mSelectedDate = Calendar.getInstance();
+				mSelectedDate.setTimeInMillis(time);
 				time = Long.valueOf(0);
 				getIntent().putExtra("selectedDay", time);
 
 			}
 		}
+		
+		// on resume reset the previous position and view to null 
 		populateModel();
-		preVposition = -1;
-		previous = null;
+		mPreVposition = -1;
+		mPrevious = null;
 	}
 
 }
