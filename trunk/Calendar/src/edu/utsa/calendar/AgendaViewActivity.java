@@ -1,34 +1,30 @@
+
 package edu.utsa.calendar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import edu.utsa.calendar.InteractiveArrayAdapter.ViewHolder;
 
 import android.annotation.TargetApi;
-import android.app.Activity;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
-
+/**
+ * 
+ * @author Mejbah 
+ * Activity class for Agena View
+ *
+ */
 public class AgendaViewActivity extends CalendarActivity {
 	
 	private String startDateString;
 	private String endDateString;
-	    
 	private Calendar startDate;
 	private Calendar endDate;
-	
 	private TextView agendaViewHeader;
 	private GridView agendaGridView;
 	private ArrayList<Event> events;
@@ -63,7 +59,9 @@ public class AgendaViewActivity extends CalendarActivity {
 		populateModels();
 		
 	}
-
+    /**
+     * Gets the data and fills up the view
+     */
     public void populateModels() {
     	
     	endDate = Calendar.getInstance();
@@ -120,23 +118,35 @@ public class AgendaViewActivity extends CalendarActivity {
 
 		
 	}
-
+   
+    /**
+     * 
+     * @return Calendar instance of startDate of AgendaView
+     */
 	public Calendar getStartDate() {
 		return startDate;
 	}
 
-
+	/**
+	 * 
+	 * @param startDate : It is the start date from which agenda view start viewing agendas
+	 */
 
 	public void setStartDate(Calendar startDate) {
 		this.startDate = startDate;
 	}
-
-
-
+    
+	/**
+	 * 
+	 * @return end date for ageda view
+	 */
 	public Calendar getEndDate() {
 		return endDate;
 	}
-
+	/**
+	 * 
+	 * @param endDate : It is the start date from which agenda view ends viewing agendas
+	 */
 
 
 	public void setEndDate(Calendar endDate) {
