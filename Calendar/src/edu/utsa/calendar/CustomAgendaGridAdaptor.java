@@ -1,4 +1,6 @@
+
 package edu.utsa.calendar;
+
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +14,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+/**
+ * 
+ * @author Mejbah
+ * This file is the custom adaptror for the grid view used in agenda view activity
+ *
+ */
 
 public class CustomAgendaGridAdaptor extends BaseAdapter {
 	Context context;
@@ -127,11 +135,12 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	        tv3.setText(String.valueOf(agendaText.get(position)));
 	    }
 		
-
+        // add onclickLinstener with each linear layout
 			ll.setOnClickListener(new View.OnClickListener() {
 							
 				@Override
 				public void onClick(View v) {
+					// On click of each row/linear layout pass the event id for the event to ModifyEvent activity
 					Intent intent = new Intent(context, ModifyEventActivity.class);
 					intent.putExtra("event_id", agendaList.get(position).getID());
 					context.startActivity(intent);
