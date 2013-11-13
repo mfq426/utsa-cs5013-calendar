@@ -137,10 +137,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		checked = ((CheckBox) view).isChecked();
 	}
 	
-	/**
-	 * collect user input from all view components
-	 * @return a boolean value, it is true if all required fields are filed; otherwise return false
-	 */
+	// collect user input from all view components
 	private boolean getData() {
 		TextView from = (TextView)findViewById(R.id.from_date);
 		String tmp = from.getText().toString();
@@ -212,10 +209,8 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		return true;
 	}
 	
-	/**
-	 * verify the user input data to make sure that event start time is earlier than end time and if it is weekly repeating event, the repeating times is positive value
-	 * @return a boolean value, if all the conditions meets; otherwise return false
-	 */
+	// verify the user input data to make sure that event start time is earlier than end time 
+	// and if it is weekly repeating event, the repeating times is positive value
 	private boolean verifyData() {
 		Calendar fromDate, toDate;
 		
@@ -234,6 +229,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		return true;
 	}
 	
+	// give user feedback when something goes wrong
 	private void popup(CharSequence text) {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
