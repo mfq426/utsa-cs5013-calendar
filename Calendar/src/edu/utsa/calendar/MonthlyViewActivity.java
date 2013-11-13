@@ -22,6 +22,12 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * Purpose of this class is to draw monthly activity properly. It will on demand retrieve event information from database based on start date and end date
+ * @author Jamiul
+ *
+ */
+
 public class MonthlyViewActivity extends CalendarActivity {
 
 	private CategoryManager categoryManager;
@@ -36,6 +42,9 @@ public class MonthlyViewActivity extends CalendarActivity {
 
 	private int padding = 0;
 
+	/**
+	 * Set the variable text to populate new event information
+	 */
 	private void setMonthWorks() {
 
 		monthWorks = new ArrayList<String>();
@@ -59,6 +68,11 @@ public class MonthlyViewActivity extends CalendarActivity {
 
 	}
 
+	/**
+	 * Set the startDate and endDate variable to the start date and end date of
+	 * this week
+	 */
+	
 	private void setDate() {
 
 		// get the current date and set the start date to the beginning of the
@@ -69,10 +83,9 @@ public class MonthlyViewActivity extends CalendarActivity {
 		startDate.set(Calendar.SECOND, 0);
 		startDate.set(Calendar.MILLISECOND, 0);
 		startDate.set(Calendar.DAY_OF_MONTH, 1);
-		// System.out.println(new
-		// SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(startDate.getTime()));
+		
 
-		// get the current date and set the start date to the beginning of the
+		// get the current date and set the start date to the end of the
 		// month
 		endDate = Calendar.getInstance();
 		endDate.set(Calendar.HOUR_OF_DAY, 23);
@@ -81,11 +94,14 @@ public class MonthlyViewActivity extends CalendarActivity {
 		endDate.set(Calendar.MILLISECOND, 999);
 		endDate.set(Calendar.DAY_OF_MONTH,
 				endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-		// System.out.println(new
-		// SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(endDate.getTime()));
+		
 
 	}
 
+	
+	/**
+	 * This method reads event information from the database and populate them
+	 */
 	private void populateFields() {
 
 		setMonthWorks();
@@ -167,6 +183,13 @@ public class MonthlyViewActivity extends CalendarActivity {
 
 	}
 
+	
+	/**
+	 * Action listen for the user actions
+	 * 
+	 * @param gridView
+	 *            gird view to listen
+	 */
 	public void addListenerOnButton(GridView gridView) {
 
 		ImageButton imageButtonNext = (ImageButton) findViewById(R.id.nextImageButton);
@@ -223,22 +246,15 @@ public class MonthlyViewActivity extends CalendarActivity {
 						System.out.println(newDate.toString());
 						intent.putExtra("selectedDay", newDate.getTimeInMillis());
 						startActivity(intent);
-						// call DayViewActivity here
+						
 					} else {
 						Toast.makeText(MonthlyViewActivity.this,
 								"No events in this day", Toast.LENGTH_SHORT)
 								.show();
-						// call DayViewActicity here
+						
 					}
 
 				}
-
-				// Intent intent = new Intent(WeeklyViewActivity.this,
-				// NewEventActivity.class);
-				// pass the calling activity to my NewEventActivity;
-				// intent.putExtra(NewEventActivity.CALLING_ACTIVITY,
-				// NewEventActivity.WEEKLY_VIEW_ACTIVITY);
-				// startActivity(intent);
 
 			}
 		});
