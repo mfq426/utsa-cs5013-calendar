@@ -11,9 +11,15 @@ import android.text.format.DateFormat;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+/**
+ * TimePickerFragment is an Android Fragment enabling user to select time of day
+ * @author Lu Liu
+ */
 public class TimePickerFragment extends DialogFragment implements
 		OnTimeSetListener {
-	
+	/**
+	 * constructor with no parameter
+	 */
 	public TimePickerFragment() {
 		
 	}
@@ -29,13 +35,14 @@ public class TimePickerFragment extends DialogFragment implements
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-		// TODO Auto-generated method stub
+		// set time view text
 		int id = getArguments().getInt("time_view");
 		TextView textView = (TextView)getActivity().findViewById(id);
 		formatTime(textView, hourOfDay, minute);
 
 	}
 	
+	// generate user friendly time, such as 10:53 PM
 	private void formatTime(TextView view, int hourOfDay, int minute) {
 		String suffix;
 		if (hourOfDay < 12) {

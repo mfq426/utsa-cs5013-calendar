@@ -10,9 +10,16 @@ import android.os.Bundle;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+/**
+ * DatePickerFragment is an Android Fragment to enable user to select a date
+ * @author Lu Liu
+ */
 public class DatePickerFragment extends DialogFragment implements
 		OnDateSetListener {
 	
+	/**
+	 * constructor with no parameter
+	 */
 	public DatePickerFragment() {
 		
 	}
@@ -32,7 +39,7 @@ public class DatePickerFragment extends DialogFragment implements
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int month, int day) {
-		// TODO Auto-generated method stub
+		// set date view text
 		int id = getArguments().getInt("date_view");
 		TextView textView = (TextView)getActivity().findViewById(id);
 		textView.setText(String.valueOf(month + 1 ) + "/" + String.valueOf(day) + "/" + String.valueOf(year));

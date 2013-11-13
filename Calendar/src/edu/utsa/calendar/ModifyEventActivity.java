@@ -51,10 +51,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 	private int total; // how many weeks the weekly periodical event lasts
 	private EventManager manager;
 	
-	/**
-	 * set attributes with event information
-	 * @param event picked by user
-	 */
+	// set attributes with event information
 	private void setData(Event event) {
 		fromYear = event.getStartDate().get(Calendar.YEAR);
 		fromMonth = event.getStartDate().get(Calendar.MONTH) + 1;
@@ -102,12 +99,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		}		
 	}
 	
-	/**
-	 * construct user friendly time display
-	 * @param hourOfDay, which range from 0 to 24
-	 * @param minute
-	 * @return a string like 4:02AM 
-	 */
+	// construct user friendly time display, like 4:04 AM
 	private String constructTime(int hourOfDay, int minute) {
 		String suffix;
 		if (hourOfDay < 12) {
@@ -259,10 +251,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		checked = ((CheckBox) view).isChecked();
 	}
 	
-	/**
-	 * collect user input from all view components
-	 * @return a boolean value, it is true if all required fields are filed; otherwise return false
-	 */
+	// collect user input from all view components
 	private boolean getData() {
 		TextView from = (TextView)findViewById(R.id.from_date_m);
 		String tmp = from.getText().toString();
@@ -334,10 +323,8 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		return true;
 	}
 	
-	/**
-	 * verify the user input data to make sure that event start time is earlier than end time and if it is weekly repeating event, the repeating times is positive value
-	 * @return a boolean value, if all the conditions meets; otherwise return false
-	 */
+	// verify the user input data to make sure that event start time is earlier than end time 
+	// and if it is weekly repeating event, the repeating times is positive value
 	private boolean verifyData() {
 		Calendar fromDate, toDate;
 		
@@ -356,6 +343,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		return true;
 	}
 	
+	// give user feedback when something goes wrong
 	private void popup(CharSequence text) {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
@@ -364,6 +352,7 @@ public class ModifyEventActivity extends Activity implements OnItemSelectedListe
 		toast.show();
 	}
 	
+	// check whether instances are in the corresponding arrays or not
 	private boolean contains(Calendar from, Calendar to) {
 		boolean flag = false;
 		for(int i=0; i<=total-1; i++) {

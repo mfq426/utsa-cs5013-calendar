@@ -18,6 +18,10 @@ import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+/**
+ * ModifyCategoryActivity provides user the capability of removing category
+ * @author Lu Liu
+ */
 public class ModifyCategoryActivity extends Activity {
 	
 	private static final String PROMPT = "select category to delete";
@@ -25,6 +29,11 @@ public class ModifyCategoryActivity extends Activity {
 	private static final String DELETE = "delete";
 	private static final String RETURN = "return";
 	private static final String PROMPT2 = "please select category";
+	private static final String DEFAULT_CATEGORY = "default";
+	private static final int ONE = 1;
+	private static final int TWO = 2;
+	private static final int THREE = 3;
+	private static final int FOUR = 4;
 	private String categoryName;
 
 	@Override
@@ -40,12 +49,13 @@ public class ModifyCategoryActivity extends Activity {
 		Category c;
 		String s;
 		
+		// check if is there any category except the default category
 		if(list.size() > 1) {
 			Iterator<Category> itr = list.iterator();
 			while(itr.hasNext()) {
 				c = itr.next();
 				s = c.getName();
-				if(!(s.equalsIgnoreCase("default"))) {
+				if(!(s.equalsIgnoreCase(DEFAULT_CATEGORY))) {
 					options.add(s);
 				}
 			}
@@ -54,14 +64,16 @@ public class ModifyCategoryActivity extends Activity {
 			RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			RelativeLayout.LayoutParams params3 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			RelativeLayout.LayoutParams params4 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-			
-			TextView tv = new TextView(this);
-			tv.setId(1);
-			tv.setText(PROMPT);
+			// add a textview to the relative layout dynamically
+			TextView textview = new TextView(this);
+			textview.setId(ONE);
+			textview.setText(PROMPT);
 			params1.addRule(RelativeLayout.CENTER_HORIZONTAL);
+			layout.addView(textview, params1);
 			
+			// add a spinner to the relative layout dynamically
 			Spinner spinner = new Spinner(this);
-			spinner.setId(2);
+			spinner.setId(TWO);
 			ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options);
 			adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			spinner.setAdapter(adapter);
@@ -80,12 +92,14 @@ public class ModifyCategoryActivity extends Activity {
 					}
 			});
 			params2.addRule(RelativeLayout.CENTER_HORIZONTAL);
-			params2.addRule(RelativeLayout.BELOW, tv.getId());
+			params2.addRule(RelativeLayout.BELOW, textview.getId());
+			layout.addView(spinner, params2);
 			
-			Button button1 = new Button(this);
-			button1.setId(3);
-			button1.setText(DELETE);
-			button1.setOnClickListener(new View.OnClickListener() {
+			// add a create button to the relative layout dynamically
+			Button create_button = new Button(this);
+			create_button.setId(THREE);
+			create_button.setText(DELETE);
+			create_button.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -99,11 +113,13 @@ public class ModifyCategoryActivity extends Activity {
 			});
 			params3.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			params3.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+			layout.addView(create_button, params3);
 			
-			Button button2 = new Button(this);
-			button2.setId(4);
-			button2.setText(RETURN);
-			button2.setOnClickListener(new View.OnClickListener() {
+			// add a return button to the relative layout dynamically
+			Button return_button = new Button(this);
+			return_button.setId(FOUR);
+			return_button.setText(RETURN);
+			return_button.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -113,27 +129,26 @@ public class ModifyCategoryActivity extends Activity {
 			});
 			params4.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			params4.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			
-			layout.addView(tv, params1);
-			layout.addView(spinner, params2);
-			layout.addView(button1, params3);
-			layout.addView(button2, params4);
+			layout.addView(return_button, params4);
 			
 		} else {
+			// there is no other category except default category
 			RelativeLayout.LayoutParams params1 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			RelativeLayout.LayoutParams params2 = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			
-			TextView tv = new TextView(this);
-			tv.setId(1);
-			tv.setText(INFO);
+			// add a textview to the relative layout dynamically
+			TextView textview = new TextView(this);
+			textview.setId(ONE);
+			textview.setText(INFO);
 			params1.addRule(RelativeLayout.CENTER_HORIZONTAL);
 
-			Button button = new Button(this);
-			button.setId(2);
-			button.setText(RETURN);
+			// add a return button to the relative layout dynamically
+			Button return_button = new Button(this);
+			return_button.setId(TWO);
+			return_button.setText(RETURN);
 			params2.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
 			params2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-			button.setOnClickListener(new View.OnClickListener() {
+			return_button.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -141,11 +156,12 @@ public class ModifyCategoryActivity extends Activity {
 				}
 			});
 			
-			layout.addView(tv, params1);
-			layout.addView(button, params2);
+			layout.addView(textview, params1);
+			layout.addView(return_button, params2);
 		}
 	}
 	
+	// give user feedback when something goes wrong
 	private void popup(CharSequence text) {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;

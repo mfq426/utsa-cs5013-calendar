@@ -14,27 +14,23 @@ import android.widget.Toast;
 
 import com.larswerkman.holocolorpicker.ColorPicker;
 
+/**
+ * NewCategoryActivity in responsible of create category on user's demand
+ * @author Lu Liu
+ */
 public class NewCategoryActivity extends Activity {
 	
 	private String name;
 	private String description;
 	private int color;
+	
+	private final static String NAME_IS_TAKEN = "category name is taken";
+	private final static String INCOMPLETE_USER_INPUT = "incomplete user input";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_new_category);
-		// Show the Up button in the action bar.
-		//setupActionBar();
-	}
-
-	/**
-	 * Set up the {@link android.app.ActionBar}.
-	 */
-	private void setupActionBar() {
-
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-
 	}
 
 	@Override
@@ -43,24 +39,8 @@ public class NewCategoryActivity extends Activity {
 		getMenuInflater().inflate(R.menu.new_category, menu);
 		return true;
 	}
-
-	/*@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		switch (item.getItemId()) {
-		case android.R.id.home:
-			// This ID represents the Home or Up button. In the case of this
-			// activity, the Up button is shown. Use NavUtils to allow users
-			// to navigate up one level in the application structure. For
-			// more details, see the Navigation pattern on Android Design:
-			//
-			// http://developer.android.com/design/patterns/navigation.html#up-vs-back
-			//
-			NavUtils.navigateUpFromSameTask(this);
-			return true;
-		}
-		return super.onOptionsItemSelected(item);
-	}*/
 	
+	// collect user inputs
 	private void getData() {
 		EditText editText = (EditText)findViewById(R.id.name_text);
 		name = editText.getText().toString();
@@ -72,6 +52,7 @@ public class NewCategoryActivity extends Activity {
 		color = picker.getColor();
 	}
 	
+	// verify user inputs
 	private boolean verifyData() {
 		if(name == null || name.isEmpty() || description == null || description.isEmpty()) {
 			return false;
@@ -81,23 +62,28 @@ public class NewCategoryActivity extends Activity {
 		}
 	}
 	
-	public void createCategory(View v) {
+	/**
+	 * create category by go through getting user inputs, verifying user inputs and resolving category name conflict
+	 * @param creat category button
+	 */
+	public void createCategory(View view) {
 		getData();
 		if(verifyData()) {
 			CategoryManager manager = Manager.getInstance().getCategoryManager();
 			ArrayList<Category> list = manager.readCategory(name);
 			if(list.size()>0) {
-				popup("category name is taken");
+				popup(NAME_IS_TAKEN);
 			} else {
 				Category c = new Category(color, name, description);
 				manager.addCategory(c);
 				finish();
 			}
 		} else {
-			popup("incomplete user input");
+			popup(INCOMPLETE_USER_INPUT);
 		}
 	}
 	
+	// give user feedback when something goes wrong
 	private void popup(CharSequence text) {
 		Context context = getApplicationContext();
 		int duration = Toast.LENGTH_SHORT;
@@ -106,7 +92,11 @@ public class NewCategoryActivity extends Activity {
 		toast.show();
 	}
 	
-	public void cancel(View v) {
+	/**
+	 * return to the last activity
+	 * @param return button
+	 */
+	public void cancel(View view) {
 		finish();
 	}
 
