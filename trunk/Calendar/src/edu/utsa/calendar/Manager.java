@@ -1,7 +1,11 @@
 package edu.utsa.calendar;
 
-import android.content.Context;
-
+/**
+ * Singleton class for solely managing category manager and event manager
+ * 
+ * @author Jamiul, Mejbah
+ * 
+ */
 
 public class Manager {
 
@@ -9,26 +13,30 @@ public class Manager {
 	private CategoryManager categoryManager;
 	private static Manager manager = null;
 
-    private Manager() {
-    	    	
-    }
-    public static Manager getInstance() {
-           if( manager == null ) {
-        	
-        	   manager = new Manager();
-           }
-           return manager;
-    }
-	
+	private Manager() {
+
+	}
+
+	public static Manager getInstance() {
+		if (manager == null) {
+
+			manager = new Manager();
+		}
+		return manager;
+	}
+
 	public EventManager getEventManager() {
 		return eventManager;
 	}
+
 	public void setEventManager(EventManager eventManager) {
 		this.eventManager = eventManager;
 	}
+
 	public CategoryManager getCategoryManager() {
 		return categoryManager;
 	}
+
 	public void setCategoryManager(CategoryManager categoryManager) {
 		this.categoryManager = categoryManager;
 	}

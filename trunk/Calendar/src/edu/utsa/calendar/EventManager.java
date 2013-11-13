@@ -8,262 +8,365 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
-public class EventManager{
-	
+/**
+ * This class manages events. Main purpose of this class is to save, read,
+ * delete, update events from the database. This class also provides
+ * functionality to check event conflicts. This class also have an
+ * CategoryManager instance which is needed to get category color information to
+ * decide which event has which category color and populate that in read event
+ * method call
+ * 
+ * @author Jamiul
+ * 
+ */
+public class EventManager {
+
 	private DatabaseHelper storageHandler;
 	private CategoryManager categoryManager;
-	
-	public EventManager(DatabaseHelper storageHandler, CategoryManager categoryManager) {
+
+	/**
+	 * Constructor
+	 * 
+	 * @param storageHandler
+	 *            instance of storage handler class
+	 * @param categoryManager
+	 *            instance of category manager class
+	 */
+	public EventManager(DatabaseHelper storageHandler,
+			CategoryManager categoryManager) {
 		super();
 		this.storageHandler = storageHandler;
 		this.categoryManager = categoryManager;
 	}
-	
-	
-	public void createEvent( Event event ) {
+
+	/**
+	 * Save an event to database
+	 * 
+	 * @param event
+	 *            the event need to save
+	 */
+	public void createEvent(Event event) {
 		// Query for create event
 
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		 
+
 		ContentValues values = new ContentValues();
-		values.put(storageHandler.getEventsStartTime(), event.getStartDate().getTimeInMillis());
-		values.put(storageHandler.getEventsEndTime(), event.getEndDate().getTimeInMillis());
-		values.put(storageHandler.getEventsDescription(),event.getDescription());
+		values.put(storageHandler.getEventsStartTime(), event.getStartDate()
+				.getTimeInMillis());
+		values.put(storageHandler.getEventsEndTime(), event.getEndDate()
+				.getTimeInMillis());
+		values.put(storageHandler.getEventsDescription(),
+				event.getDescription());
 		values.put(storageHandler.getEVENTS_CATEGORY(), event.getCategoryID());
-		values.put(storageHandler.getEVENTS_TOTAL_OCCURANCE(), event.getTotalOccurance());
-		values.put(storageHandler.getEVENTS_OCCURANCE_INDEX(), event.getOccuranceIndex());
-				 
+		values.put(storageHandler.getEVENTS_TOTAL_OCCURANCE(),
+				event.getTotalOccurance());
+		values.put(storageHandler.getEVENTS_OCCURANCE_INDEX(),
+				event.getOccuranceIndex());
+
 		// Inserting Row
 		db.insert(storageHandler.getEventTableName(), null, values);
 		db.close(); // Closing database connection
 	}
-	
-	public List<Event> readEvents(java.util.Calendar sDate, java.util.Calendar eDate) {
-        List<Event> eventList = new ArrayList<Event>();
-        
-        
-        // Read all entry for category table
-        List<Category> categoryList = categoryManager.readAllCategory();        
-        
-        // Select all events with start time between sDate and eDate 
-        String selectQueryStartTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " >= " +sDate.getTimeInMillis()+ " AND "+  storageHandler.getEventsEndTime() + " <= " + eDate.getTimeInMillis();
- 
-        SQLiteDatabase db = storageHandler.getWritableDatabase();
-        Cursor cursorStartTime = db.rawQuery(selectQueryStartTime, null);
- 
-        // looping through all rows and adding to list
-        if (cursorStartTime.moveToFirst()) {
-            do {
-                //Event contact = new Event();
-            	
-            	Calendar startDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursorStartTime.getString(2)).longValue());
-            	Calendar endDate = Calendar.getInstance();
-            	endDate.setTimeInMillis(Long.valueOf(cursorStartTime.getString(3)).longValue());
-            	            	
-                Event event = new Event( Integer.parseInt(cursorStartTime.getString(0)), startDate, endDate, cursorStartTime.getString(4),cursorStartTime.getString(1),Integer.parseInt(cursorStartTime.getString(5)),Integer.parseInt(cursorStartTime.getString(6)));
-            	
-                // Set the category color
-                for (Category ct : categoryList) {
-                    
-        	    	if(ct.getName().equals(event.getCategoryID())){
-        	    		event.setColor(ct.getColor());
-        	    	}
-        	    		    	
-        	    }
-                
-            	// Adding contact to list
-                eventList.add(event);
-                //System.out.println(event.toString());
-            } while (cursorStartTime.moveToNext());
-        }
- 
-        
-        // Select all events with end time between sDate and eDate 
-        String selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " < " +sDate.getTimeInMillis()+ " AND "+  storageHandler.getEventsEndTime() + " <= " + eDate.getTimeInMillis() + " AND " + storageHandler.getEventsEndTime() + " >= " + sDate.getTimeInMillis();
-        //String selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsEndTime()+ " < " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
- 
-        Cursor cursorEndTime = db.rawQuery(selectQueryEndTime, null);
- 
-        // looping through all rows and adding to list
-        if (cursorEndTime.moveToFirst()) {
-            do {
-                //Event contact = new Event();
-            	
-            	Calendar startDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(2)).longValue());
-            	Calendar endDate = Calendar.getInstance();
-            	endDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(3)).longValue());
-            	            	
-                Event event = new Event( Integer.parseInt(cursorEndTime.getString(0)), startDate, endDate, cursorEndTime.getString(4),cursorEndTime.getString(1),Integer.parseInt(cursorEndTime.getString(5)),Integer.parseInt(cursorEndTime.getString(6)));
-            	
-                // Set the category color
-                for (Category ct : categoryList) {
-                    
-        	    	if(ct.getName().equals(event.getCategoryID())){
-        	    		event.setColor(ct.getColor());
-        	    	}
-        	    		    	
-        	    }
-                
-            	// Adding contact to list
-                eventList.add(event);
-                //System.out.println(event.toString());
-            } while (cursorEndTime.moveToNext());
-        }
-        
-        selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " > " + sDate.getTimeInMillis()+ " AND "+  storageHandler.getEventsStartTime() + " <= " + eDate.getTimeInMillis() + " AND " + storageHandler.getEventsEndTime() + " > " + eDate.getTimeInMillis();
-        //String selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsEndTime()+ " < " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
- 
-        cursorEndTime = db.rawQuery(selectQueryEndTime, null);
- 
-        // looping through all rows and adding to list
-        if (cursorEndTime.moveToFirst()) {
-            do {
-                //Event contact = new Event();
-            	
-            	Calendar startDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(2)).longValue());
-            	Calendar endDate = Calendar.getInstance();
-            	endDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(3)).longValue());
-            	            	
-                Event event = new Event( Integer.parseInt(cursorEndTime.getString(0)), startDate, endDate, cursorEndTime.getString(4),cursorEndTime.getString(1),Integer.parseInt(cursorEndTime.getString(5)),Integer.parseInt(cursorEndTime.getString(6)));
-            	
-                // Set the category color
-                for (Category ct : categoryList) {
-                	
-                    
-        	    	if(ct.getName().equals(event.getCategoryID())){
-        	    		event.setColor(ct.getColor());
-        	    	}
-        	    		    	
-        	    }
-                
-            	// Adding contact to list
-                eventList.add(event);
-                //System.out.println(event.toString());
-            } while (cursorEndTime.moveToNext());
-        }
-        
-        selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsStartTime()+ " < " + sDate.getTimeInMillis()+" AND " + storageHandler.getEventsEndTime() + " > " + eDate.getTimeInMillis();
-        //String selectQueryEndTime = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsEndTime()+ " < " +sDate.getTimeInMillis()+ " AND "+ eDate.getTimeInMillis();
- 
-        cursorEndTime = db.rawQuery(selectQueryEndTime, null);
- 
-        // looping through all rows and adding to list
-        if (cursorEndTime.moveToFirst()) {
-            do {
-                //Event contact = new Event();
-            	
-            	Calendar startDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(2)).longValue());
-            	Calendar endDate = Calendar.getInstance();
-            	endDate.setTimeInMillis(Long.valueOf(cursorEndTime.getString(3)).longValue());
-            	            	
-                Event event = new Event( Integer.parseInt(cursorEndTime.getString(0)), startDate, endDate, cursorEndTime.getString(4),cursorEndTime.getString(1),Integer.parseInt(cursorEndTime.getString(5)),Integer.parseInt(cursorEndTime.getString(6)));
-            	
-                // Set the category color
-                for (Category ct : categoryList) {
-                	
-                    
-        	    	if(ct.getName().equals(event.getCategoryID())){
-        	    		event.setColor(ct.getColor());
-        	    	}
-        	    		    	
-        	    }
-                
-            	// Adding contact to list
-                eventList.add(event);
-                //System.out.println(event.toString());
-            } while (cursorEndTime.moveToNext());
-        }
-        
-        // return contact list
-        return eventList;
-    }
 
-	public List<Event> getConflictedEvents(java.util.Calendar sDate, java.util.Calendar eDate) {
-      
-        
-        // return contact list
-        return readEvents(sDate, eDate);
-    }
-	
-	public void deleteEvent(Calendar startDate, Calendar endDate){
-		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		 
-		// Deleting events
-		db.delete(storageHandler.getEventTableName(), 
-	            storageHandler.getEventsStartTime() + "= ? AND "+ storageHandler.getEventsEndTime()+ " = ?", new String[] { String.valueOf(startDate.getTimeInMillis()),String.valueOf(endDate.getTimeInMillis())});
-		db.close();
-				
-	}
-	
 	/**
-	 * Updates event with Id
-	 * @param eventId
-	 * @param event
+	 * Read events from the database from start date to end date
+	 * 
+	 * @param sDate
+	 *            start date
+	 * @param eDate
+	 *            end date
+	 * @return list of events that are within the specified start date and end
+	 *         date
 	 */
-	public void updateEvent( int eventId, Event event ) {
+	public List<Event> readEvents(java.util.Calendar sDate,
+			java.util.Calendar eDate) {
+		List<Event> eventList = new ArrayList<Event>();
+
+		// Read all entry for category table
+		List<Category> categoryList = categoryManager.readAllCategory();
+
+		// Select all events with start time and end time between sDate and
+		// eDate
+		String selectQueryStartTime = "SELECT  * FROM "
+				+ storageHandler.getEventTableName() + " WHERE "
+				+ storageHandler.getEventsStartTime() + " >= "
+				+ sDate.getTimeInMillis() + " AND "
+				+ storageHandler.getEventsEndTime() + " <= "
+				+ eDate.getTimeInMillis();
+
 		SQLiteDatabase db = storageHandler.getWritableDatabase();
-		
+		Cursor cursorStartTime = db.rawQuery(selectQueryStartTime, null);
+
+		// looping through all rows and adding to list
+		if (cursorStartTime.moveToFirst()) {
+			do {
+				Calendar startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(Long.valueOf(
+						cursorStartTime.getString(2)).longValue());
+				Calendar endDate = Calendar.getInstance();
+				endDate.setTimeInMillis(Long.valueOf(
+						cursorStartTime.getString(3)).longValue());
+
+				Event event = new Event(Integer.parseInt(cursorStartTime
+						.getString(0)), startDate, endDate,
+						cursorStartTime.getString(4),
+						cursorStartTime.getString(1),
+						Integer.parseInt(cursorStartTime.getString(5)),
+						Integer.parseInt(cursorStartTime.getString(6)));
+
+				// Set the category color
+				for (Category ct : categoryList) {
+
+					if (ct.getName().equals(event.getCategoryID())) {
+						event.setColor(ct.getColor());
+					}
+
+				}
+
+				// Adding contact to list
+				eventList.add(event);
+
+			} while (cursorStartTime.moveToNext());
+		}
+
+		// Select all events with end time between sDate and eDate
+		String selectQueryEndTime = "SELECT  * FROM "
+				+ storageHandler.getEventTableName() + " WHERE "
+				+ storageHandler.getEventsStartTime() + " < "
+				+ sDate.getTimeInMillis() + " AND "
+				+ storageHandler.getEventsEndTime() + " <= "
+				+ eDate.getTimeInMillis() + " AND "
+				+ storageHandler.getEventsEndTime() + " >= "
+				+ sDate.getTimeInMillis();
+
+		Cursor cursorEndTime = db.rawQuery(selectQueryEndTime, null);
+
+		// looping through all rows and adding to list
+		if (cursorEndTime.moveToFirst()) {
+			do {
+				Calendar startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(Long.valueOf(
+						cursorEndTime.getString(2)).longValue());
+				Calendar endDate = Calendar.getInstance();
+				endDate.setTimeInMillis(Long
+						.valueOf(cursorEndTime.getString(3)).longValue());
+
+				Event event = new Event(Integer.parseInt(cursorEndTime
+						.getString(0)), startDate, endDate,
+						cursorEndTime.getString(4), cursorEndTime.getString(1),
+						Integer.parseInt(cursorEndTime.getString(5)),
+						Integer.parseInt(cursorEndTime.getString(6)));
+
+				// Set the category color
+				for (Category ct : categoryList) {
+
+					if (ct.getName().equals(event.getCategoryID())) {
+						event.setColor(ct.getColor());
+					}
+
+				}
+
+				// Adding contact to list
+				eventList.add(event);
+
+			} while (cursorEndTime.moveToNext());
+		}
+
+		// Select all events with start time between sDate and eDate
+		selectQueryEndTime = "SELECT  * FROM "
+				+ storageHandler.getEventTableName() + " WHERE "
+				+ storageHandler.getEventsStartTime() + " > "
+				+ sDate.getTimeInMillis() + " AND "
+				+ storageHandler.getEventsStartTime() + " <= "
+				+ eDate.getTimeInMillis() + " AND "
+				+ storageHandler.getEventsEndTime() + " > "
+				+ eDate.getTimeInMillis();
+
+		cursorEndTime = db.rawQuery(selectQueryEndTime, null);
+
+		// looping through all rows and adding to list
+		if (cursorEndTime.moveToFirst()) {
+			do {
+				Calendar startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(Long.valueOf(
+						cursorEndTime.getString(2)).longValue());
+				Calendar endDate = Calendar.getInstance();
+				endDate.setTimeInMillis(Long
+						.valueOf(cursorEndTime.getString(3)).longValue());
+
+				Event event = new Event(Integer.parseInt(cursorEndTime
+						.getString(0)), startDate, endDate,
+						cursorEndTime.getString(4), cursorEndTime.getString(1),
+						Integer.parseInt(cursorEndTime.getString(5)),
+						Integer.parseInt(cursorEndTime.getString(6)));
+
+				// Set the category color
+				for (Category ct : categoryList) {
+
+					if (ct.getName().equals(event.getCategoryID())) {
+						event.setColor(ct.getColor());
+					}
+
+				}
+
+				// Adding contact to list
+				eventList.add(event);
+
+			} while (cursorEndTime.moveToNext());
+		}
+
+		// Select all events that start before sDate and end after eDate
+		selectQueryEndTime = "SELECT  * FROM "
+				+ storageHandler.getEventTableName() + " WHERE "
+				+ storageHandler.getEventsStartTime() + " < "
+				+ sDate.getTimeInMillis() + " AND "
+				+ storageHandler.getEventsEndTime() + " > "
+				+ eDate.getTimeInMillis();
+
+		cursorEndTime = db.rawQuery(selectQueryEndTime, null);
+
+		// looping through all rows and adding to list
+		if (cursorEndTime.moveToFirst()) {
+			do {
+				Calendar startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(Long.valueOf(
+						cursorEndTime.getString(2)).longValue());
+				Calendar endDate = Calendar.getInstance();
+				endDate.setTimeInMillis(Long
+						.valueOf(cursorEndTime.getString(3)).longValue());
+
+				Event event = new Event(Integer.parseInt(cursorEndTime
+						.getString(0)), startDate, endDate,
+						cursorEndTime.getString(4), cursorEndTime.getString(1),
+						Integer.parseInt(cursorEndTime.getString(5)),
+						Integer.parseInt(cursorEndTime.getString(6)));
+
+				// Set the category color
+				for (Category ct : categoryList) {
+
+					if (ct.getName().equals(event.getCategoryID())) {
+						event.setColor(ct.getColor());
+					}
+
+				}
+
+				// Adding contact to list
+				eventList.add(event);
+
+			} while (cursorEndTime.moveToNext());
+		}
+
+		// return contact list
+		return eventList;
+	}
+
+	/**
+	 * Return the list of all conflicted events or null if no conflict occurs
+	 * 
+	 * @param sDate
+	 *            start time
+	 * @param eDate
+	 *            end time
+	 * @return
+	 */
+	public List<Event> getConflictedEvents(java.util.Calendar sDate,
+			java.util.Calendar eDate) {
+
+		// return contact list
+		return readEvents(sDate, eDate);
+	}
+
+	/**
+	 * Delete an events with startDate and endDate
+	 * 
+	 * @param startDate
+	 *            start date of the event
+	 * @param endDate
+	 *            end date of the event
+	 */
+	public void deleteEvent(Calendar startDate, Calendar endDate) {
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+
+		// Deleting events
+		db.delete(storageHandler.getEventTableName(),
+				storageHandler.getEventsStartTime() + "= ? AND "
+						+ storageHandler.getEventsEndTime() + " = ?",
+				new String[] { String.valueOf(startDate.getTimeInMillis()),
+						String.valueOf(endDate.getTimeInMillis()) });
+		db.close();
+
+	}
+
+	/**
+	 * Update an event by event id
+	 * 
+	 * @param eventId
+	 *            id of the event that need to be updated
+	 * @param event
+	 *            the new event will replace the updating event
+	 */
+	public void updateEvent(int eventId, Event event) {
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+
 		String strFilter = "_id=" + eventId;
 		ContentValues args = new ContentValues();
 		args.put(storageHandler.getEventsDescription(), event.getDescription());
 		db.update(storageHandler.getEventTableName(), args, strFilter, null);
-		
+
 		db.close();
-		
-		
+
 	}
-	
+
 	/**
+	 * Get an event by event id
 	 * 
 	 * @param eventId
-	 * @return event object if there is a event with the eventId otherwise returns null
+	 *            id of the event
+	 * @return event object if there is a event with the eventId otherwise
+	 *         returns null
 	 */
-	
-	public Event getEventById( int eventId ) {
-		
 
-        String selectQuery = "SELECT  * FROM " + storageHandler.getEventTableName()+ " WHERE " +storageHandler.getEventsKeyId() + " = " + eventId;
-        
-        SQLiteDatabase db = storageHandler.getWritableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
-        
-     // Read all entry for category table
-        List<Category> categoryList = categoryManager.readAllCategory();
-        Event event = null;
-        if (cursor.moveToFirst()) {
-            do {
-                //Event contact = new Event();
-            	
-            	Calendar startDate = Calendar.getInstance();
-            	startDate.setTimeInMillis(Long.valueOf(cursor.getString(2)).longValue());
-            	Calendar endDate = Calendar.getInstance();
-            	endDate.setTimeInMillis(Long.valueOf(cursor.getString(3)).longValue());
-            	            	
-                event = new Event( Integer.parseInt(cursor.getString(0)), startDate, endDate, cursor.getString(4),cursor.getString(1),Integer.parseInt(cursor.getString(5)),Integer.parseInt(cursor.getString(6)));
-            	
-                // Set the category color
-                for (Category ct : categoryList) {
-                    
-        	    	if(ct.getName().equals(event.getCategoryID())){
-        	    		event.setColor(ct.getColor());
-        	    	}
-        	    		    	
-        	    }
-                
-            	//System.out.println(event.toString());
-            } while (cursor.moveToNext());
-        }
-        
-        
-        return event;
-		
-		
+	public Event getEventById(int eventId) {
+
+		String selectQuery = "SELECT  * FROM "
+				+ storageHandler.getEventTableName() + " WHERE "
+				+ storageHandler.getEventsKeyId() + " = " + eventId;
+
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+		Cursor cursor = db.rawQuery(selectQuery, null);
+
+		// Read all entry for category table
+		List<Category> categoryList = categoryManager.readAllCategory();
+		Event event = null;
+		if (cursor.moveToFirst()) {
+			do {
+				Calendar startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(Long.valueOf(cursor.getString(2))
+						.longValue());
+				Calendar endDate = Calendar.getInstance();
+				endDate.setTimeInMillis(Long.valueOf(cursor.getString(3))
+						.longValue());
+
+				event = new Event(Integer.parseInt(cursor.getString(0)),
+						startDate, endDate, cursor.getString(4),
+						cursor.getString(1), Integer.parseInt(cursor
+								.getString(5)), Integer.parseInt(cursor
+								.getString(6)));
+
+				// Set the category color
+				for (Category ct : categoryList) {
+
+					if (ct.getName().equals(event.getCategoryID())) {
+						event.setColor(ct.getColor());
+					}
+
+				}
+
+			} while (cursor.moveToNext());
+		}
+
+		return event;
+
 	}
-	
-	
-	
+
 }
