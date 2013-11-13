@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Iterator;
 import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
@@ -19,6 +18,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * NewEventActivity is an Android activity in charge of rendering view, receiving user inputs and creating events on demand. 
+ * @author Lu Liu 
+ */
 public class NewEventActivity extends Activity implements OnItemSelectedListener{
 	
 	private int fromYear;
@@ -35,6 +38,12 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 	private boolean checked = false;
 	private int occurance = 1;
 	private String categoryName;
+	
+	private final static String DEFAULT_CATEGORY = "default";
+	private final static String EVENT_TIME_CONFLICT = "event time conflict";
+	private final static String INVALID_USER_INPUT = "invalid user input";
+	private final static String INCOMPLETE_USER_INPUT = "incomplete user input";
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +52,7 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		
 		Spinner spinner = (Spinner) findViewById(R.id.category_spinner);
 		
-		// get category data from database
+		// construct spinner item array by getting all categories from database
 		CategoryManager manager = Manager.getInstance().getCategoryManager();
 		ArrayList<Category> list = manager.readAllCategory();
 		Iterator<Category> itr = list.iterator();
@@ -53,11 +62,13 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		while(itr.hasNext()) {
 			c = itr.next();
 			s = c.getName();
-			if(!(s.equalsIgnoreCase("default"))) {
+			// exclude from showing the default category
+			if(!(s.equalsIgnoreCase(DEFAULT_CATEGORY))) {
 				options.add(s);
 			}
 		}
 		
+		// add spinner item array to spinner dynamically
 		ArrayAdapter<CharSequence> adapter = new ArrayAdapter(this, android.R.layout.simple_spinner_item, options);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		spinner.setAdapter(adapter);
@@ -70,7 +81,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		return true;
 	}
 
-	public void showFromDatePickerDialog(View v) {
+	/**
+	 * show date picker dialog to enable user to select event start date
+	 * @param event start date view 
+	 */
+	public void showFromDatePickerDialog(View view) {
 		DatePickerFragment date = new DatePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("date_view", R.id.from_date);
@@ -78,7 +93,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		date.show(getFragmentManager(), "fromDatePicker");
 	}
 
-	public void showFromTimePickerDialog(View v) {
+	/**
+	 * show time picker dialog to enable user to select event start time of day
+	 * @param event start time of day view
+	 */
+	public void showFromTimePickerDialog(View view) {
 		TimePickerFragment time = new TimePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("time_view", R.id.from_time);
@@ -86,7 +105,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		time.show(getFragmentManager(), "fromTimePicker");
 	}
 
-	public void showToDatePickerDialog(View v) {
+	/**
+	 * show date picker dialog to enable user to select event end date
+	 * @param event end date view
+	 */
+	public void showToDatePickerDialog(View view) {
 		DatePickerFragment date = new DatePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("date_view", R.id.to_date);
@@ -94,7 +117,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		date.show(getFragmentManager(), "toDatePicker");
 	}
 
-	public void showToTimePickerDialog(View v) {
+	/**
+	 * show time picker dialog to enable user to select event end time of day
+	 * @param event end time of day view
+	 */
+	public void showToTimePickerDialog(View view) {
 		TimePickerFragment time = new TimePickerFragment();
 		Bundle args = new Bundle();
 		args.putInt("time_view", R.id.to_time);
@@ -102,10 +129,18 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		time.show(getFragmentManager(), "toTimePicker");
 	}
 	
-	public void onCheckboxClicked(View v) {
-		checked = ((CheckBox) v).isChecked();
+	/**
+	 * handle the event when the checkbox is checked
+	 * @param weekly repeating checkbox
+	 */
+	public void onCheckboxClicked(View view) {
+		checked = ((CheckBox) view).isChecked();
 	}
 	
+	/**
+	 * collect user input from all view components
+	 * @return a boolean value, it is true if all required fields are filed; otherwise return false
+	 */
 	private boolean getData() {
 		TextView from = (TextView)findViewById(R.id.from_date);
 		String tmp = from.getText().toString();
@@ -177,6 +212,10 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		return true;
 	}
 	
+	/**
+	 * verify the user input data to make sure that event start time is earlier than end time and if it is weekly repeating event, the repeating times is positive value
+	 * @return a boolean value, if all the conditions meets; otherwise return false
+	 */
 	private boolean verifyData() {
 		Calendar fromDate, toDate;
 		
@@ -203,7 +242,11 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 		toast.show();
 	}
 
-	public void createEvent(View v) {
+	/**
+	 * handle user's request of creating event by collecting user inputs, verifying inputs and resolving event time conflict
+	 * @param create event button
+	 */
+	public void createEvent(View view) {
 		
 		if(getData()) {
 			if (verifyData()) {
@@ -233,26 +276,33 @@ public class NewEventActivity extends Activity implements OnItemSelectedListener
 					}
 				}
 				
+				// resolve event time conflict
 				if(flag) {
 					Event e;
+					// if user requests to create a weekly periodical event, we create event one by one for multiple weeks
 					for(int i=0; i<occurance; i++) {
 						e = new Event(from[i], to[i], categoryName, description, occurance, i+1);
+						// save newly created event to database
 						manager.createEvent(e);
 					}
 					
 					finish();
 				} else {
-					popup("event time conflict");
+					popup(EVENT_TIME_CONFLICT);
 				}
 			} else {
-				popup("invalid user input");
+				popup(INVALID_USER_INPUT);
 			}
 		} else {
-			popup("incomplete user input");
+			popup(INCOMPLETE_USER_INPUT);
 		}
 	}
 
-	public void cancel(View v) {
+	/**
+	 * return to the last activity
+	 * @param return button
+	 */
+	public void cancel(View view) {
 		finish();
 	}
 	
