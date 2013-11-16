@@ -114,22 +114,45 @@ public class DailyViewActivity extends CalendarActivity {
 			int sday = startDateOfEvent.get(Calendar.DAY_OF_MONTH);
 			DailyViewModel tempDailyModel = modelList.get(startHourOfDay);
 
-			tempDailyModel.addEvent(event);
+			//tempDailyModel.addEvent(event);
 			Calendar endDateOfEvent = event.getEndDate();
 			int endHourOfDay = endDateOfEvent.get(Calendar.HOUR_OF_DAY);
-			int eday = startDateOfEvent.get(Calendar.DAY_OF_MONTH);
-			
+			int eday = endDateOfEvent.get(Calendar.DAY_OF_MONTH);
+			int currentday = mStartDate.get(Calendar.DAY_OF_MONTH);
 
 			/*
 			 * Handle the repeating event . For example the event started at
 			 * 10:00 AM and will be end at 12.00 pm
 			 */
 
-			if (sday == eday && (endHourOfDay > startHourOfDay)) {
-				while (startHourOfDay <= endHourOfDay) {
-					startHourOfDay += 1;
+			if (sday == eday && (endHourOfDay == startHourOfDay)) {
+				
 					tempDailyModel = modelList.get(startHourOfDay);
 					tempDailyModel.addEvent(event);
+				
+			}
+			else if (sday == eday && (endHourOfDay > startHourOfDay)) {
+				while (startHourOfDay <= endHourOfDay) {
+					
+					tempDailyModel = modelList.get(startHourOfDay);
+					tempDailyModel.addEvent(event);
+					startHourOfDay += 1;
+				}
+			} else if ((currentday == sday) && (sday < eday)) {
+
+				while (startHourOfDay < 24) {
+					
+					tempDailyModel = modelList.get(startHourOfDay);
+					tempDailyModel.addEvent(event);
+					startHourOfDay += 1;
+				}
+			} else if ((currentday == eday) && (sday < eday)) {
+				startHourOfDay = 0;
+				while (startHourOfDay <= endHourOfDay) {
+					
+					tempDailyModel = modelList.get(startHourOfDay);
+					tempDailyModel.addEvent(event);
+					startHourOfDay += 1;
 				}
 			}
 
