@@ -63,6 +63,7 @@ public class DailyViewActivity extends CalendarActivity {
 
 		addListenerOnButton(mListView);
 		mSelectedDate = Calendar.getInstance();
+		
 
 	}
 
@@ -274,6 +275,8 @@ public class DailyViewActivity extends CalendarActivity {
 		populateModel();
 		mPreVposition = -1;
 		mPrevious = null;
+		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getActionBar().setSelectedNavigationItem(1);
 	}
 
 }

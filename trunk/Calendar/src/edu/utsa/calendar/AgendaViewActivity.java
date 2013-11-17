@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import android.annotation.TargetApi;
+import android.app.ActionBar;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
@@ -57,7 +58,8 @@ public class AgendaViewActivity extends CalendarActivity {
 		super.onResume();
 		
 		populateModels();
-		
+		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getActionBar().setSelectedNavigationItem(4);
 	}
     /**
      * Gets the data and fills up the view

@@ -174,12 +174,14 @@ public class MonthlyViewActivity extends CalendarActivity {
 		this.setDate();
 
 		addListenerOnButton(gridView);
-
+		
 	}
 
 	protected void onResume() {
 		super.onResume();
 		this.populateFields();
+		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getActionBar().setSelectedNavigationItem(3);
 
 	}
 
