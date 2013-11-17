@@ -51,5 +51,9 @@
     <string name="time_conflict">event time conflict</string>
     <string name="invalid_input">invalid user input</string>
     <string name="incomplte_input">incomplete user input</string>
-
+    <string name="name_is_taken">category name is taken</string>
+    <string name="select_category_to_delete">select category to delete</string>
+    <string name="info">No category to delete</string>
+    <string name="delete">delete</string>
+	<string name="prompt">please select category</string>
 </resources>
