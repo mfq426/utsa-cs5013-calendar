@@ -17,9 +17,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Purpose of this class is to draw weekly activity properly. It will on demand retrieve event information from database based on start date and end date
+ * Purpose of this class is to draw weekly activity properly. It will on demand
+ * retrieve event information from database based on start date and end date
+ * 
  * @author Jamiul
- *
+ * 
  */
 
 public class WeeklyViewActivity extends CalendarActivity {
@@ -30,9 +32,11 @@ public class WeeklyViewActivity extends CalendarActivity {
 	private Calendar endDate;
 
 	private static int DAY_IN_NEXT_WEEK = 8;
+	private static int DAY_IN_WEEK = 7;
 
 	private String[] weekWorks;
-
+	private String[] dayInWeek = { "SUN", "MON", "TUE", "WED", "THU", "FRI",
+			"SAT" };
 	private static int[] weekWorkColor = new int[200];
 	private static int[] eventID = new int[200];
 
@@ -98,32 +102,35 @@ public class WeeklyViewActivity extends CalendarActivity {
 	private void setWeekWorks() {
 		weekWorks = new String[] {
 
-		"Time", "SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT", " 1am", "   ",
-				"   ", "   ", "   ", "   ", "   ", "   ", " 2am", "   ", "   ",
-				"   ", "   ", "   ", "   ", "   ", " 3am", "   ", "   ", "   ",
-				"   ", "   ", "   ", "   ", " 4am", "   ", "   ", "   ", "   ",
-				"   ", "   ", "   ", " 5am", "   ", "   ", "   ", "   ", "   ",
-				"   ", "   ", " 6am", "   ", "   ", "   ", "   ", "   ", "   ",
-				"   ", " 7am", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 8am", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 9am", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				"10am", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				"11am", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				"12pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 1pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 2pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 3pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 4pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 5pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 6pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 7pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 8pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				" 9pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				"10pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				"11pm", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
-				"12am", "   ", "   ", "   ", "   ", "   ", "   ", "   ",
+		"Time", "", "", "", "", "", "", "", "12am", "", "", "", "", "", "", "",
+				" 1am", "", "", "", "", "", "", "", " 2am", "", "", "", "", "",
+				"", "", " 3am", "", "", "", "", "", "", "", " 4am", "", "", "",
+				"", "", "", "", " 5am", "", "", "", "", "", "", "", " 6am", "",
+				"", "", "", "", "", "", " 7am", "", "", "", "", "", "", "",
+				" 8am", "", "", "", "", "", "", "", " 9am", "", "", "", "", "",
+				"", "", "10am", "", "", "", "", "", "", "", "11am", "", "", "",
+				"", "", "", "", "12pm", "", "", "", "", "", "", "", " 1pm", "",
+				"", "", "", "", "", "", " 2pm", "", "", "", "", "", "", "",
+				" 3pm", "", "", "", "", "", "", "", " 4pm", "", "", "", "", "",
+				"", "", " 5pm", "", "", "", "", "", "", "", " 6pm", "", "", "",
+				"", "", "", "", " 7pm", "", "", "", "", "", "", "", " 8pm", "",
+				"", "", "", "", "", "", " 9pm", "", "", "", "", "", "", "",
+				"10pm", "", "", "", "", "", "", "", "11pm", "", "", "", "", "",
+				"", "   "
 
 		};
+
+		// set date to the week days
+		for (int i = 0; i < 7; i++) {
+			int day = startDate.get(Calendar.DAY_OF_MONTH) + i;
+			if (day > startDate.getActualMaximum(Calendar.DAY_OF_MONTH)) {
+				day = (startDate.get(Calendar.DAY_OF_MONTH) + i)
+						% startDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+			}
+
+			weekWorks[i + 1] = dayInWeek[i] + " " + day;
+
+		}
 
 		weekWorkColor = new int[200]; // storage for hold color information
 		eventID = new int[200]; // storage for holding event information
@@ -140,119 +147,96 @@ public class WeeklyViewActivity extends CalendarActivity {
 		weekViewHeader.setText(sdf.format(startDate.getTime()) + " to "
 				+ sdf.format(endDate.getTime()));
 
-		List<Event> events = Manager.getInstance().getEventManager()
-				.readEvents(startDate, endDate);
+		for (int i = 0; i < DAY_IN_WEEK; i++) {
 
-		for (Event ev : events) {
+			// get the start time of this day to populate
+			Calendar dayStartDate = (Calendar) startDate.clone();
+			dayStartDate.add(Calendar.DATE, i);
 
-			int dayOfWeekStart = ev.getStartDate().get(Calendar.DAY_OF_WEEK);
-			int timeOfDayStart = ev.getStartDate().get(Calendar.HOUR_OF_DAY);
+			// get the end time of this day to populate
+			Calendar dayEndDate = (Calendar) dayStartDate.clone();
+			dayEndDate.set(Calendar.HOUR_OF_DAY, 23);
+			dayEndDate.set(Calendar.MINUTE, 59);
+			dayEndDate.set(Calendar.SECOND, 59);
+			dayEndDate.set(Calendar.MILLISECOND, 999);
 
-			int dayOfWeekEnd = ev.getEndDate().get(Calendar.DAY_OF_WEEK);
-			int timeOfDayEnd = ev.getEndDate().get(Calendar.HOUR_OF_DAY);
+			List<Event> events = Manager.getInstance().getEventManager()
+					.readEvents(dayStartDate, dayEndDate);
 
-			int columnNameStart = 0;
+			// populate based on the event retrieved
+			for (Event ev : events) {
 
-			if (Calendar.SUNDAY == dayOfWeekStart) {
-				columnNameStart = 1;
-			} else if (Calendar.MONDAY == dayOfWeekStart) {
-				columnNameStart = 2;
-			} else if (Calendar.TUESDAY == dayOfWeekStart) {
-				columnNameStart = 3;
-			} else if (Calendar.WEDNESDAY == dayOfWeekStart) {
-				columnNameStart = 4;
-			} else if (Calendar.THURSDAY == dayOfWeekStart) {
-				columnNameStart = 5;
-			} else if (Calendar.FRIDAY == dayOfWeekStart) {
-				columnNameStart = 6;
-			} else if (Calendar.SATURDAY == dayOfWeekStart) {
-				columnNameStart = 7;
-			} else {
-				System.out.println("Day format not found");
-			}
+				System.out.println(ev.getDescription());
+				int startHourMarker = 0;
+				int endHourMarker = 0;
+				// if the event start before the day and end in this day
+				if ((ev.getStartDate().getTimeInMillis() <= dayStartDate
+						.getTimeInMillis())
+						&& (ev.getEndDate().getTimeInMillis() <= dayEndDate
+								.getTimeInMillis())) {
+					startHourMarker = dayStartDate
+							.getActualMinimum(Calendar.HOUR_OF_DAY);
+					endHourMarker = ev.getEndDate().get(Calendar.HOUR_OF_DAY);
+				}
+				// if the event start in this month and end after this month
+				else if ((ev.getStartDate().getTimeInMillis() >= dayStartDate
+						.getTimeInMillis())
+						&& (ev.getEndDate().getTimeInMillis() >= dayEndDate
+								.getTimeInMillis())) {
+					startHourMarker = ev.getStartDate().get(
+							Calendar.HOUR_OF_DAY);
+					endHourMarker = dayEndDate
+							.getActualMaximum(Calendar.HOUR_OF_DAY);
 
-			int columnNameEnd = 0;
+				}
+				// if the event start and end within this month
+				else if ((ev.getStartDate().getTimeInMillis() >= dayStartDate
+						.getTimeInMillis())
+						&& (ev.getEndDate().getTimeInMillis() <= dayEndDate
+								.getTimeInMillis())) {
+					startHourMarker = ev.getStartDate().get(
+							Calendar.HOUR_OF_DAY);
+					endHourMarker = ev.getEndDate().get(Calendar.HOUR_OF_DAY);
 
-			if (Calendar.SUNDAY == dayOfWeekEnd) {
-				columnNameEnd = 1;
-			} else if (Calendar.MONDAY == dayOfWeekEnd) {
-				columnNameEnd = 2;
-			} else if (Calendar.TUESDAY == dayOfWeekEnd) {
-				columnNameEnd = 3;
-			} else if (Calendar.WEDNESDAY == dayOfWeekEnd) {
-				columnNameEnd = 4;
-			} else if (Calendar.THURSDAY == dayOfWeekEnd) {
-				columnNameEnd = 5;
-			} else if (Calendar.FRIDAY == dayOfWeekEnd) {
-				columnNameEnd = 6;
-			} else if (Calendar.SATURDAY == dayOfWeekEnd) {
-				columnNameEnd = 7;
-			} else {
-				System.out.println("Day format not found");
-			}
-
-			// if end day in the next week then set the columnNameEnd to the end
-			// day of this week
-			if (columnNameEnd < columnNameStart) {
-				columnNameEnd = DAY_IN_NEXT_WEEK;
-			}
-			// set the work and color
-			for (int i = columnNameStart; i <= columnNameEnd; i++) {
-
-				if (columnNameEnd == columnNameStart) { // event ends in the
-														// same day
-					for (int j = timeOfDayStart; j <= timeOfDayEnd; j++) {
-						weekWorks[8 * j + i] = ev.getDescription();
-						eventID[8 * j + i] = ev.getID();
-						// set the category color
-						weekWorkColor[8 * j + i] = ev.getColor();
-
-					}
-				} else { // event spans for multiple days
-
-					if (i == columnNameStart) { // first day of the event, color
-												// should be from start time to
-												// the end of the day
-						for (int j = timeOfDayStart; j <= 24; j++) {
-							weekWorks[8 * j + i] = ev.getDescription();
-							eventID[8 * j + i] = ev.getID();
-							// set the category color
-							weekWorkColor[8 * j + i] = ev.getColor();
-
-						}
-					} else if (i == columnNameEnd) { // last day of the event,
-														// color should be from
-														// 00 Hour to end hour
-														// of the event
-						for (int j = 1; j <= timeOfDayEnd; j++) {
-							weekWorks[8 * j + i] = ev.getDescription();
-							eventID[8 * j + i] = ev.getID();
-							// set the category color
-							weekWorkColor[8 * j + i] = ev.getColor();
-
-						}
-					} else { // middle day of events, all field should get the
-								// event description and color
-
-						for (int j = 1; j <= 24; j++) {
-							weekWorks[8 * j + i] = ev.getDescription();
-							eventID[8 * j + i] = ev.getID();
-							// set the category color
-							weekWorkColor[8 * j + i] = ev.getColor();
-
-						}
-
-					}
+				}
+				// if the event start before this month and end after this month
+				else if ((ev.getStartDate().getTimeInMillis() < dayStartDate
+						.getTimeInMillis())
+						&& (ev.getEndDate().getTimeInMillis() > dayEndDate
+								.getTimeInMillis())) {
+					startHourMarker = dayStartDate
+							.getActualMinimum(Calendar.HOUR_OF_DAY);
+					endHourMarker = dayEndDate
+							.getActualMaximum(Calendar.HOUR_OF_DAY);
 
 				}
 
-				if ((i + 1) == DAY_IN_NEXT_WEEK) {
-					break;
+				for (int j = startHourMarker; j <= endHourMarker; j++) {
+
+					if (weekWorks[9 + 8 * j + i].equals("")){
+						if(ev.getDescription().length()<=11){
+							weekWorks[9 + 8 * j + i] = ev.getDescription();
+						}
+						else{
+							weekWorks[9 + 8 * j + i] = ev.getDescription().substring(0, 11)+"..";
+						}
+						eventID[9 + 8 * j + i] = ev.getID();
+						// set the category color
+						weekWorkColor[9 + 8 * j + i] = ev.getColor();
+					
+					}
+					else{
+						System.out.println("jampi jampi");
+						weekWorks[9 + 8 * j + i] = weekWorks[9 + 8 * j + i].concat("*");
+					}
+					
 				}
 
 			}
 
 		}
+
+
 		gridView.setAdapter(new CalendarEntryAdapterWeek(this, weekWorks,
 				weekWorkColor));
 	}

@@ -67,6 +67,7 @@ public class CalendarEntryAdapterWeek extends BaseAdapter {
 			gridView = new View(context);
 
 			gridView = inflater.inflate(R.layout.grid_entry_week, null);
+		
 
 		} else {
 
