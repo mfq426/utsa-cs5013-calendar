@@ -90,7 +90,7 @@ public class CalendarEntryAdapterMonth extends BaseAdapter {
 		// set circle of the work days
 
 		if (workIndicator[position].equals("1")) {
-			textView.setBackgroundResource(R.drawable.circle);
+			textView.setBackground(context.getResources().getDrawable(R.drawable.circle1));
 		}
 
 		return gridView;
