@@ -8,6 +8,8 @@ import android.app.ActionBar.OnNavigationListener;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.widget.ArrayAdapter;
 
@@ -105,6 +107,7 @@ public class CalendarActivity extends Activity {
 							ModifyCategoryActivity.class);
 					startActivity(intent);
 				}
+				
 
 				return false;
 			}
@@ -114,8 +117,14 @@ public class CalendarActivity extends Activity {
 		 * Setting dropdown items and item navigation listener for the actionbar
 		 */
 		getActionBar().setListNavigationCallbacks(adapter, navigationListener);
+		
 		getActionBar().setBackgroundDrawable(
 				getResources().getDrawable(R.drawable.actionbar6));
+		getActionBar().setIcon(
+				getResources().getDrawable(R.drawable.calendar_icon));
+		
+		
 		return true;
 	}
+	
 }
