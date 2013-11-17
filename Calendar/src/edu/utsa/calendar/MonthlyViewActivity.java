@@ -150,10 +150,38 @@ public class MonthlyViewActivity extends CalendarActivity {
 
 		for (Event ev : events) {
 
-			int dayOfMonth = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
-
-			workDayIndicator.set(6 + padding + dayOfMonth, "1");
-
+			int startDayMarker = 0;
+			int endDayMarker = 0;
+			//if the event start before the month and end in this month
+			if((ev.getStartDate().getTimeInMillis()<=startDate.getTimeInMillis())&&(ev.getEndDate().getTimeInMillis()<=endDate.getTimeInMillis())){
+				startDayMarker = startDate.getActualMinimum(Calendar.DAY_OF_MONTH); 
+				endDayMarker = ev.getEndDate().get(Calendar.DAY_OF_MONTH);
+			}
+			//if the event start in this month and end after this month
+			else if((ev.getStartDate().getTimeInMillis()>=startDate.getTimeInMillis()) && (ev.getEndDate().getTimeInMillis()>=endDate.getTimeInMillis())){
+				startDayMarker = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
+				endDayMarker = endDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+				
+			}
+			//if the event start and end within this month
+			else if((ev.getStartDate().getTimeInMillis()>=startDate.getTimeInMillis())&& (ev.getEndDate().getTimeInMillis()<=endDate.getTimeInMillis())){
+				startDayMarker = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
+				endDayMarker = ev.getEndDate().get(Calendar.DAY_OF_MONTH);		
+				
+			}
+			//if the event start before this month and end after this month
+			else if((ev.getStartDate().getTimeInMillis()<startDate.getTimeInMillis())&&(ev.getEndDate().getTimeInMillis()>endDate.getTimeInMillis())){
+				startDayMarker = startDate.getActualMinimum(Calendar.DAY_OF_MONTH);
+				endDayMarker = endDate.getActualMaximum(Calendar.DAY_OF_MONTH);
+				
+			}
+			
+			for(int i=startDayMarker;i<=endDayMarker;i++){
+				
+				workDayIndicator.set(6 + padding + i, "1");
+			}
+			
+			
 		}
 		gridView.setAdapter(new CalendarEntryAdapterMonth(this, monthWorks
 				.toArray(new String[monthWorks.size()]), workDayIndicator
