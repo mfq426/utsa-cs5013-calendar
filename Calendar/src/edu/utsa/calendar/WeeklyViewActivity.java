@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -274,7 +275,9 @@ public class WeeklyViewActivity extends CalendarActivity {
 	protected void onResume() {
 		super.onResume();
 		this.populateFields();
-
+		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+		getActionBar().setSelectedNavigationItem(2);
+		
 	}
 
 	/**
