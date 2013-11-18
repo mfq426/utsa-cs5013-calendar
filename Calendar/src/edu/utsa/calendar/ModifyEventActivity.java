@@ -208,15 +208,40 @@ public class ModifyEventActivity extends EventActivity {
 						Event e;
 
 						// check event time conflict
-						for (int i = 0; i < occurance; i++) {
+						for (int i = index-1; i < occurance; i++) {
 							from[i] = Calendar.getInstance();
 							from[i].set(fromYear, fromMonth, fromDay, fromHour,
 									fromMinute, 0);
-							from[i].add(Calendar.DAY_OF_MONTH, 7 * i);
+							from[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
 							to[i] = Calendar.getInstance();
 							to[i].set(toYear, toMonth, toDay, toHour, toMinute,
 									0);
-							to[i].add(Calendar.DAY_OF_MONTH, 7 * i);
+							to[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
+
+							list = manager.readEvents(from[i], to[i]);
+							iterator = list.iterator();
+							if (list.size() != 0) {
+								while (iterator.hasNext()) {
+									e = iterator.next();
+									boolean b = contains(e.getStartDate(),
+											e.getEndDate());
+									if (!b) {
+										flag = false;
+										break;
+									}
+								}
+							}
+						}
+						
+						for (int i = index-2; i >= 0; i--) {
+							from[i] = Calendar.getInstance();
+							from[i].set(fromYear, fromMonth, fromDay, fromHour,
+									fromMinute, 0);
+							from[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
+							to[i] = Calendar.getInstance();
+							to[i].set(toYear, toMonth, toDay, toHour, toMinute,
+									0);
+							to[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
 
 							list = manager.readEvents(from[i], to[i]);
 							iterator = list.iterator();
@@ -295,7 +320,7 @@ public class ModifyEventActivity extends EventActivity {
 	private boolean contains(Calendar from, Calendar to) {
 		boolean flag = false;
 		for (int i = 0; i <= total - 1; i++) {
-			if (from.equals(oldfrom[i]) && to.equals(oldto[i])) {
+			if (from.getTime().toString().equals(oldfrom[i].getTime().toString()) && to.getTime().toString().equals(oldto[i].getTime().toString())) {
 				flag = true;
 				break;
 			}
