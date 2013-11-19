@@ -24,7 +24,7 @@ public class NewEventActivity extends EventActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_event);
-
+		categoryName = DEFAULT_CATEGORY;
 		manager = Manager.getInstance().getEventManager();
 		final String EVENT_TIME_CONFLICT = getResources().getString(
 				R.string.time_conflict);
@@ -39,6 +39,7 @@ public class NewEventActivity extends EventActivity {
 		ArrayList<Category> list = manager.readAllCategory();
 		Iterator<Category> itr = list.iterator();
 		ArrayList<String> options = new ArrayList<String>();
+		options.add(EventActivity.DEFAULT_CATEGORY);
 		Category c;
 		String s;
 		while (itr.hasNext()) {
