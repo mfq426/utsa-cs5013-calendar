@@ -161,6 +161,7 @@ public class ModifyEventActivity extends EventActivity {
 		ArrayList<Category> list = category_manager.readAllCategory();
 		Iterator<Category> itr = list.iterator();
 		ArrayList<String> options = new ArrayList<String>();
+		options.add(EventActivity.DEFAULT_CATEGORY);
 		Category c;
 		int pos = -1;
 		int i = 0;
