@@ -43,7 +43,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 		agendaText = new ArrayList<String>();
 	
 		
-		System.out.println("No of events found :: " + agendaList.size());
+		//System.out.println("No of events found :: " + agendaList.size());
 		createListforFields();
 		
 		
@@ -57,7 +57,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 	
 	public void createListforFields() {
 		
-		System.out.println("In agenda fields create lists;");
+		//System.out.println("In agenda fields create lists;");
 		for( Event e : agendaList ) {
 			Calendar startDate = e.getStartDate();
 			String startDateString = new SimpleDateFormat("dd MMM HH:mm").format(startDate.getTime());
@@ -69,7 +69,7 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 			agendaDay.add(agendaDayString);
 			agendaText.add(e.getDescription());
 		}
-		System.out.println("Agenda fields data filled up");
+		//System.out.println("Agenda fields data filled up");
 	}
 
 	@Override
@@ -110,14 +110,14 @@ public class CustomAgendaGridAdaptor extends BaseAdapter {
 
 	        ll = new LinearLayout(context);
 	        ll.setOrientation(LinearLayout.HORIZONTAL);
-	        System.out.println("Event color " + agendaList.get(position).getColor());
+	        //System.out.println("Event color " + agendaList.get(position).getColor());
 	        ll.setBackgroundColor(agendaList.get(position).getColor());
 	       
 	        ll.setPadding(5, 5, 5, 10);
 
 	        tv1.setText(String.valueOf(agendaDay.get(position)));
 	        String duration = new String(startTimes.get(position) + " - " + endTimes.get(position));
-	        System.out.println("Text view 2 :::" + duration);
+	        //System.out.println("Text view 2 :::" + duration);
 	        tv2.setText(String.valueOf(duration));
 	        tv3.setText(String.valueOf(agendaText.get(position)));
 	        ll.addView(tv1);

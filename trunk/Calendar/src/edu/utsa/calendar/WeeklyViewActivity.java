@@ -79,7 +79,7 @@ public class WeeklyViewActivity extends CalendarActivity {
 			endDate.add(Calendar.DATE, 0);
 
 		} else {
-			System.out.println("Day format not found");
+			//System.out.println("Day format not found");
 		}
 
 		// set time to initial values

@@ -62,7 +62,7 @@ public class MainActivity extends Activity {
 			firstView = new Intent(this, AgendaViewActivity.class);
 			break;
 		default:
-			System.out.println("Error");
+			//System.out.println("Error");
 			return;
 
 		}
