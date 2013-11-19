@@ -100,7 +100,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 	public SQLiteDatabase getDatabaseForRead() {
 		return this.getReadableDatabase();
 	}
-	
+	/**
+	 * @return {@code SQLiteDatabase} write database instance
+	 */
 	public SQLiteDatabase getDatabaseForWrite() {
 		return this.getWritableDatabase();
 	}

@@ -17,7 +17,7 @@ import android.widget.TextView;
 /**
  * 
  * @author Mejbah 
- * Activity class for Agena View
+ * Activity class for Agena View/ List view
  *
  */
 public class AgendaViewActivity extends CalendarActivity {
