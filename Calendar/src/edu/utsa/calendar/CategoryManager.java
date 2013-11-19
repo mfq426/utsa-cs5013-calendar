@@ -27,9 +27,9 @@ public class CategoryManager implements Serializable{
 		if(initialCategories.isEmpty()) {
 			addCategory(new Category(0xFFFF, "default", "default"));
 		}
-		for( Category c : initialCategories ) {
+		/*for( Category c : initialCategories ) {
 			System.out.println("Category name ::: " + c.getName());
-		}
+		}*/
 	}
 	
 	/**

@@ -72,7 +72,7 @@ public class AgendaViewActivity extends CalendarActivity {
 		endDate.add(Calendar.DATE, 10 );  // add 10 days with start date
 		
 	    events =(ArrayList<Event>) Manager.getInstance().getEventManager().readEvents(startDate,endDate);
-		System.out.println("No of events found in agenda view activity " + events.size());
+		//System.out.println("No of events found in agenda view activity " + events.size());
 		
 
 		this.startDateString = new SimpleDateFormat("dd/MM/yyyy").format(startDate.getTime());

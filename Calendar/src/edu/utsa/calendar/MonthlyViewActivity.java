@@ -129,7 +129,7 @@ public class MonthlyViewActivity extends CalendarActivity {
 		} else if (Calendar.SATURDAY == dayOfWeek) {
 			padding = 6;
 		} else {
-			System.out.println("Day format not found");
+			//System.out.println("Day format not found");
 		}
 
 		// add empty filed to the calendar array
