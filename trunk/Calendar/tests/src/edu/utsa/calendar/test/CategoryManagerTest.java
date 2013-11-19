@@ -13,12 +13,17 @@ public class CategoryManagerTest extends AndroidTestCase {
 	@Override
 	public void setUp() throws Exception {
 		super.setUp();
-		mDatabaseHelper = new DatabaseHelper(getContext(),"CalendarDBTest");
+		mDatabaseHelper = new DatabaseHelper(getContext(),"CategoryDBTest");
 		mCategoryManager = new CategoryManager(mDatabaseHelper);
 	}
 
 	@Override
 	protected void tearDown() throws Exception {
+		
+		List<Category> categoryList = mCategoryManager.readAllCategory();
+		for( Category c : categoryList ) {
+			mCategoryManager.deleteCategory(c.getName());
+		}
 		mDatabaseHelper.close();
 
 		super.tearDown();
@@ -34,20 +39,24 @@ public class CategoryManagerTest extends AndroidTestCase {
 	
 	
 	public void testDeleteCategory() throws Exception {
-		
+		Category category = new Category(1,12345, "sports", "Sports");
+		mCategoryManager.addCategory(category);
 		List<Category> categoryList = mCategoryManager.readCategory("sports");
 		mCategoryManager.deleteCategory(categoryList.get(0));
 		categoryList = mCategoryManager.readCategory("sports");
+		System.out.println("UNIT TESTING ::: deleteCategory " + categoryList.size());
 		assertEquals(0,categoryList.size());
 		
 	}
 	
 	public void testUpdateCategoryName() throws Exception {
-		Category category = new Category(1,12345, "sports", "Sports");
+		Category category = new Category(1 ,12345, "sports", "Sports");
 		mCategoryManager.addCategory(category);
-		Category updatedCategory = new Category(1,12345, "IndoorSports", "IndoorSports");
-		mCategoryManager.updateCategoryName(1, updatedCategory);
 		List<Category> categoryList = mCategoryManager.readCategory("sports");
+		int id = categoryList.get(0).getID();
+		Category updatedCategory = new Category(1 ,12345, "IndoorSports", "IndoorSports");
+		mCategoryManager.updateCategoryName(id, updatedCategory);
+		categoryList = mCategoryManager.readCategory("sports");
 		assertEquals(0,categoryList.size());
 		categoryList = mCategoryManager.readCategory("IndoorSports");
 		assertEquals(1,categoryList.size());
@@ -63,9 +72,10 @@ public class CategoryManagerTest extends AndroidTestCase {
 		
 		List<Category> categoryList = mCategoryManager.readAllCategory();
 		
-		assertEquals(3,categoryList.size());
+		assertEquals(4,categoryList.size());
 	}
 	
 
+	
 	
 }
