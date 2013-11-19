@@ -166,7 +166,7 @@ public class WeeklyViewActivity extends CalendarActivity {
 			// populate based on the event retrieved
 			for (Event ev : events) {
 
-				System.out.println(ev.getDescription());
+				
 				int startHourMarker = 0;
 				int endHourMarker = 0;
 				// if the event start before the day and end in this day
@@ -226,7 +226,7 @@ public class WeeklyViewActivity extends CalendarActivity {
 					
 					}
 					else{
-						System.out.println("jampi jampi");
+						
 						weekWorks[9 + 8 * j + i] = weekWorks[9 + 8 * j + i].concat("*");
 					}
 					

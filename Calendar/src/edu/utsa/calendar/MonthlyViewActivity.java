@@ -155,19 +155,7 @@ public class MonthlyViewActivity extends CalendarActivity {
 			workDayIndicator.add("0");
 		}
 
-		// System.out.println( new
-		// SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(endDate.getTime()));
-		// System.out.println("Padding "+padding);
-		// System.out.println("Max month of day"+endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-		// add extra padding to look good
-		/*
-		 * int extraPadding =
-		 * (padding+endDate.getActualMaximum(Calendar.DAY_OF_MONTH))%7;
-		 * if(extraPadding>4){ extraPadding = 7-extraPadding; } for(int
-		 * i=0;i<extraPadding;i++){ monthWorks.add("      ");
-		 * workDayIndicator.add("0"); }
-		 */
-
+		
 		List<Event> events = Manager.getInstance().getEventManager()
 				.readEvents(startDate, endDate);
 
@@ -315,7 +303,7 @@ public class MonthlyViewActivity extends CalendarActivity {
 							Calendar newDate = (Calendar)startDate.clone();
 							newDate.add(Calendar.DAY_OF_MONTH, position - 7
 									- padding);
-							System.out.println(newDate.toString());
+							
 							intent.putExtra("selectedDay",
 									newDate.getTimeInMillis());
 							startActivity(intent);

@@ -23,7 +23,7 @@ public class CategoryManager implements Serializable{
 		//add default category
 		ArrayList<Category>initialCategories = readAllCategory();
 		
-		System.out.println("Initial category table size : " + initialCategories.size());
+		
 		if(initialCategories.isEmpty()) {
 			addCategory(new Category(0xFFFF, "default", "default"));
 		}
