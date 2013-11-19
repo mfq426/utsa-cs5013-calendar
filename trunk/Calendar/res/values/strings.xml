@@ -43,10 +43,10 @@
     <string name="create_event">create</string>
     <string name="remove_event">remove</string>
     <string name="update_event">update</string>
-    <string name="create_category">create category</string>
+    <string name="create_category">Create Category</string>
     <string name="cancel">return</string>
-    <string name="title_activity_modify_event">ModifyEventActivity</string>
-    <string name="title_activity_modify_category">ModifyCategoryActivity</string>
+    <string name="title_activity_modify_event">Modify Event</string>
+    <string name="title_activity_modify_category">Delete Category</string>
     
     <string name="time_conflict">event time conflict</string>
     <string name="invalid_input">invalid user input</string>

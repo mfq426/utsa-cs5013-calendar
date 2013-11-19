@@ -23,9 +23,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 /**
- * Purpose of this class is to draw monthly activity properly. It will on demand retrieve event information from database based on start date and end date
+ * Purpose of this class is to draw monthly activity properly. It will on demand
+ * retrieve event information from database based on start date and end date
+ * 
  * @author Jamiul
- *
+ * 
  */
 
 public class MonthlyViewActivity extends CalendarActivity {
@@ -41,6 +43,8 @@ public class MonthlyViewActivity extends CalendarActivity {
 	private static ArrayList<String> workDayIndicator;
 
 	private int padding = 0;
+	private static int DAY_IN_WEEK = 7;
+	private int totalEntry = 0;
 
 	/**
 	 * Set the variable text to populate new event information
@@ -72,7 +76,7 @@ public class MonthlyViewActivity extends CalendarActivity {
 	 * Set the startDate and endDate variable to the start date and end date of
 	 * this week
 	 */
-	
+
 	private void setDate() {
 
 		// get the current date and set the start date to the beginning of the
@@ -83,7 +87,6 @@ public class MonthlyViewActivity extends CalendarActivity {
 		startDate.set(Calendar.SECOND, 0);
 		startDate.set(Calendar.MILLISECOND, 0);
 		startDate.set(Calendar.DAY_OF_MONTH, 1);
-		
 
 		// get the current date and set the start date to the end of the
 		// month
@@ -94,11 +97,9 @@ public class MonthlyViewActivity extends CalendarActivity {
 		endDate.set(Calendar.MILLISECOND, 999);
 		endDate.set(Calendar.DAY_OF_MONTH,
 				endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
-		
 
 	}
 
-	
 	/**
 	 * This method reads event information from the database and populate them
 	 */
@@ -145,47 +146,84 @@ public class MonthlyViewActivity extends CalendarActivity {
 			workDayIndicator.add("0");
 		}
 
-		List<Event> events = Manager.getInstance()
-				.getEventManager().readEvents(startDate, endDate);
+		totalEntry = padding + endDate.getActualMaximum(Calendar.DAY_OF_MONTH)
+				+ DAY_IN_WEEK;
+
+		for (int i = padding + endDate.getActualMaximum(Calendar.DAY_OF_MONTH)
+				+ DAY_IN_WEEK; i < 49; i++) {
+			monthWorks.add("      ");
+			workDayIndicator.add("0");
+		}
+
+		// System.out.println( new
+		// SimpleDateFormat("yyyyy.MMMMM.dd GGG hh:mm aaa").format(endDate.getTime()));
+		// System.out.println("Padding "+padding);
+		// System.out.println("Max month of day"+endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
+		// add extra padding to look good
+		/*
+		 * int extraPadding =
+		 * (padding+endDate.getActualMaximum(Calendar.DAY_OF_MONTH))%7;
+		 * if(extraPadding>4){ extraPadding = 7-extraPadding; } for(int
+		 * i=0;i<extraPadding;i++){ monthWorks.add("      ");
+		 * workDayIndicator.add("0"); }
+		 */
+
+		List<Event> events = Manager.getInstance().getEventManager()
+				.readEvents(startDate, endDate);
 
 		for (Event ev : events) {
 
 			int startDayMarker = 0;
 			int endDayMarker = 0;
-			//if the event start before the month and end in this month
-			if((ev.getStartDate().getTimeInMillis()<=startDate.getTimeInMillis())&&(ev.getEndDate().getTimeInMillis()<=endDate.getTimeInMillis())){
-				startDayMarker = startDate.getActualMinimum(Calendar.DAY_OF_MONTH); 
+			// if the event start before the month and end in this month
+			if ((ev.getStartDate().getTimeInMillis() <= startDate
+					.getTimeInMillis())
+					&& (ev.getEndDate().getTimeInMillis() <= endDate
+							.getTimeInMillis())) {
+				startDayMarker = startDate
+						.getActualMinimum(Calendar.DAY_OF_MONTH);
 				endDayMarker = ev.getEndDate().get(Calendar.DAY_OF_MONTH);
 			}
-			//if the event start in this month and end after this month
-			else if((ev.getStartDate().getTimeInMillis()>=startDate.getTimeInMillis()) && (ev.getEndDate().getTimeInMillis()>=endDate.getTimeInMillis())){
+			// if the event start in this month and end after this month
+			else if ((ev.getStartDate().getTimeInMillis() >= startDate
+					.getTimeInMillis())
+					&& (ev.getEndDate().getTimeInMillis() >= endDate
+							.getTimeInMillis())) {
 				startDayMarker = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
 				endDayMarker = endDate.getActualMaximum(Calendar.DAY_OF_MONTH);
-				
+
 			}
-			//if the event start and end within this month
-			else if((ev.getStartDate().getTimeInMillis()>=startDate.getTimeInMillis())&& (ev.getEndDate().getTimeInMillis()<=endDate.getTimeInMillis())){
+			// if the event start and end within this month
+			else if ((ev.getStartDate().getTimeInMillis() >= startDate
+					.getTimeInMillis())
+					&& (ev.getEndDate().getTimeInMillis() <= endDate
+							.getTimeInMillis())) {
 				startDayMarker = ev.getStartDate().get(Calendar.DAY_OF_MONTH);
-				endDayMarker = ev.getEndDate().get(Calendar.DAY_OF_MONTH);		
-				
+				endDayMarker = ev.getEndDate().get(Calendar.DAY_OF_MONTH);
+
 			}
-			//if the event start before this month and end after this month
-			else if((ev.getStartDate().getTimeInMillis()<startDate.getTimeInMillis())&&(ev.getEndDate().getTimeInMillis()>endDate.getTimeInMillis())){
-				startDayMarker = startDate.getActualMinimum(Calendar.DAY_OF_MONTH);
+			// if the event start before this month and end after this month
+			else if ((ev.getStartDate().getTimeInMillis() < startDate
+					.getTimeInMillis())
+					&& (ev.getEndDate().getTimeInMillis() > endDate
+							.getTimeInMillis())) {
+				startDayMarker = startDate
+						.getActualMinimum(Calendar.DAY_OF_MONTH);
 				endDayMarker = endDate.getActualMaximum(Calendar.DAY_OF_MONTH);
-				
+
 			}
-			
-			for(int i=startDayMarker;i<=endDayMarker;i++){
-				
+
+			for (int i = startDayMarker; i <= endDayMarker; i++) {
+
 				workDayIndicator.set(6 + padding + i, "1");
 			}
-			
-			
+
 		}
+
 		gridView.setAdapter(new CalendarEntryAdapterMonth(this, monthWorks
 				.toArray(new String[monthWorks.size()]), workDayIndicator
-				.toArray(new String[workDayIndicator.size()])));
+				.toArray(new String[workDayIndicator.size()]), totalEntry));
+		gridView.invalidateViews();
 
 	}
 
@@ -196,24 +234,24 @@ public class MonthlyViewActivity extends CalendarActivity {
 
 		gridView = (GridView) findViewById(R.id.gridViewMonthly);
 		gridView.setBackgroundColor(Color.GRAY);
-	    gridView.setVerticalSpacing(1);
-	    gridView.setHorizontalSpacing(1);
+		gridView.setVerticalSpacing(1);
+		gridView.setHorizontalSpacing(1);
 		monthViewHeader = (TextView) findViewById(R.id.monthViewHeader);
 		this.setDate();
 
 		addListenerOnButton(gridView);
-		
+
 	}
 
 	protected void onResume() {
 		super.onResume();
+
 		this.populateFields();
 		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
 		getActionBar().setSelectedNavigationItem(3);
 
 	}
 
-	
 	/**
 	 * Action listen for the user actions
 	 * 
@@ -237,6 +275,7 @@ public class MonthlyViewActivity extends CalendarActivity {
 						startDate.getActualMaximum(Calendar.DAY_OF_MONTH));
 
 				MonthlyViewActivity.this.onResume();
+
 			}
 
 		});
@@ -255,7 +294,6 @@ public class MonthlyViewActivity extends CalendarActivity {
 				startDate.add(Calendar.DATE,
 						(-1) * endDate.getActualMaximum(Calendar.DAY_OF_MONTH));
 				MonthlyViewActivity.this.onResume();
-
 			}
 
 		});
@@ -265,27 +303,33 @@ public class MonthlyViewActivity extends CalendarActivity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View view,
 					int position, long arg3) {
-				if (position > (6 + padding)) {
-					if (workDayIndicator.get(position).equals("1")) {
-						Toast.makeText(MonthlyViewActivity.this,
-								"Loading the events", Toast.LENGTH_SHORT)
-								.show();
-						Intent intent = new Intent(MonthlyViewActivity.this,DailyViewActivity.class);
-						Calendar newDate = startDate;
-						newDate.add(Calendar.DAY_OF_MONTH, position-7-padding);
-						System.out.println(newDate.toString());
-						intent.putExtra("selectedDay", newDate.getTimeInMillis());
-						startActivity(intent);
-						
-					} else {
-						Toast.makeText(MonthlyViewActivity.this,
-								"No events in this day", Toast.LENGTH_SHORT)
-								.show();
-						
+				if (position < totalEntry) {
+					if (position > (6 + padding)) {
+						if (workDayIndicator.get(position).equals("1")) {
+							Toast.makeText(MonthlyViewActivity.this,
+									"Loading the events", Toast.LENGTH_SHORT)
+									.show();
+							Intent intent = new Intent(
+									MonthlyViewActivity.this,
+									DailyViewActivity.class);
+							Calendar newDate = (Calendar)startDate.clone();
+							newDate.add(Calendar.DAY_OF_MONTH, position - 7
+									- padding);
+							System.out.println(newDate.toString());
+							intent.putExtra("selectedDay",
+									newDate.getTimeInMillis());
+							startActivity(intent);
+
+						} else {
+							Toast.makeText(MonthlyViewActivity.this,
+									"No events in this day", Toast.LENGTH_SHORT)
+									.show();
+
+						}
+
 					}
 
 				}
-
 			}
 		});
 

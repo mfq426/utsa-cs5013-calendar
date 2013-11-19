@@ -20,6 +20,7 @@ public class CalendarEntryAdapterMonth extends BaseAdapter {
 	private Context context;
 	private String[] text = {};
 	private String[] workIndicator = {};
+	private int totalEntry;
 
 	/**
 	 * Constructor
@@ -32,11 +33,12 @@ public class CalendarEntryAdapterMonth extends BaseAdapter {
 	 *            marker if there is any work on that day
 	 */
 	public CalendarEntryAdapterMonth(Context c, String[] text,
-			String[] workIndicator) {
+			String[] workIndicator, int totalEntry) {
 
 		context = c;
 		this.text = text;
 		this.workIndicator = workIndicator;
+		this.totalEntry = totalEntry;
 
 	}
 
@@ -80,8 +82,11 @@ public class CalendarEntryAdapterMonth extends BaseAdapter {
 		textView.setText(text[position]);
 
 		// set colors for weekends and also time header and week days header
-		if (position < 7) {
-			gridView.setBackgroundColor(Color.rgb(150, 192, 224));
+		if(position>=totalEntry){
+			gridView.setBackgroundColor(Color.rgb(252, 244, 252)); 
+		}
+		else if (position < 7) {
+			gridView.setBackgroundColor(Color.rgb(150, 192, 224)); 
 		} else if ((position % 7 == 0) || (position % 7 == 6)) {
 			gridView.setBackgroundColor(Color.rgb(198, 223, 232));
 
