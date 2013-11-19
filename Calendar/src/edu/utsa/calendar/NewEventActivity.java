@@ -115,6 +115,7 @@ public class NewEventActivity extends EventActivity {
 								e = new Event(from[i], to[i], categoryName,
 										description, occurance, i + 1);
 								// save newly created event to database
+								categoryName = EventActivity.DEFAULT_CATEGORY;
 								manager.createEvent(e);
 							}
 
