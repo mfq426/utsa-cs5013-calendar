@@ -44,23 +44,12 @@ public class CategoryManagerTest extends AndroidTestCase {
 		List<Category> categoryList = mCategoryManager.readCategory("sports");
 		mCategoryManager.deleteCategory(categoryList.get(0));
 		categoryList = mCategoryManager.readCategory("sports");
-		System.out.println("UNIT TESTING ::: deleteCategory " + categoryList.size());
+		
 		assertEquals(0,categoryList.size());
 		
 	}
 	
-	public void testUpdateCategoryName() throws Exception {
-		Category category = new Category(1 ,12345, "sports", "Sports");
-		mCategoryManager.addCategory(category);
-		List<Category> categoryList = mCategoryManager.readCategory("sports");
-		int id = categoryList.get(0).getID();
-		Category updatedCategory = new Category(1 ,12345, "IndoorSports", "IndoorSports");
-		mCategoryManager.updateCategoryName(id, updatedCategory);
-		categoryList = mCategoryManager.readCategory("sports");
-		assertEquals(0,categoryList.size());
-		categoryList = mCategoryManager.readCategory("IndoorSports");
-		assertEquals(1,categoryList.size());
-	}
+	
 	
 	public void testReadAllCategory() throws Exception {
 		Category category = new Category(1,12345, "sports", "Sports");
