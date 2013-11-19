@@ -311,14 +311,31 @@ public class WeeklyViewActivity extends CalendarActivity {
 			public void onItemClick(AdapterView<?> arg0, View view,
 					int position, long arg3) {
 				if (eventID[position] != 0) {
+					
 					Intent intent = new Intent(WeeklyViewActivity.this,
 							ModifyEventActivity.class);
 					intent.putExtra("event_id", eventID[position]);
 					startActivity(intent);
-				} else if (weekWorks[position].equals("   ")) {
+				} else if (weekWorks[position].equals("")) {
+					
 					Intent intent = new Intent(WeeklyViewActivity.this,
 							NewEventActivity.class);
 					startActivity(intent);
+				}
+				else if((position<=7)&&(position>0)){
+					
+					
+					Intent intent = new Intent(
+							WeeklyViewActivity.this,
+							DailyViewActivity.class);
+					Calendar newDate = (Calendar)startDate.clone();
+					newDate.add(Calendar.DAY_OF_MONTH, position-1 );
+					
+					intent.putExtra("selectedDay",
+							newDate.getTimeInMillis());
+					startActivity(intent);
+					
+					
 				}
 
 			}
