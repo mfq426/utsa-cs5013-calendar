@@ -6,6 +6,12 @@ import android.view.Menu;
 import android.widget.ListView;
 import android.widget.TextView;
 
+/**
+ * <p>
+ * This is the Class for Details Agenda View of Calendar. 
+ * It shows details information of agenda.
+ */
+ 
 public class AgendaDetailsActivity extends Activity {
 
 	private String details;
