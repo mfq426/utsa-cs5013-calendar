@@ -14,11 +14,14 @@ import android.view.View.OnClickListener;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
 /**
+ * <p>
+ * This is the Class for Agenda Activity View of Calendar. All the functionality
+ * of Agenda View are initiated by this class. {@code AgendaViewActivity } extend
+ * menu creation behaviour from {@code CalendarActivity}
  * 
- * @author Mejbah 
- * Activity class for Agena View/ List view
- *
+ * @author mesba
  */
 public class AgendaViewActivity extends CalendarActivity {
 	

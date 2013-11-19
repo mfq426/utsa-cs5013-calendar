@@ -38,7 +38,7 @@ public final class CalendarData {
         "17", "18", "19", "20", "21", "22", "23", "00" };
     
     /**
-     *  hour minutes representation
+     *  hour minutes string representation
      */
     static final String[] sMinutes = {
         ":00", ":01", ":02", ":03", ":04", ":05", ":06", ":07", ":08", ":09",
