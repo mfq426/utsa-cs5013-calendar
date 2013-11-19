@@ -66,9 +66,12 @@ public class ModifyEventActivity extends EventActivity {
 			oldfrom[i].set(fromYear, fromMonth - 1, fromDay, fromHour,
 					fromMinute, 0);
 			oldfrom[i].add(Calendar.DAY_OF_MONTH, -7 * (index - 1 - i));
+			oldfrom[i].clear(Calendar.MILLISECOND);
+			
 			oldto[i] = Calendar.getInstance();
 			oldto[i].set(toYear, toMonth - 1, toDay, toHour, toMinute, 0);
 			oldto[i].add(Calendar.DAY_OF_MONTH, -7 * (index - 1 - i));
+			oldto[i].clear(Calendar.MILLISECOND);
 		}
 
 		for (int i = index; i <= total - 1; i++) {
@@ -76,9 +79,12 @@ public class ModifyEventActivity extends EventActivity {
 			oldfrom[i].set(fromYear, fromMonth - 1, fromDay, fromHour,
 					fromMinute, 0);
 			oldfrom[i].add(Calendar.DAY_OF_MONTH, 7 * (i - (index - 1)));
+			oldfrom[i].clear(Calendar.MILLISECOND);
+			
 			oldto[i] = Calendar.getInstance();
 			oldto[i].set(toYear, toMonth - 1, toDay, toHour, toMinute, 0);
 			oldto[i].add(Calendar.DAY_OF_MONTH, 7 * (i - (index - 1)));
+			oldto[i].clear(Calendar.MILLISECOND);
 		}
 	}
 
@@ -213,10 +219,13 @@ public class ModifyEventActivity extends EventActivity {
 							from[i].set(fromYear, fromMonth, fromDay, fromHour,
 									fromMinute, 0);
 							from[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
+							from[i].clear(Calendar.MILLISECOND);
+							
 							to[i] = Calendar.getInstance();
 							to[i].set(toYear, toMonth, toDay, toHour, toMinute,
 									0);
 							to[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
+							to[i].clear(Calendar.MILLISECOND);
 
 							list = manager.readEvents(from[i], to[i]);
 							iterator = list.iterator();
@@ -238,10 +247,13 @@ public class ModifyEventActivity extends EventActivity {
 							from[i].set(fromYear, fromMonth, fromDay, fromHour,
 									fromMinute, 0);
 							from[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
+							from[i].clear(Calendar.MILLISECOND);
+							
 							to[i] = Calendar.getInstance();
 							to[i].set(toYear, toMonth, toDay, toHour, toMinute,
 									0);
 							to[i].add(Calendar.DAY_OF_MONTH, 7 * (i-(index-1)));
+							to[i].clear(Calendar.MILLISECOND);
 
 							list = manager.readEvents(from[i], to[i]);
 							iterator = list.iterator();
@@ -332,6 +344,7 @@ public class ModifyEventActivity extends EventActivity {
 	private void removeEvent() {
 		for (int i = 0; i <= total - 1; i++) {
 			manager.deleteEvent(oldfrom[i], oldto[i]);
+			//System.out.println(oldfrom[i].getTime() + "-----" + oldto[i].getTime());
 		}
 	}
 

@@ -87,14 +87,16 @@ public class NewEventActivity extends EventActivity {
 							from[i].set(fromYear, fromMonth, fromDay, fromHour,
 									fromMinute, 0);
 							from[i].add(Calendar.DAY_OF_MONTH, 7 * i);
+							from[i].clear(Calendar.MILLISECOND);
 
 							to[i] = Calendar.getInstance();
 							to[i].set(toYear, toMonth, toDay, toHour, toMinute,
 									0);
 							to[i].add(Calendar.DAY_OF_MONTH, 7 * i);
+							to[i].clear(Calendar.MILLISECOND);
 
-							System.out.println(from[i].toString());
-							System.out.println(to[i].toString());
+							//System.out.println(from[i].toString());
+							//System.out.println(to[i].toString());
 							list = manager.getConflictedEvents(from[i], to[i]);
 							if (list.size() > 0) {
 								flag = false;
