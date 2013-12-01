@@ -260,6 +260,71 @@ public class EventManager {
 		return eventList;
 	}
 
+	
+	/**
+	 * Read events from the database that belong to a particular category
+	 * 
+	 * @param categoryId category id
+	 * 
+	 * @return list of events that are in the same category
+	 */
+	public List<Event> readEventsByCategory(String categoryID) {
+		
+		List<Event> eventList = new ArrayList<Event>();
+
+		
+		// Read all entry for category table
+				List<Category> categoryList = categoryManager.readAllCategory();
+		
+		
+		// Read all events belong to a particular category
+		
+		String selectQueryCategory = "SELECT * FROM "
+				+ storageHandler.getEventTableName()+ " WHERE "
+				+ storageHandler.getEVENTS_CATEGORY() + "='" + categoryID + "'";
+		
+		SQLiteDatabase db = storageHandler.getWritableDatabase();
+		Cursor cursorCategory = db.rawQuery(selectQueryCategory, null);
+
+		// looping through all rows and adding to list
+		if (cursorCategory.moveToFirst()) {
+			do {
+				Calendar startDate = Calendar.getInstance();
+				startDate.setTimeInMillis(Long.valueOf(
+						cursorCategory.getString(2)).longValue());
+				Calendar endDate = Calendar.getInstance();
+				endDate.setTimeInMillis(Long.valueOf(
+						cursorCategory.getString(3)).longValue());
+
+				Event event = new Event(Integer.parseInt(cursorCategory
+						.getString(0)), startDate, endDate,
+						cursorCategory.getString(4),
+						cursorCategory.getString(1),
+						Integer.parseInt(cursorCategory.getString(5)),
+						Integer.parseInt(cursorCategory.getString(6)));
+
+				// Set the category color
+				for (Category ct : categoryList) {
+
+					if (ct.getName().equals(event.getCategoryID())) {
+						event.setColor(ct.getColor());
+					}
+
+				}
+
+				// Adding contact to list
+				eventList.add(event);
+
+			} while (cursorCategory.moveToNext());
+		}
+
+	
+		// return contact list
+		return eventList;
+	}
+	
+	
+	
 	/**
 	 * Return the list of all conflicted events or null if no conflict occurs
 	 * 
