@@ -48,7 +48,7 @@ public class EventManagerTest extends AndroidTestCase {
 		endDate = Calendar.getInstance();
 		endDate.add(Calendar.DAY_OF_MONTH, -1);
 		
-		event = new Event(startDate,endDate,"Sports","Soccer with friends", 1,1);
+		event = new Event(startDate,endDate,"Dinner","Dinner with prof", 1,1);
 		mEventManager.createEvent(event);
 		
 		
@@ -87,7 +87,7 @@ public class EventManagerTest extends AndroidTestCase {
 	
 	
 	
-public void testReadEvent() throws Exception {
+	public void testReadEvent() throws Exception {
 		
 		
 		Calendar startDate = Calendar.getInstance();
@@ -103,6 +103,15 @@ public void testReadEvent() throws Exception {
 		
 	}
 	
+	
+	public void testReadEventByCategory() throws Exception{
+		
+		List<Event> events = mEventManager.readEventsByCategory("Meeting");
+		System.out.println(events.size());
+		assertEquals(2, events.size());
+		
+		
+	}
 	
 	public void testGetEventById() throws Exception {
 		
