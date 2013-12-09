@@ -73,7 +73,7 @@
         android:layout_alignLeft="@+id/agenda_to_date"
         android:layout_below="@+id/agenda_to_date"
         android:layout_marginTop="92dp"
-        android:numColumns="3" >
+        android:numColumns="1" >
     </GridView>
 
 </RelativeLayout>

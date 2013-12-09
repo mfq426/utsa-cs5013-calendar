@@ -7,7 +7,7 @@ import android.widget.TabHost;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 
-public class AgendaTabActivity extends TabActivity implements OnTabChangeListener{
+public class AgendaTabActivity extends CalendarActivity {
 
 	
 	  @Override
@@ -15,35 +15,54 @@ public class AgendaTabActivity extends TabActivity implements OnTabChangeListene
       {
               super.onCreate(savedInstanceState);
               
-              setContentView(R.layout.activity_tab);
-
-              TabHost tabHost =  getTabHost();
-
-
-              TabSpec tab1 = tabHost.newTabSpec("First Tab");
-              TabSpec tab2 = tabHost.newTabSpec("Second Tab");
-
-            
-              tab1.setIndicator("Date Filter");
-              tab1.setContent(new Intent(this,AgendaByDateActivity.class));
+             
               
-              tab2.setIndicator("Category Filter");
-              tab2.setContent(new Intent(this,AgendaByCategoryActivity.class));
-
-           
-              tabHost.addTab(tab1);
-              tabHost.addTab(tab2);
               
-              tabHost.getTabWidget().getChildAt(0).getLayoutParams().height =55;
-              tabHost.getTabWidget().getChildAt(1).getLayoutParams().height =55;
+              
+              
 
       }
+	  
+	  
+	  class AgendaTab extends TabActivity implements OnTabChangeListener{
+
+		  @Override
+		protected void onCreate(Bundle savedInstanceState) {
+			// TODO Auto-generated method stub
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_tab);
+			TabHost tabHost =  getTabHost();
+            
+          
+
+
+            TabSpec tab1 = tabHost.newTabSpec("First Tab");
+            TabSpec tab2 = tabHost.newTabSpec("Second Tab");
+
+          
+            tab1.setIndicator("Date Filter");
+            tab1.setContent(new Intent(this,AgendaByDateActivity.class));
+            
+            tab2.setIndicator("Category Filter");
+            tab2.setContent(new Intent(this,AgendaByCategoryActivity.class));
+
+         
+            tabHost.addTab(tab1);
+            tabHost.addTab(tab2);
+            
+            tabHost.getTabWidget().getChildAt(0).getLayoutParams().height =55;
+            tabHost.getTabWidget().getChildAt(1).getLayoutParams().height =55;
+		}
+		  
+		@Override
+		public void onTabChanged(String tabId) {
+			// TODO Auto-generated method stub
+			
+		}
+		  
+	  }
 
 	
-	@Override
-	public void onTabChanged(String pTabId) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 }

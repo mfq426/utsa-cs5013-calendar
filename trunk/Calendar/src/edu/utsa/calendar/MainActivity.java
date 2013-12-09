@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 			firstView = new Intent(this, MonthlyViewActivity.class);
 			break;
 		case AGENDA_VIEW_MODE:
-			firstView = new Intent(this, AgendaViewActivity.class);
+			firstView = new Intent(this, AgendaTabActivity.class);
 			break;
 		default:
 			//System.out.println("Error");
