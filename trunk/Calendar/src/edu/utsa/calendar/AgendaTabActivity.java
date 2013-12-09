@@ -25,10 +25,10 @@ public class AgendaTabActivity extends TabActivity implements OnTabChangeListene
 
             
               tab1.setIndicator("Date Filter");
-              tab1.setContent(new Intent(this,NewEventActivity.class));
+              tab1.setContent(new Intent(this,AgendaByDateActivity.class));
               
               tab2.setIndicator("Category Filter");
-              tab2.setContent(new Intent(this,NewEventActivity.class));
+              tab2.setContent(new Intent(this,AgendaByCategoryActivity.class));
 
            
               tabHost.addTab(tab1);

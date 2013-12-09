@@ -47,7 +47,6 @@
     <string name="cancel">return</string>
     <string name="title_activity_modify_event">Modify Event</string>
     <string name="title_activity_modify_category">Delete Category</string>
-    
     <string name="time_conflict">event time conflict</string>
     <string name="invalid_input">invalid user input</string>
     <string name="incomplte_input">incomplete user input</string>
@@ -55,5 +54,10 @@
     <string name="select_category_to_delete">select category to delete</string>
     <string name="info">No category to delete</string>
     <string name="delete">delete</string>
-	<string name="prompt">please select category</string>
+    <string name="prompt">please select category</string>
+    <string name="title_activity_agenda_by_cateogry">Agenda View Options</string>
+    <string name="agenda_category">View Agenda</string>
+    <string name="agenda_date">View Agenda</string>
+    <string name="title_activity_agenda_by_date">AgendaByDateActivity</string>
+
 </resources>
