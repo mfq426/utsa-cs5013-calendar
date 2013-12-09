@@ -34,6 +34,7 @@ public class AgendaByCategoryActivity extends CalendarActivity implements OnItem
 		
 		categoryName = new String();
 		categoryName = DEFAULT_CATEGORY;
+		events = new ArrayList<Event>();
 		// add categories in spinner	
 		spinner = (Spinner) findViewById(R.id.agenda_category_spinner);
 		// construct spinner item array by getting all categories from database
@@ -126,8 +127,8 @@ public class AgendaByCategoryActivity extends CalendarActivity implements OnItem
 		super.onResume();
 		
 		populateModels();
-		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		getActionBar().setSelectedNavigationItem(4);
+//		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//		getActionBar().setSelectedNavigationItem(4);
 	}
 	
 	public void populateModels() {
@@ -135,7 +136,9 @@ public class AgendaByCategoryActivity extends CalendarActivity implements OnItem
 		System.out.println("Agenda Category :: " + categoryName );
 		events =(ArrayList<Event>)Manager.getInstance().getEventManager().readEventsByCategory(categoryName);
 		System.out.println("Events :: " + events.size());
-		sortEvents(events);
+		if(events.size() > 1) {
+			sortEvents(events);
+		}	
 		this.agendaGridView.setAdapter(new CustomAgendaGridAdaptor( AgendaByCategoryActivity.this, events));
 		    
 	}

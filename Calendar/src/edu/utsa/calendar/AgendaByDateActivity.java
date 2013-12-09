@@ -33,14 +33,24 @@ public class AgendaByDateActivity extends CalendarActivity {
 	private int toDay;
 	private int toHour;
 	private int toMinute;
+	private Calendar from;
+	private Calendar to;
 	private GridView agendaGridView;
 	private ArrayList<Event> events;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		// default start and end date range
+		from = Calendar.getInstance();
+		to = Calendar.getInstance();
+		to.setTime(from.getTime());
+		to.add(Calendar.DATE, 10 );  // add 10 days with start date
+		
 		final String INCOMPLETE_USER_INPUT = getResources().getString(
 				R.string.incomplte_input);
+		events = new ArrayList<Event>();
 		setContentView(R.layout.activity_agenda_by_date);
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.agenda_date_select);
 		RelativeLayout.LayoutParams create_params = new RelativeLayout.LayoutParams(
@@ -58,8 +68,7 @@ public class AgendaByDateActivity extends CalendarActivity {
 			public void onClick(View v) {
 				if (getData()) {
 					if (verifyData()) {
-						Calendar from;
-						Calendar to;
+						
 
 						EventManager manager = Manager.getInstance()
 								.getEventManager();
@@ -121,12 +130,14 @@ public class AgendaByDateActivity extends CalendarActivity {
 		super.onResume();
 		
 		populateModels();
-		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-		getActionBar().setSelectedNavigationItem(4);
+//		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+//		getActionBar().setSelectedNavigationItem(4);
 	}
 	
 	public void populateModels() {
-       sortEvents(events);
+		if(events.size() > 1) {
+			sortEvents(events);
+		}	
 		System.out.println("Events :: " + events.size());
 		this.agendaGridView.setAdapter(new CustomAgendaGridAdaptor( AgendaByDateActivity.this, events));
 		    
