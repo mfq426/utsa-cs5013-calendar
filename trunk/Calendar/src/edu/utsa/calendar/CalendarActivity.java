@@ -86,7 +86,7 @@ public class CalendarActivity extends Activity {
 						edit.putInt("view_mode", MainActivity.AGENDA_VIEW_MODE);
 						edit.commit();
 
-						Intent intent = new Intent(CalendarActivity.this, AgendaViewActivity.class);
+						Intent intent = new Intent(CalendarActivity.this, AgendaTabActivity.class);
 						intent.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
 						startActivity(intent);
 					} else if (itemPosition == 5) {
@@ -128,7 +128,9 @@ public class CalendarActivity extends Activity {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		// Serialize the current dropdown position.
+		if(getActionBar()!=null){
 		outState.putInt("STATE_SELECTED_NAVIGATION_ITEM", getActionBar().getSelectedNavigationIndex());
+		}
 	}
 
 }
