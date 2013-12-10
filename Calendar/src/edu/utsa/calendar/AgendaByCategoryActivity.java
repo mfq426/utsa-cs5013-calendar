@@ -127,8 +127,8 @@ public class AgendaByCategoryActivity extends CalendarActivity implements OnItem
 		super.onResume();
 		
 		populateModels();
-//		getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
-//		getActionBar().setSelectedNavigationItem(4);
+		//getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_LIST);
+	    //getActionBar().setSelectedNavigationItem(4);
 	}
 	
 	public void populateModels() {
