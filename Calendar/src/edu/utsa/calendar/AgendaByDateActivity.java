@@ -48,8 +48,8 @@ public class AgendaByDateActivity extends CalendarActivity {
 		to.setTime(from.getTime());
 		to.add(Calendar.DATE, 10 );  // add 10 days with start date
 		
-		final String INCOMPLETE_USER_INPUT = getResources().getString(
-				R.string.incomplte_input);
+		final String INVALID_USER_INPUT = getResources().getString(
+				R.string.invalid_input);
 		events = new ArrayList<Event>();
 		setContentView(R.layout.activity_agenda_by_date);
 		RelativeLayout layout = (RelativeLayout) findViewById(R.id.agenda_date_select);
@@ -92,7 +92,7 @@ public class AgendaByDateActivity extends CalendarActivity {
 
 
 					} else {
-						popup(INCOMPLETE_USER_INPUT);
+						popup(INVALID_USER_INPUT);
 					}
 				}
 
